@@ -39,3 +39,20 @@ UE 4.5.1 requires [Visual Studio 2013](https://www.visualstudio.com/vs/older-dow
 ```
 C:\Program Files\Epic Games\UE_4.5\Engine\Plugins\Developer\BlankPlugin
 ```
+
+## New Plugin Structure
+
+```
+Plugins
+Plugins/ChromaSDKPlugin
+Plugins/ChromaSDKPlugin/ChromaSDKPlugin.uplugin
+Plugins/ChromaSDKPlugin/Resources
+Plugins/ChromaSDKPlugin/Resources/Icon128.png
+Plugins/ChromaSDKPlugin/Source
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/ChromaSDKPlugin.Build.cs
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Classes
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Classes/ChromaSDKPluginObject.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/IChromaSDKPlugin.h
+```
