@@ -17,15 +17,13 @@
 
 ## Overview
 
-`UE4ChromaSDKRT` provides a runtime module for using the `ChromaSDK` (requires UE4.5.1 or better). The runtime module provides a blueprint library and C++ methods for playing Chroma animations.
+`UE4ChromaSDKRT` provides a runtime module for using the `ChromaSDK` (requires UE 4.5.1 or better). The runtime module provides a blueprint library and C++ methods for playing Chroma animations.
 
 ## Supported versions
 
-```
-Add support for UE4 versions:
+The plugin supports the following UE4 versions:
 
-* UE 4.5.1
-```
+**UE 4.5.1**
 
 ## Dependencies
 
@@ -34,3 +32,10 @@ Add support for UE4 versions:
 UE 4.5.1 requires [Visual Studio 2013](https://www.visualstudio.com/vs/older-downloads/)
 
 ![image_1](images/image_1.png)
+
+## Status
+
+* Duplicated the blank plugin sample found at:
+```
+C:\Program Files\Epic Games\UE_4.5\Engine\Plugins\Developer\BlankPlugin
+```

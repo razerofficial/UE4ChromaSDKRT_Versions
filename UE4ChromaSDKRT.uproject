@@ -6,8 +6,7 @@
 	"Modules": [
 		{
 			"Name": "UE4ChromaSDKRT",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"Type": "Developer"
 		}
 	]
 }
