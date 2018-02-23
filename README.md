@@ -4,6 +4,8 @@
 * [Overview](#overview)
 * [Supported versions](#supported-versions)
 * [Dependencies](#dependencies)
+* [Status](#status)
+* [Plugin Structure](#plugin-structure)
 
 ## See Also
 
@@ -40,7 +42,7 @@ UE 4.5.1 requires [Visual Studio 2013](https://www.visualstudio.com/vs/older-dow
 C:\Program Files\Epic Games\UE_4.5\Engine\Plugins\Developer\BlankPlugin
 ```
 
-## New Plugin Structure
+## Plugin Structure
 
 ```
 Plugins
