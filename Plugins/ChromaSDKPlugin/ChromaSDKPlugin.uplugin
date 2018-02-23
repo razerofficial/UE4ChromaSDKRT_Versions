@@ -16,7 +16,11 @@
         {
             "Name": "ChromaSDKPlugin",
 			"Type": "Runtime",
-			"LoadingPhase": "PreLoadingScreen"
+			"LoadingPhase": "PreDefault",
+			"WhitelistPlatforms" :
+			[
+                "Win64"
+			]
         }
 	]
 }
