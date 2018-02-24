@@ -37,24 +37,29 @@ UE 4.5.1 requires [Visual Studio 2013](https://www.visualstudio.com/vs/older-dow
 
 ## Status
 
-* Duplicated the blank plugin sample found at:
-```
-C:\Program Files\Epic Games\UE_4.5\Engine\Plugins\Developer\BlankPlugin
-```
+* Duplicated the blank plugin sample found at [Engine/Plugins/Developer/BlankPlugin](https://github.com/EpicGames/UnrealEngine/tree/4.5/Engine/Plugins/Developer/BlankPlugin)
 
 ## Plugin Structure
 
 ```
-Plugins
+Plugins/
 Plugins/ChromaSDKPlugin
+Plugins/ChromaSDKPlugin/Binaries
+Plugins/ChromaSDKPlugin/Binaries/Win64
+Plugins/ChromaSDKPlugin/Binaries/Win64/UE4Editor-ChromaSDKPlugin.dll
+Plugins/ChromaSDKPlugin/Binaries/Win64/UE4Editor-ChromaSDKPlugin.pdb
 Plugins/ChromaSDKPlugin/ChromaSDKPlugin.uplugin
 Plugins/ChromaSDKPlugin/Resources
 Plugins/ChromaSDKPlugin/Resources/Icon128.png
 Plugins/ChromaSDKPlugin/Source
 Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin
 Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/ChromaSDKPlugin.Build.cs
-Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Classes
-Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Classes/ChromaSDKPluginObject.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/ChromaSDKPlugin.cpp
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/ChromaSDKPluginPrivatePCH.h
 Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public
 Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/IChromaSDKPlugin.h
 ```
+
+## Plugin appears in Window->Plugins
+![image_1](images/image_2.png)
