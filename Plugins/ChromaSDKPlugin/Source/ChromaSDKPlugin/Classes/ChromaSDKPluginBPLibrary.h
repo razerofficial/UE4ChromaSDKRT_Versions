@@ -29,16 +29,16 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateColors2D", Keywords = "Create a blank two-dimensional color array"), Category = "ChromaSDK")
 	static TArray<FChromaSDKColors> CreateColors2D(EChromaSDKDevice2DEnum::Type device);
 
-	/*
-
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateRandomColors1D", Keywords = "Create a random one-dimensional color array"), Category = "ChromaSDK")
-	static TArray<FLinearColor> CreateRandomColors1D(EChromaSDKDevice1DEnum device);
+	static TArray<FLinearColor> CreateRandomColors1D(EChromaSDKDevice1DEnum::Type device);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateRandomColors2D", Keywords = "Create a random two-dimensional color array"), Category = "ChromaSDK")
-	static TArray<FChromaSDKColors> CreateRandomColors2D(EChromaSDKDevice2DEnum device);
+	static TArray<FChromaSDKColors> CreateRandomColors2D(EChromaSDKDevice2DEnum::Type device);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyboardKeyColor", Keywords = "Set the key to the supplied color"), Category = "ChromaSDK")
-	static const TArray<FChromaSDKColors>& SetKeyboardKeyColor(const EChromaSDKKeyboardKey& key, const FLinearColor& myColor, UPARAM(ref) TArray<FChromaSDKColors>& colors);
+	static void SetKeyboardKeyColor(EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam, UPARAM(ref) TArray<FChromaSDKColors>& colors);
+
+	/*
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetMouseLedColor", Keywords = "Set the led to the supplied color"), Category = "ChromaSDK")
 	static const TArray<FChromaSDKColors>& SetMouseLedColor(const EChromaSDKMouseLed& led, const FLinearColor& myColor, UPARAM(ref) TArray<FChromaSDKColors>& colors);
@@ -228,14 +228,13 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetFrameCountName", Keywords = "Get the .chroma animation frame count"), Category = "ChromaSDK")
 	static int32 GetFrameCountName(const FString& animationName);
 
+	*/
+
 #if PLATFORM_WINDOWS
 private:
-	static std::map<EChromaSDKKeyboardKey, int32> _sKeyboardEnumMap;
-	static std::map<EChromaSDKMouseLed, ChromaSDK::Mouse::RZLED2> _sMouseEnumMap;
+	static std::map<EChromaSDKKeyboardKey::Type, int32> _sKeyboardEnumMap;
+	static std::map<EChromaSDKMouseLed::Type, ChromaSDK::Mouse::RZLED2> _sMouseEnumMap;
 
 	static bool _sInitialized;
-
 #endif
-
-	*/
 };
