@@ -33,3 +33,70 @@ int32 UChromaSDKPluginBPLibrary::GetMaxLeds(EChromaSDKDevice1DEnum::Type device)
 #endif
 	return 0;
 }
+
+int UChromaSDKPluginBPLibrary::GetMaxRow(EChromaSDKDevice2DEnum::Type device)
+{
+#if PLATFORM_WINDOWS
+	switch (device)
+	{
+	case EChromaSDKDevice2DEnum::DE_Keyboard:
+		return ChromaSDK::Keyboard::MAX_ROW;
+	case EChromaSDKDevice2DEnum::DE_Keypad:
+		return ChromaSDK::Keypad::MAX_ROW;
+	case EChromaSDKDevice2DEnum::DE_Mouse:
+		return ChromaSDK::Mouse::MAX_ROW;
+	}
+#endif
+	return 0;
+}
+
+int UChromaSDKPluginBPLibrary::GetMaxColumn(EChromaSDKDevice2DEnum::Type device)
+{
+	int result = 0;
+#if PLATFORM_WINDOWS
+	switch (device)
+	{
+	case EChromaSDKDevice2DEnum::DE_Keyboard:
+		return ChromaSDK::Keyboard::MAX_COLUMN;
+	case EChromaSDKDevice2DEnum::DE_Keypad:
+		return ChromaSDK::Keypad::MAX_COLUMN;
+	case EChromaSDKDevice2DEnum::DE_Mouse:
+		return ChromaSDK::Mouse::MAX_COLUMN;
+	}
+#endif
+	return result;
+}
+
+TArray<FLinearColor> UChromaSDKPluginBPLibrary::CreateColors1D(EChromaSDKDevice1DEnum::Type device)
+{
+	TArray<FLinearColor> colors = TArray<FLinearColor>();
+#if PLATFORM_WINDOWS
+	int elements = GetMaxLeds(device);
+	for (int i = 0; i < elements; ++i)
+	{
+		FLinearColor color = FLinearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		colors.Add(color);
+	}
+#endif
+	return colors;
+}
+
+TArray<FChromaSDKColors> UChromaSDKPluginBPLibrary::CreateColors2D(EChromaSDKDevice2DEnum::Type device)
+{
+	TArray<FChromaSDKColors> result = TArray<FChromaSDKColors>();
+#if PLATFORM_WINDOWS
+	int maxRows = GetMaxRow(device);
+	int maxColumns = GetMaxColumn(device);
+	for (int i = 0; i < maxRows; ++i)
+	{
+		FChromaSDKColors row = FChromaSDKColors();
+		for (int j = 0; j < maxColumns; ++j)
+		{
+			FLinearColor color = FLinearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			row.Colors.Add(color);
+		}
+		result.Add(row);
+	}
+#endif
+	return result;
+}
