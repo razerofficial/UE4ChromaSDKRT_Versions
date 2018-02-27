@@ -18,7 +18,7 @@ bool UChromaSDKPluginBPLibrary::IsPlatformWindows()
 #endif
 }
 
-int32 UChromaSDKPluginBPLibrary::GetMaxLeds(const EChromaSDKDevice1DEnum::Type& device)
+int32 UChromaSDKPluginBPLibrary::GetMaxLeds(EChromaSDKDevice1DEnum::Type device)
 {
 #if PLATFORM_WINDOWS
 	switch (device)

@@ -15,7 +15,7 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static bool IsPlatformWindows();
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetMaxLeds", Keywords = "Get the max led size for the device"), Category = "ChromaSDK")
-	static int32 GetMaxLeds(const EChromaSDKDevice1DEnum::Type& device);
+	static int32 GetMaxLeds(EChromaSDKDevice1DEnum::Type device);
 
 	/*
 
