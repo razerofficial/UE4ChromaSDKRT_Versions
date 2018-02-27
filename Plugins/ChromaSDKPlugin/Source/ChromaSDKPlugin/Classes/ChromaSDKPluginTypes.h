@@ -213,3 +213,70 @@ struct CHROMASDKPLUGIN_API FChromaSDKGuid
 #endif
 	}
 };
+
+USTRUCT(BlueprintType)
+struct CHROMASDKPLUGIN_API FChromaSDKEffectResult
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "ChromaSDK")
+	int32 Result;
+
+	UPROPERTY(BlueprintReadOnly, Category = "ChromaSDK")
+	FChromaSDKGuid EffectId;
+
+	//Constructor
+	FChromaSDKEffectResult()
+	{
+		Result = 0;
+		EffectId = FChromaSDKGuid();
+	}
+};
+
+USTRUCT(BlueprintType)
+struct CHROMASDKPLUGIN_API FChromaSDKColors
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, Category = "ChromaSDK")
+	TArray<FLinearColor> Colors;
+
+	//Constructor
+	FChromaSDKColors()
+	{
+	}
+};
+
+USTRUCT(BlueprintType)
+struct CHROMASDKPLUGIN_API FChromaSDKColorFrame1D
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, Category = "ChromaSDK")
+	TArray<FLinearColor> Colors;
+
+	float Duration;
+
+	//Constructor
+	FChromaSDKColorFrame1D()
+	{
+		Duration = 1;
+	}
+};
+
+USTRUCT(BlueprintType)
+struct CHROMASDKPLUGIN_API FChromaSDKColorFrame2D
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, Category = "ChromaSDK")
+	TArray<FChromaSDKColors> Colors;
+
+	float Duration;
+
+	//Constructor
+	FChromaSDKColorFrame2D()
+	{
+		Duration = 1;
+	}
+};
