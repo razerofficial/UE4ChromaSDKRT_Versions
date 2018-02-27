@@ -6,31 +6,40 @@
 #include "ChromaSDKPluginTypes.generated.h"
 
 UENUM(BlueprintType)
-enum class EChromaSDKDevice1DEnum : uint8
+namespace EChromaSDKDevice1DEnum
 {
-	DE_ChromaLink		UMETA(DisplayName = "ChromaLink"),
-	DE_Headset			UMETA(DisplayName = "Headset"),
-	DE_Mousepad			UMETA(DisplayName = "Mousepad"),
-};
+	enum Type
+	{
+		DE_ChromaLink		UMETA(DisplayName = "ChromaLink"),
+		DE_Headset			UMETA(DisplayName = "Headset"),
+		DE_Mousepad			UMETA(DisplayName = "Mousepad"),
+	};
+}
 
 UENUM(BlueprintType)
-enum class EChromaSDKDevice2DEnum : uint8
+namespace EChromaSDKDevice2DEnum
 {
-	DE_Keyboard			UMETA(DisplayName = "Keyboard"),
-	DE_Keypad			UMETA(DisplayName = "Keypad"),
-	DE_Mouse			UMETA(DisplayName = "Mouse"),
-};
+	enum Type
+	{
+		DE_Keyboard			UMETA(DisplayName = "Keyboard"),
+		DE_Keypad			UMETA(DisplayName = "Keypad"),
+		DE_Mouse			UMETA(DisplayName = "Mouse"),
+	};
+}
 
 UENUM(BlueprintType)
-enum class EChromaSDKDeviceEnum : uint8
+namespace EChromaSDKDeviceEnum
 {
-	DE_ChromaLink	UMETA(DisplayName = "ChromaLink"),
-	DE_Headset		UMETA(DisplayName = "Headset"),
-	DE_Keyboard		UMETA(DisplayName = "Keyboard"),
-	DE_Keypad		UMETA(DisplayName = "Keypad"),
-	DE_Mouse		UMETA(DisplayName = "Mouse"),
-	DE_Mousepad		UMETA(DisplayName = "Mousepad")
-};
+	enum Type
+	{
+		DE_ChromaLink	UMETA(DisplayName = "ChromaLink"),
+		DE_Headset		UMETA(DisplayName = "Headset"),
+		DE_Keyboard		UMETA(DisplayName = "Keyboard"),
+		DE_Keypad		UMETA(DisplayName = "Keypad"),
+		DE_Mouse		UMETA(DisplayName = "Mouse"),
+		DE_Mousepad		UMETA(DisplayName = "Mousepad")
+	};
+}
 
 UENUM(BlueprintType)
 enum class EChromaSDKKeyboardKey : uint8
