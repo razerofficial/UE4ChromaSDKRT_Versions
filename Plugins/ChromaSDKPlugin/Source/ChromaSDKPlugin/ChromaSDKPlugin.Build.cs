@@ -8,6 +8,7 @@ namespace UnrealBuildTool.Rules
 		{
 			PublicIncludePaths.AddRange(
 				new string[] {
+                    "ChromaSDKPlugin/Public",				
 					// ... add public include paths required here ...
 				}
 				);
@@ -23,8 +24,6 @@ namespace UnrealBuildTool.Rules
 				new string[]
 				{
 					"Core",
-                    "CoreUObject",
-                    "Engine",
 					// ... add other public dependencies that you statically link with here ...
 				}
 				);
@@ -32,6 +31,8 @@ namespace UnrealBuildTool.Rules
 			PrivateDependencyModuleNames.AddRange(
 				new string[]
 				{
+                    "CoreUObject",
+                    "Engine",
 					// ... add private dependencies that you statically link with here ...
 				}
 				);
