@@ -4,17 +4,19 @@
 
 #include "ModuleManager.h"
 
-//expose HMODULE
 #if PLATFORM_WINDOWS
-/*
+
+//expose HMODULE
 #include "RzChromaSDKDefines.h"
 #include "RzChromaSDKTypes.h"
 #include "RzErrors.h"
 #include <map>
 #include <string>
-*/
+
+/*
 #include "ChromaSDKDevice1DEnum.h"
 #include "ChromaSDKDevice2DEnum.h"
+*/
 
 /*
 typedef RZRESULT(*CHROMA_SDK_INIT)(void);
