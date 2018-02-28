@@ -6,6 +6,16 @@
 #include "ChromaSDKPluginTypes.generated.h"
 
 UENUM(BlueprintType)
+namespace EChromaSDKDeviceTypeEnum
+{
+	enum Type
+	{
+		DE_1D			UMETA(DisplayName = "1D"),
+		DE_2D			UMETA(DisplayName = "2D")
+	};
+}
+
+UENUM(BlueprintType)
 namespace EChromaSDKDevice1DEnum
 {
 	enum Type

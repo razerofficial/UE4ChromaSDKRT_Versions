@@ -12,13 +12,8 @@
 #include "RzErrors.h"
 #include <map>
 #include <string>
+#include "ChromaSDKPluginTypes.h"
 
-/*
-#include "ChromaSDKDevice1DEnum.h"
-#include "ChromaSDKDevice2DEnum.h"
-*/
-
-/*
 typedef RZRESULT(*CHROMA_SDK_INIT)(void);
 typedef RZRESULT(*CHROMA_SDK_UNINIT)(void);
 typedef RZRESULT(*CHROMA_SDK_CREATE_EFFECT)(RZDEVICEID DeviceId, ChromaSDK::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID *pEffectId);
@@ -38,7 +33,6 @@ namespace ChromaSDK
 {
 	class AnimationBase;
 }
-*/
 
 #endif
 
@@ -73,11 +67,11 @@ public:
 	}
 
 #if PLATFORM_WINDOWS
-	/*
 	// SDK Methods
 	int ChromaSDKInit();
 	int ChromaSDKUnInit();
 	bool IsInitialized();
+	/*
 	RZRESULT ChromaSDKCreateEffect(RZDEVICEID deviceId, ChromaSDK::EFFECT_TYPE effect, PRZPARAM pParam, RZEFFECTID* pEffectId);
 	RZRESULT ChromaSDKCreateChromaLinkEffect(ChromaSDK::ChromaLink::EFFECT_TYPE effect, PRZPARAM pParam, RZEFFECTID* pEffectId);
 	RZRESULT ChromaSDKCreateHeadsetEffect(ChromaSDK::Headset::EFFECT_TYPE effect, PRZPARAM pParam, RZEFFECTID* pEffectId);
@@ -85,16 +79,20 @@ public:
 	RZRESULT ChromaSDKCreateKeypadEffect(ChromaSDK::Keypad::EFFECT_TYPE effect, PRZPARAM pParam, RZEFFECTID* pEffectId);
 	RZRESULT ChromaSDKCreateMouseEffect(ChromaSDK::Mouse::EFFECT_TYPE effect, PRZPARAM pParam, RZEFFECTID* pEffectId);
 	RZRESULT ChromaSDKCreateMousepadEffect(ChromaSDK::Mousepad::EFFECT_TYPE effect, PRZPARAM pParam, RZEFFECTID* pEffectId);
+	*/
 	RZRESULT ChromaSDKSetEffect(RZEFFECTID effectId);
 	RZRESULT ChromaSDKDeleteEffect(RZEFFECTID effectId);
 
+	/*
 	static int ToBGR(const FLinearColor& color);
 	static FLinearColor ToLinearColor(int color);
 	static int GetMaxLeds(const EChromaSDKDevice1DEnum& device);
 	static int GetMaxRow(const EChromaSDKDevice2DEnum& device);
 	static int GetMaxColumn(const EChromaSDKDevice2DEnum& device);
 	int OpenAnimation(const char* path);
+	*/
 	int CloseAnimation(int animationId);
+	/*
 	int CloseAnimationName(const char* path);
 	int GetAnimation(const char* path);
 	int GetAnimationIdFromInstance(ChromaSDK::AnimationBase* animation);
@@ -106,7 +104,9 @@ public:
 	int GetPlayingAnimationId(int index);
 	void PlayAnimation(int animationId, bool loop);
 	void PlayAnimationName(const char* path, bool loop);
+	*/
 	void StopAnimation(int animationId);
+	/*
 	void StopAnimationName(const char* path);
 	void StopAnimationType(int deviceType, int device);
 	bool IsAnimationPlaying(int animationId);
@@ -129,7 +129,6 @@ public:
 	*/
 
 private:
-	/*
 	bool ValidateGetProcAddress(bool condition, FString methodName);
 
 	bool _mInitialized;
@@ -152,8 +151,7 @@ private:
 	int _mAnimationId;
 	std::map<std::string, int> _mAnimationMapID;
 	std::map<int, ChromaSDK::AnimationBase*> _mAnimations;
-	std::map<EChromaSDKDevice1DEnum, int> _mPlayMap1D;
-	std::map<EChromaSDKDevice2DEnum, int> _mPlayMap2D;
-	*/
+	std::map<EChromaSDKDevice1DEnum::Type, int> _mPlayMap1D;
+	std::map<EChromaSDKDevice2DEnum::Type, int> _mPlayMap2D;
 #endif
 };
