@@ -38,8 +38,14 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyboardKeyColor", Keywords = "Set the key to the supplied color"), Category = "ChromaSDK")
 	static void SetKeyboardKeyColor(EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam, UPARAM(ref) TArray<FChromaSDKColors>& colors);
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetKeyboardKeyColor", Keywords = "Get the key to the supplied color"), Category = "ChromaSDK")
+	static FLinearColor GetKeyboardKeyColor(EChromaSDKKeyboardKey::Type key, UPARAM(ref) TArray<FChromaSDKColors>& colors);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetMouseLedColor", Keywords = "Set the led to the supplied color"), Category = "ChromaSDK")
 	static void SetMouseLedColor(EChromaSDKMouseLed::Type led, const FLinearColor& colorParam, UPARAM(ref) TArray<FChromaSDKColors>& colors);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetMouseLedColor", Keywords = "Get the led to the supplied color"), Category = "ChromaSDK")
+	static FLinearColor GetMouseLedColor(EChromaSDKMouseLed::Type led, UPARAM(ref) TArray<FChromaSDKColors>& colors);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "IsInitialized", Keywords = "Return true if the blueprint library is initialized"), Category = "ChromaSDK")
 	static bool IsInitialized();
@@ -50,21 +56,17 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "UnInit", Keywords = "Uninitialize the ChromaSDK"), Category = "ChromaSDK")
 	static int32 ChromaSDKUnInit();
 
-	/*
-
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateEffectNone", Keywords = "Clear the color effect"), Category = "ChromaSDK")
-	static FChromaSDKEffectResult ChromaSDKCreateEffectNone(const EChromaSDKDeviceEnum& device);
+	static FChromaSDKEffectResult ChromaSDKCreateEffectNone(EChromaSDKDeviceEnum::Type device);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateEffectStatic", Keywords = "Create a static color effect"), Category = "ChromaSDK")
-	static FChromaSDKEffectResult ChromaSDKCreateEffectStatic(const EChromaSDKDeviceEnum& device, const FLinearColor& myColor);
+	static FChromaSDKEffectResult ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::Type device, const FLinearColor& colorParam);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateEffectCustom1D", Keywords = "Create a custom color effect using one-dimensional array"), Category = "ChromaSDK")
-	static FChromaSDKEffectResult ChromaSDKCreateEffectCustom1D(EChromaSDKDevice1DEnum device, const TArray<FLinearColor>& colors);
+	static FChromaSDKEffectResult ChromaSDKCreateEffectCustom1D(EChromaSDKDevice1DEnum::Type device, const TArray<FLinearColor>& colors);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateEffectCustom2D", Keywords = "Create a custom color effect using two-dimensional array"), Category = "ChromaSDK")
-	static FChromaSDKEffectResult ChromaSDKCreateEffectCustom2D(EChromaSDKDevice2DEnum device, const TArray<FChromaSDKColors>& colors);
-
-	*/
+	static FChromaSDKEffectResult ChromaSDKCreateEffectCustom2D(EChromaSDKDevice2DEnum::Type device, const TArray<FChromaSDKColors>& colors);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetEffect", Keywords = "Set Effect with Effect Id"), Category = "ChromaSDK")
 	static int32 ChromaSDKSetEffect(const FChromaSDKGuid& effectId);

@@ -328,7 +328,7 @@ void UChromaSDKPluginBPLibrary::SetKeyboardKeyColor(EChromaSDKKeyboardKey::Type 
 		colors.Num() == 0 ||
 		maxColumn != colors[0].Colors.Num())
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin::SetKeyboardKeyColor Array size mismatch row: %d==%d column: %d==%d!"),
+		UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::SetKeyboardKeyColor Array size mismatch row: %d==%d column: %d==%d!"),
 			maxRow,
 			colors.Num(),
 			maxColumn,
@@ -344,6 +344,32 @@ void UChromaSDKPluginBPLibrary::SetKeyboardKeyColor(EChromaSDKKeyboardKey::Type 
 #endif
 }
 
+FLinearColor UChromaSDKPluginBPLibrary::GetKeyboardKeyColor(EChromaSDKKeyboardKey::Type key, TArray<FChromaSDKColors>& colors)
+{
+#if PLATFORM_WINDOWS
+	int maxRow = ChromaSDK::Keyboard::MAX_ROW;
+	int maxColumn = ChromaSDK::Keyboard::MAX_COLUMN;
+	if (maxRow != colors.Num() ||
+		colors.Num() == 0 ||
+		maxColumn != colors[0].Colors.Num())
+	{
+		UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::GetKeyboardKeyColor Array size mismatch row: %d==%d column: %d==%d!"),
+			maxRow,
+			colors.Num(),
+			maxColumn,
+			colors.Num() > 0 ? colors[0].Colors.Num() : 0);
+		return FLinearColor(0, 0, 0, 0);
+	}
+
+	int rzkey = _sKeyboardEnumMap[key];
+	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
+	{
+		return colors[HIBYTE(rzkey)].Colors[LOBYTE(rzkey)];
+	}
+#endif
+	return FLinearColor(0, 0, 0, 0);
+}
+
 void UChromaSDKPluginBPLibrary::SetMouseLedColor(EChromaSDKMouseLed::Type led, const FLinearColor& colorParam, TArray<FChromaSDKColors>& colors)
 {
 #if PLATFORM_WINDOWS
@@ -353,7 +379,7 @@ void UChromaSDKPluginBPLibrary::SetMouseLedColor(EChromaSDKMouseLed::Type led, c
 		colors.Num() == 0 ||
 		maxColumn != colors[0].Colors.Num())
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin::SetMouseLedColor Array size mismatch row: %d==%d column: %d==%d!"),
+		UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::SetMouseLedColor Array size mismatch row: %d==%d column: %d==%d!"),
 			maxRow,
 			colors.Num(),
 			maxColumn,
@@ -363,6 +389,38 @@ void UChromaSDKPluginBPLibrary::SetMouseLedColor(EChromaSDKMouseLed::Type led, c
 
 	ChromaSDK::Mouse::RZLED2 rzled = _sMouseEnumMap[led];
 	colors[HIBYTE(rzled)].Colors[LOBYTE(rzled)] = colorParam;
+#endif
+}
+
+FLinearColor UChromaSDKPluginBPLibrary::GetMouseLedColor(EChromaSDKMouseLed::Type led, TArray<FChromaSDKColors>& colors)
+{
+#if PLATFORM_WINDOWS
+	int maxRow = ChromaSDK::Mouse::MAX_ROW;
+	int maxColumn = ChromaSDK::Mouse::MAX_COLUMN;
+	if (maxRow != colors.Num() ||
+		colors.Num() == 0 ||
+		maxColumn != colors[0].Colors.Num())
+	{
+		UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::SetMouseLedColor Array size mismatch row: %d==%d column: %d==%d!"),
+			maxRow,
+			colors.Num(),
+			maxColumn,
+			colors.Num() > 0 ? colors[0].Colors.Num() : 0);
+		return FLinearColor(0, 0, 0, 0);
+	}
+
+	ChromaSDK::Mouse::RZLED2 rzled = _sMouseEnumMap[led];
+	return colors[HIBYTE(rzled)].Colors[LOBYTE(rzled)];
+#endif
+	return FLinearColor(0, 0, 0, 0);
+}
+
+bool UChromaSDKPluginBPLibrary::IsInitialized()
+{
+#if PLATFORM_WINDOWS
+	return _sInitialized;
+#else
+	return false;
 #endif
 }
 
@@ -415,13 +473,320 @@ int32 UChromaSDKPluginBPLibrary::ChromaSDKUnInit()
 #endif
 }
 
-bool UChromaSDKPluginBPLibrary::IsInitialized()
+FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectNone(EChromaSDKDeviceEnum::Type device)
 {
+	FChromaSDKEffectResult data = FChromaSDKEffectResult();
+
 #if PLATFORM_WINDOWS
-	return _sInitialized;
-#else
-	return false;
+
+	int result = 0;
+	RZEFFECTID effectId = RZEFFECTID();
+	switch (device)
+	{
+	case EChromaSDKDeviceEnum::DE_ChromaLink:
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateChromaLinkEffect(ChromaSDK::ChromaLink::CHROMA_NONE, NULL, &effectId);
+		break;
+	case EChromaSDKDeviceEnum::DE_Headset:
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateHeadsetEffect(ChromaSDK::Headset::CHROMA_NONE, NULL, &effectId);
+		break;
+	case EChromaSDKDeviceEnum::DE_Keyboard:
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_NONE, NULL, &effectId);
+		break;
+	case EChromaSDKDeviceEnum::DE_Keypad:
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeypadEffect(ChromaSDK::Keypad::CHROMA_NONE, NULL, &effectId);
+		break;
+	case EChromaSDKDeviceEnum::DE_Mouse:
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateMouseEffect(ChromaSDK::Mouse::CHROMA_NONE, NULL, &effectId);
+		break;
+	case EChromaSDKDeviceEnum::DE_Mousepad:
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateMousepadEffect(ChromaSDK::Mousepad::CHROMA_NONE, NULL, &effectId);
+		break;
+	default:
+		UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectNone Unsupported device used!"));
+		break;
+	}
+	data.EffectId.Data = effectId;
+	data.Result = result;
+
 #endif
+
+	return data;
+}
+
+FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::Type device, const FLinearColor& colorParam)
+{
+	FChromaSDKEffectResult data = FChromaSDKEffectResult();
+
+#if PLATFORM_WINDOWS
+
+	//UE_LOG(LogTemp, Log, TEXT("ChromaSDKPlugin:: Color R=%f G=%f B=%f"), color.R, color.G, color.B);	
+	int red = colorParam.R * 255;
+	int green = colorParam.G * 255;
+	int blue = colorParam.B * 255;
+
+	int result = 0;
+	RZEFFECTID effectId = RZEFFECTID();
+	switch (device)
+	{
+	case EChromaSDKDeviceEnum::DE_ChromaLink:
+	{
+		ChromaSDK::ChromaLink::STATIC_EFFECT_TYPE pParam = {};
+		pParam.Color = RGB(red, green, blue);
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateChromaLinkEffect(ChromaSDK::ChromaLink::CHROMA_STATIC, &pParam, &effectId);
+	}
+	break;
+	case EChromaSDKDeviceEnum::DE_Headset:
+	{
+		ChromaSDK::Headset::STATIC_EFFECT_TYPE pParam = {};
+		pParam.Color = RGB(red, green, blue);
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateHeadsetEffect(ChromaSDK::Headset::CHROMA_STATIC, &pParam, &effectId);
+	}
+	break;
+	case EChromaSDKDeviceEnum::DE_Keyboard:
+	{
+		ChromaSDK::Keyboard::STATIC_EFFECT_TYPE pParam = {};
+		pParam.Color = RGB(red, green, blue);
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_STATIC, &pParam, &effectId);
+	}
+	break;
+	case EChromaSDKDeviceEnum::DE_Keypad:
+	{
+		ChromaSDK::Keypad::STATIC_EFFECT_TYPE pParam = {};
+		pParam.Color = RGB(red, green, blue);
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeypadEffect(ChromaSDK::Keypad::CHROMA_STATIC, &pParam, &effectId);
+	}
+	break;
+	case EChromaSDKDeviceEnum::DE_Mouse:
+	{
+		ChromaSDK::Mouse::STATIC_EFFECT_TYPE pParam = {};
+		pParam.Color = RGB(red, green, blue);
+		pParam.LEDId = ChromaSDK::Mouse::RZLED_ALL;
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateMouseEffect(ChromaSDK::Mouse::CHROMA_STATIC, &pParam, &effectId);
+	}
+	break;
+	case EChromaSDKDeviceEnum::DE_Mousepad:
+	{
+		ChromaSDK::Mousepad::STATIC_EFFECT_TYPE pParam = {};
+		pParam.Color = RGB(red, green, blue);
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateMousepadEffect(ChromaSDK::Mousepad::CHROMA_STATIC, &pParam, &effectId);
+	}
+	break;
+	default:
+		UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic Unsupported device used!"));
+		break;
+	}
+	data.EffectId.Data = effectId;
+	data.Result = result;
+
+#endif
+
+	return data;
+}
+
+FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom1D(EChromaSDKDevice1DEnum::Type device, const TArray<FLinearColor>& colors)
+{
+	FChromaSDKEffectResult data = FChromaSDKEffectResult();
+
+#if PLATFORM_WINDOWS
+
+	int result = 0;
+	RZEFFECTID effectId = RZEFFECTID();
+	int maxLeds = 0;
+	switch (device)
+	{
+	case EChromaSDKDevice1DEnum::DE_ChromaLink:
+	{
+		maxLeds = ChromaSDK::ChromaLink::MAX_LEDS;
+		if (maxLeds != colors.Num())
+		{
+			UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom1D Array size mismatch elements: %d==%d!"),
+				maxLeds,
+				colors.Num());
+			break;
+		}
+		ChromaSDK::ChromaLink::CUSTOM_EFFECT_TYPE pParam = {};
+		for (int i = 0; i < maxLeds; i++)
+		{
+			const FLinearColor& color = colors[i];
+			int red = color.R * 255;
+			int green = color.G * 255;
+			int blue = color.B * 255;
+			pParam.Color[i] = RGB(red, green, blue);
+		}
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateChromaLinkEffect(ChromaSDK::ChromaLink::CHROMA_CUSTOM, &pParam, &effectId);
+	}
+	break;
+	case EChromaSDKDevice1DEnum::DE_Headset:
+	{
+		maxLeds = ChromaSDK::Headset::MAX_LEDS;
+		if (maxLeds != colors.Num())
+		{
+			UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom1D Array size mismatch elements: %d==%d!"),
+				maxLeds,
+				colors.Num());
+			break;
+		}
+		ChromaSDK::Headset::CUSTOM_EFFECT_TYPE pParam = {};
+		for (int i = 0; i < maxLeds; i++)
+		{
+			const FLinearColor& color = colors[i];
+			int red = color.R * 255;
+			int green = color.G * 255;
+			int blue = color.B * 255;
+			pParam.Color[i] = RGB(red, green, blue);
+		}
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateHeadsetEffect(ChromaSDK::Headset::CHROMA_CUSTOM, &pParam, &effectId);
+	}
+	break;
+	case EChromaSDKDevice1DEnum::DE_Mousepad:
+	{
+		maxLeds = ChromaSDK::Mousepad::MAX_LEDS;
+		if (maxLeds != colors.Num())
+		{
+			UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom1D Array size mismatch elements: %d==%d!"),
+				maxLeds,
+				colors.Num());
+			break;
+		}
+		ChromaSDK::Mousepad::CUSTOM_EFFECT_TYPE pParam = {};
+		for (int i = 0; i < maxLeds; i++)
+		{
+			const FLinearColor& color = colors[i];
+			int red = color.R * 255;
+			int green = color.G * 255;
+			int blue = color.B * 255;
+			pParam.Color[i] = RGB(red, green, blue);
+		}
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateMousepadEffect(ChromaSDK::Mousepad::CHROMA_CUSTOM, &pParam, &effectId);
+	}
+	break;
+	default:
+		UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom1D Unsupported device used!"));
+		break;
+	}
+	data.EffectId.Data = effectId;
+	data.Result = result;
+
+#endif
+
+	return data;
+}
+
+FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D(EChromaSDKDevice2DEnum::Type device, const TArray<FChromaSDKColors>& colors)
+{
+	FChromaSDKEffectResult data = FChromaSDKEffectResult();
+
+#if PLATFORM_WINDOWS
+
+	int result = 0;
+	RZEFFECTID effectId = RZEFFECTID();
+	int maxRow = 0;
+	int maxColumn = 0;
+	switch (device)
+	{
+	case EChromaSDKDevice2DEnum::DE_Keyboard:
+	{
+		maxRow = ChromaSDK::Keyboard::MAX_ROW;
+		maxColumn = ChromaSDK::Keyboard::MAX_COLUMN;
+		if (maxRow != colors.Num() ||
+			(colors.Num() > 0 &&
+			maxColumn != colors[0].Colors.Num()))
+		{
+			UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D Array size mismatch row: %d==%d column: %d==%d!"),
+				maxRow,
+				colors.Num(),
+				maxColumn,
+				colors.Num() > 0 ? colors[0].Colors.Num() : 0);
+			break;
+		}
+		ChromaSDK::Keyboard::CUSTOM_EFFECT_TYPE pParam = {};
+		for (int i = 0; i < maxRow; i++)
+		{
+			const FChromaSDKColors& row = colors[i];
+			for (int j = 0; j < maxColumn; j++)
+			{
+				const FLinearColor& color = row.Colors[j];
+				int red = color.R * 255;
+				int green = color.G * 255;
+				int blue = color.B * 255;
+				pParam.Color[i][j] = RGB(red, green, blue);
+			}
+		}
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_CUSTOM, &pParam, &effectId);
+	}
+	break;
+	case EChromaSDKDevice2DEnum::DE_Keypad:
+	{
+		maxRow = ChromaSDK::Keypad::MAX_ROW;
+		maxColumn = ChromaSDK::Keypad::MAX_COLUMN;
+		if (maxRow != colors.Num() ||
+			(colors.Num() > 0 &&
+			maxColumn != colors[0].Colors.Num()))
+		{
+			UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D Array size mismatch row: %d==%d column: %d==%d!"),
+				maxRow,
+				colors.Num(),
+				maxColumn,
+				colors.Num() > 0 ? colors[0].Colors.Num() : 0);
+			break;
+		}
+		ChromaSDK::Keypad::CUSTOM_EFFECT_TYPE pParam = {};
+		for (int i = 0; i < maxRow; i++)
+		{
+			const FChromaSDKColors& row = colors[i];
+			for (int j = 0; j < maxColumn; j++)
+			{
+				const FLinearColor& color = row.Colors[j];
+				int red = color.R * 255;
+				int green = color.G * 255;
+				int blue = color.B * 255;
+				pParam.Color[i][j] = RGB(red, green, blue);
+			}
+		}
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeypadEffect(ChromaSDK::Keypad::CHROMA_CUSTOM, &pParam, &effectId);
+	}
+	break;
+	case EChromaSDKDevice2DEnum::DE_Mouse:
+	{
+		maxRow = ChromaSDK::Mouse::MAX_ROW;
+		maxColumn = ChromaSDK::Mouse::MAX_COLUMN;
+		if (maxRow != colors.Num() ||
+			(colors.Num() > 0 &&
+			maxColumn != colors[0].Colors.Num()))
+		{
+			UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D Array size mismatch row: %d==%d column: %d==%d!"),
+				maxRow,
+				colors.Num(),
+				maxColumn,
+				colors.Num() > 0 ? colors[0].Colors.Num() : 0);
+			break;
+		}
+		ChromaSDK::Mouse::CUSTOM_EFFECT_TYPE2 pParam = {};
+		for (int i = 0; i < maxRow; i++)
+		{
+			const FChromaSDKColors& row = colors[i];
+			for (int j = 0; j < maxColumn; j++)
+			{
+				const FLinearColor& color = row.Colors[j];
+				int red = color.R * 255;
+				int green = color.G * 255;
+				int blue = color.B * 255;
+				pParam.Color[i][j] = RGB(red, green, blue);
+			}
+		}
+		result = IChromaSDKPlugin::Get().ChromaSDKCreateMouseEffect(ChromaSDK::Mouse::CHROMA_CUSTOM2, &pParam, &effectId);
+	}
+	break;
+	default:
+		UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D Unsupported device used!"));
+		break;
+	}
+	data.EffectId.Data = effectId;
+	data.Result = result;
+
+#endif
+
+	return data;
 }
 
 int UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(const FChromaSDKGuid& effectId)
