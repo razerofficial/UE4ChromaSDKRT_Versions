@@ -81,16 +81,13 @@ public:
 	RZRESULT ChromaSDKSetEffect(RZEFFECTID effectId);
 	RZRESULT ChromaSDKDeleteEffect(RZEFFECTID effectId);
 
-	/*
 	static int ToBGR(const FLinearColor& color);
 	static FLinearColor ToLinearColor(int color);
-	static int GetMaxLeds(const EChromaSDKDevice1DEnum& device);
-	static int GetMaxRow(const EChromaSDKDevice2DEnum& device);
-	static int GetMaxColumn(const EChromaSDKDevice2DEnum& device);
+	static int GetMaxLeds(EChromaSDKDevice1DEnum::Type device);
+	static int GetMaxRow(EChromaSDKDevice2DEnum::Type device);
+	static int GetMaxColumn(EChromaSDKDevice2DEnum::Type device);
 	int OpenAnimation(const char* path);
-	*/
 	int CloseAnimation(int animationId);
-	/*
 	int CloseAnimationName(const char* path);
 	int GetAnimation(const char* path);
 	int GetAnimationIdFromInstance(ChromaSDK::AnimationBase* animation);
@@ -102,9 +99,7 @@ public:
 	int GetPlayingAnimationId(int index);
 	void PlayAnimation(int animationId, bool loop);
 	void PlayAnimationName(const char* path, bool loop);
-	*/
 	void StopAnimation(int animationId);
-	/*
 	void StopAnimationName(const char* path);
 	void StopAnimationType(int deviceType, int device);
 	bool IsAnimationPlaying(int animationId);
@@ -124,7 +119,6 @@ public:
 	void LoadAnimationName(const char* path);
 	void UnloadAnimation(int animationId);
 	void UnloadAnimationName(const char* path);
-	*/
 
 private:
 	bool ValidateGetProcAddress(bool condition, FString methodName);

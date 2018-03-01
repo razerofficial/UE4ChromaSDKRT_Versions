@@ -74,7 +74,6 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "DeleteEffect", Keywords = "Delete Effect with Effect Id"), Category = "ChromaSDK")
 	static int32 ChromaSDKDeleteEffect(const FChromaSDKGuid& effectId);
 
-	/*
 
 	// library methods
 
@@ -109,13 +108,13 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static void StopAnimation(const FString& animationName);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "StopAnimationType", Keywords = "Stop playing the Animation type"), Category = "ChromaSDK")
-	static void StopAnimationType(const EChromaSDKDeviceEnum& device);
+	static void StopAnimationType(EChromaSDKDeviceEnum::Type device);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "StopAll", Keywords = "Stop playing all animations"), Category = "ChromaSDK")
 	static void StopAll();
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "ClearAnimationType", Keywords = "Clear the device"), Category = "ChromaSDK")
-	static void ClearAnimationType(const EChromaSDKDeviceEnum& device);
+	static void ClearAnimationType(EChromaSDKDeviceEnum::Type device);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "ClearAll", Keywords = "Clear all devices"), Category = "ChromaSDK")
 	static void ClearAll();
@@ -136,7 +135,7 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static bool IsAnimationPlaying(const FString& animationName);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "IsAnimationTypePlaying", Keywords = "Is the Animation type playing?"), Category = "ChromaSDK")
-	static bool IsAnimationTypePlaying(const EChromaSDKDeviceEnum& device);
+	static bool IsAnimationTypePlaying(EChromaSDKDeviceEnum::Type device);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "PlayAnimations", Keywords = "Play an array of *.chroma Animations"), Category = "ChromaSDK")
 	static void PlayAnimations(const TArray<FString>& animationNames, bool loop);
@@ -151,16 +150,18 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static void StopAnimationComposite(const FString& animationName);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetKeyColor", Keywords = "Get the color from the animation frame's key"), Category = "ChromaSDK")
-	static FLinearColor GetKeyColor(int32 animationId, int32 frameIndex, const EChromaSDKKeyboardKey& key);
+	static FLinearColor GetKeyColor(int32 animationId, int32 frameIndex, EChromaSDKKeyboardKey::Type key);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetKeyColorName", Keywords = "Get the color from the animation frame's key"), Category = "ChromaSDK")
-	static FLinearColor GetKeyColorName(const FString& animationName, const int32 frameIndex, const EChromaSDKKeyboardKey& key);
+	static FLinearColor GetKeyColorName(const FString& animationName, const int32 frameIndex, EChromaSDKKeyboardKey::Type key);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyColor", Keywords = "Set the animation frame's key to the supplied color"), Category = "ChromaSDK")
-	static void SetKeyColor(int32 animationId, int32 frameIndex, const EChromaSDKKeyboardKey& key, const FLinearColor& myColor);
+	static void SetKeyColor(int32 animationId, int32 frameIndex, EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyColorName", Keywords = "Set the animation frame's key to the supplied color"), Category = "ChromaSDK")
-	static void SetKeyColorName(const FString& animationName, const int32 frameIndex, const EChromaSDKKeyboardKey& key, const FLinearColor& myColor);
+	static void SetKeyColorName(const FString& animationName, const int32 frameIndex, EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam);
+
+	/*
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysColor", Keywords = "Set the animation frame to the supplied color for a set of keys"), Category = "ChromaSDK")
 //	static void SetKeysColor(int animationId, int frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey>>& keys, const FLinearColor& color); //(support 4.13 and below)___HACK_UE4_WANTS_GAME_MODE
