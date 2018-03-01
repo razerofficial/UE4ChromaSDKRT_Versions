@@ -45,9 +45,10 @@ void UChromaSDKPluginAnimation2DObject::Tick(float deltaTime)
 {
 #if PLATFORM_WINDOWS
 	_mTime += deltaTime;
-	float nextTime = GetTime(_mCurrentFrame);
+	float nextTime = GetDuration(_mCurrentFrame);
 	if (nextTime < _mTime)
 	{
+		_mTime = 0.0f;
 		++_mCurrentFrame;
 		if (_mCurrentFrame < _mEffects.Num())
 		{
@@ -101,20 +102,12 @@ TStatId UChromaSDKPluginAnimation2DObject::GetStatId() const
 	return TStatId();
 }
 
-float UChromaSDKPluginAnimation2DObject::GetTime(int index)
+float UChromaSDKPluginAnimation2DObject::GetDuration(int index)
 {
-	if (index >= 0 &&
-		index < Curve.EditorCurveData.GetNumKeys())
+	if (index < Frames.Num())
 	{
-		TMap<FKeyHandle, int32>::TConstIterator iter = Curve.EditorCurveData.GetKeyHandleIterator();
-		for (int i = 0; i < index; ++i)
-		{
-			if (i == index)
-			{
-				return Curve.EditorCurveData.GetKeyTime(iter->Key);
-			}
-			++iter;
-		}		
+		FChromaSDKColorFrame2D& frame = Frames[index];
+		return frame.Duration;
 	}
-	return 0.033f;
+	return 0.0f;
 }

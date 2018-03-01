@@ -14,11 +14,6 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginAnimation1DObject : public UObject, pu
 	GENERATED_UCLASS_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, Category = "Import")
-	float OverrideFrameTime;
-
-	UPROPERTY(EditAnywhere, Category = "Animation")
-	FRuntimeFloatCurve Curve;
 
 	UPROPERTY(EditAnywhere, Category = "Data")
 	TEnumAsByte<EChromaSDKDevice1DEnum::Type> Device;
@@ -41,7 +36,7 @@ public:
 	/* Implements FTickableGameObject */
 
 private:
-	float GetTime(int index);
+	float GetDuration(int index);
 
 	// Callback when animation completes
 	FDelegateChomaSDKOnComplete1D _mOnComplete;
