@@ -120,7 +120,7 @@ public:
 	void UnloadAnimation(int animationId);
 	void UnloadAnimationName(const char* path);
 
-private:
+protected:
 	bool ValidateGetProcAddress(bool condition, FString methodName);
 
 	bool _mInitialized;
