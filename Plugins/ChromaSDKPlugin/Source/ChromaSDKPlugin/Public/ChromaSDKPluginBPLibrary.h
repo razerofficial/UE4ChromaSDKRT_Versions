@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Engine.h"
+#include <map>
 #include "ChromaSDKPluginTypes.h"
 #include "ChromaSDKPluginBPLibrary.generated.h"
 

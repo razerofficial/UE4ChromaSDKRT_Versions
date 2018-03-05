@@ -3,6 +3,9 @@
 #pragma once
 
 #include "Engine.h"
+#include "RzChromaSDKDefines.h"
+#include "RzChromaSDKTypes.h"
+#include "RzErrors.h"
 #include "ChromaSDKPluginTypes.generated.h"
 
 UENUM(BlueprintType)
