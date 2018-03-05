@@ -7,6 +7,7 @@
 * [Status](#status)
 * [Plugin Structure](#plugin-structure)
 * [Samples](#samples)
+* [API](#api)
 
 ## See Also
 
@@ -44,22 +45,35 @@ UE 4.5.1 requires [Visual Studio 2013](https://www.visualstudio.com/vs/older-dow
 
 ```
 Plugins/
-Plugins/ChromaSDKPlugin
-Plugins/ChromaSDKPlugin/Binaries
-Plugins/ChromaSDKPlugin/Binaries/Win64
-Plugins/ChromaSDKPlugin/Binaries/Win64/UE4Editor-ChromaSDKPlugin.dll
-Plugins/ChromaSDKPlugin/Binaries/Win64/UE4Editor-ChromaSDKPlugin.pdb
 Plugins/ChromaSDKPlugin/ChromaSDKPlugin.uplugin
 Plugins/ChromaSDKPlugin/Resources
 Plugins/ChromaSDKPlugin/Resources/Icon128.png
-Plugins/ChromaSDKPlugin/Source
 Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin
 Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/ChromaSDKPlugin.Build.cs
 Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/Animation1D.cpp
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/Animation2D.cpp
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/AnimationBase.cpp
 Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/ChromaSDKPlugin.cpp
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/ChromaSDKPluginAnimation1DObject.cpp
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/ChromaSDKPluginAnimation2DObject.cpp
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/ChromaSDKPluginBPLibrary.cpp
 Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/ChromaSDKPluginPrivatePCH.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/ChromaSDKPluginTypes.cpp
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Private/ChromaThread.cpp
 Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/Animation1D.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/Animation2D.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/AnimationBase.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/ChromaSDKPluginAnimation1DObject.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/ChromaSDKPluginAnimation2DObject.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/ChromaSDKPluginBPLibrary.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/ChromaSDKPluginTypes.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/ChromaThread.h
 Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/IChromaSDKPlugin.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/RzChromaSDKDefines.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/RzChromaSDKTypes.h
+Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/RzErrors.h
 ```
 
 ## Plugin appears in Window->Plugins
@@ -91,3 +105,11 @@ Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/IChromaSDKPlugin.h
 ![image_7](images/image_7.png)
 
 * The animation sample `Chroma` files are found in the project's content folder. There's a set of `Blank`, `Fire`, and `Random` Chroma animation files. After building the Windows standalone application, the `Chroma` files should be copied to the compiled application content folder.
+
+## API
+
+`UE4ChromaSDKRT` has the same Blueprint API library as [UE4ChromaSDK](https://github.com/RazerOfficial/UE4ChromaSDK#api) with some exceptions to be compatible with earlier versions of UE4.
+
+* Enum syntax - Enums are namespaced and types use the `EChromaSDKKeyboardKey::Type` syntax to avoid collisions.
+
+* No const enum types or passing enums by reference in function parameters - Avoid use of const enum types because that seems to crash in UE 4.5.
