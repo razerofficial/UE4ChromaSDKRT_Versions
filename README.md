@@ -6,6 +6,7 @@
 * [Dependencies](#dependencies)
 * [Status](#status)
 * [Plugin Structure](#plugin-structure)
+* [Samples](#samples)
 
 ## See Also
 
@@ -63,3 +64,30 @@ Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/IChromaSDKPlugin.h
 
 ## Plugin appears in Window->Plugins
 ![image_1](images/image_2.png)
+
+
+## Samples
+
+**Animation Sample**
+
+* The animation sample showcases invoking the ChromaSDK `Blueprint Library` from the C++ [Sample BP Library](Source/UE4ChromaSDKRT/SampleBPLibrary.cpp).
+
+![image_3](images/image_3.png)
+
+* Event `BeginPlay` invokes the setup for UI and buttons, and finishes invoking the `SampleStart` BP function.
+
+![image_4](images/image_4.png)
+
+* Event `EndPlay` ends the application by invoking the `SampleEnd` BP function.
+
+![image_5](images/image_5.png)
+
+* The `SetupUI` custom event loads the sample BP Widget and adds the stored widget var to the viewport.
+
+![image_6](images/image_6.png)
+
+* The `SetupButtons` custom event manually uses the `Widget` variable to add a click handler for each UI Widget button accessor which invokes the corresponding BP sample function.
+
+![image_7](images/image_7.png)
+
+* The animation sample `Chroma` files are found in the project's content folder. There's a set of `Blank`, `Fire`, and `Random` Chroma animation files. After building the Windows standalone application, the `Chroma` files should be copied to the compiled application content folder.
