@@ -10,6 +10,12 @@ class USampleBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_UCLASS_BODY()
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleStart", Keywords = "Init at the start of the application"), Category = "Sample")
+	static void SampleStart();
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleEnd", Keywords = "Uninit at the end of the application"), Category = "Sample")
+	static void SampleEnd();
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SamplePlayComposite", Keywords = "Play composite animations"), Category = "Sample")
 	static void SamplePlayComposite();
 

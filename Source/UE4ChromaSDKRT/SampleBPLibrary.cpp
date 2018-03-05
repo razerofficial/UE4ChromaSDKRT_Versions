@@ -9,6 +9,16 @@ USampleBPLibrary::USampleBPLibrary(const FPostConstructInitializeProperties& PCI
 {
 }
 
+void USampleBPLibrary::SampleStart()
+{
+	UChromaSDKPluginBPLibrary::ChromaSDKInit();
+}
+
+void USampleBPLibrary::SampleEnd()
+{
+	UChromaSDKPluginBPLibrary::ChromaSDKUnInit();
+}
+
 void USampleBPLibrary::SamplePlayComposite()
 {
 	UChromaSDKPluginBPLibrary::PlayAnimationComposite("Random", false);
