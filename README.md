@@ -5,7 +5,6 @@
 * [Tutorials](#tutorials)
 * [Supported versions](#supported-versions)
 * [Dependencies](#dependencies)
-* [Status](#status)
 * [Plugin Structure](#plugin-structure)
 * [Samples](#samples)
 * [API](#api)
@@ -43,10 +42,6 @@ The plugin supports the following UE4 versions:
 UE 4.5.1 requires [Visual Studio 2013](https://www.visualstudio.com/vs/older-downloads/)
 
 ![image_1](images/image_1.png)
-
-## Status
-
-* Duplicated the blank plugin sample found at [Engine/Plugins/Developer/BlankPlugin](https://github.com/EpicGames/UnrealEngine/tree/4.5/Engine/Plugins/Developer/BlankPlugin)
 
 ## Plugin Structure
 
