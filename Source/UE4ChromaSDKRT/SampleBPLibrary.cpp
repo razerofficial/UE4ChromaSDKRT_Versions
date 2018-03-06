@@ -194,6 +194,7 @@ void USampleBPLibrary::SampleStopAnimationMousepad()
 
 void USampleBPLibrary::SampleStaticColorChromaLink()
 {
+	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_ChromaLink);
 	FLinearColor color = FLinearColor(1, 0, 0);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_ChromaLink, color);
 	UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(result.EffectId);
@@ -202,6 +203,7 @@ void USampleBPLibrary::SampleStaticColorChromaLink()
 
 void USampleBPLibrary::SampleStaticColorHeadset()
 {
+	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_Headset);
 	FLinearColor color = FLinearColor(1, 1, 0);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_Headset, color);
 	UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(result.EffectId);
@@ -210,6 +212,7 @@ void USampleBPLibrary::SampleStaticColorHeadset()
 
 void USampleBPLibrary::SampleStaticColorKeyboard()
 {
+	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_Keyboard);
 	FLinearColor color = FLinearColor(1, 0, 1);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_Keyboard, color);
 	UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(result.EffectId);
@@ -218,6 +221,7 @@ void USampleBPLibrary::SampleStaticColorKeyboard()
 
 void USampleBPLibrary::SampleStaticColorKeypad()
 {
+	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_Keypad);
 	FLinearColor color = FLinearColor(0, 1, 1);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_Keypad, color);
 	UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(result.EffectId);
@@ -226,6 +230,7 @@ void USampleBPLibrary::SampleStaticColorKeypad()
 
 void USampleBPLibrary::SampleStaticColorMouse()
 {
+	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_Mouse);
 	FLinearColor color = FLinearColor(1, 1, 1);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_Mouse, color);
 	UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(result.EffectId);
@@ -234,6 +239,7 @@ void USampleBPLibrary::SampleStaticColorMouse()
 
 void USampleBPLibrary::SampleStaticColorMousepad()
 {
+	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_Mousepad);
 	FLinearColor color = FLinearColor(1, 0.5f, 0);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_Mousepad, color);
 	UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(result.EffectId);
