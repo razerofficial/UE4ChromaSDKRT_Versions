@@ -2,6 +2,7 @@
 
 * [See Also](#see-also)
 * [Overview](#overview)
+* [Tutorials](#tutorials)
 * [Supported versions](#supported-versions)
 * [Dependencies](#dependencies)
 * [Status](#status)
@@ -22,6 +23,12 @@
 ## Overview
 
 `UE4ChromaSDKRT` provides a runtime module for using the `ChromaSDK` (requires UE 4.5.1 or better). The runtime module provides a blueprint library and C++ methods for playing Chroma animations.
+
+## Tutorials
+
+**UE4ChromaSDKRT Overview**
+
+<a target="_blank" href="https://www.youtube.com/watch?v=-Q6Dn15m1Jg"><img src="https://img.youtube.com/vi/-Q6Dn15m1Jg/0.jpg"/></a>
 
 ## Supported versions
 
