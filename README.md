@@ -100,6 +100,10 @@ Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/RzErrors.h
 
 ![image_6](images/image_6.png)
 
+* The `AnimationWidget_BP` UI Widget defines the all the button variable names.
+
+![image_8](images/image_8.png)
+
 * The `SetupButtons` custom event manually uses the `Widget` variable to add a click handler for each UI Widget button accessor which invokes the corresponding BP sample function.
 
 ![image_7](images/image_7.png)
