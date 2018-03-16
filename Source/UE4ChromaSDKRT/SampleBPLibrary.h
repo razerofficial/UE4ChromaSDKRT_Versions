@@ -126,4 +126,16 @@ class USampleBPLibrary : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleClearMousepad", Keywords = "Clear the device"), Category = "Sample")
 	static void SampleClearMousepad();
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleLayeredHeal", Keywords = "Layered Heal Animation"), Category = "Sample")
+	static void SampleLayeredHeal();
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleLayeredDamage", Keywords = "Layered Damage Animation"), Category = "Sample")
+	static void SampleLayeredDamage();
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleLayeredItemPickup", Keywords = "Layered Item Pickup Animation"), Category = "Sample")
+	static void SampleLayeredItemPickup();
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleLayeredOff", Keywords = "Turn Off Layered Animation"), Category = "Sample")
+	static void SampleLayeredOff();
 };

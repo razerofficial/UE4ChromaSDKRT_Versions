@@ -216,6 +216,12 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroKeysColorAllFramesName", Keywords = "Copy nonzero color from a source animation to a target animation for a set of keys for all frames"), Category = "ChromaSDK")
 	static void CopyNonZeroKeysColorAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys);
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroAllKeysAllFrames", Keywords = "Copy nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void CopyNonZeroAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroAllKeysAllFramesName", Keywords = "Copy nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void CopyNonZeroAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetFrameCount", Keywords = "Get the .chroma animation frame count"), Category = "ChromaSDK")
 	static int32 GetFrameCount(const int32 animationId);
 

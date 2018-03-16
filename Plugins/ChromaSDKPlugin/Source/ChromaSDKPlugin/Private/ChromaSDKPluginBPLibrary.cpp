@@ -1457,6 +1457,34 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroKeysColorAllFramesName(const FString&
 #endif
 }
 
+void UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId)
+{
+#if PLATFORM_WINDOWS
+	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCount(sourceAnimationId);
+	for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
+	{
+		IChromaSDKPlugin::Get().CopyNonZeroAllKeysColor(sourceAnimationId, targetAnimationId, frameIndex);
+	}
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName)
+{
+#if PLATFORM_WINDOWS
+	FString sourcePath = FPaths::GameContentDir();
+	sourcePath += sourceAnimationName + ".chroma";
+	const char* sourcePathArg = TCHAR_TO_ANSI(*sourcePath);
+	FString targetPath = FPaths::GameContentDir();
+	targetPath += targetAnimationName + ".chroma";
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCountName(targetPathArg);
+	for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
+	{
+		IChromaSDKPlugin::Get().CopyNonZeroAllKeysColorName(sourcePathArg, targetPathArg, frameIndex);
+	}
+#endif
+}
+
 int UChromaSDKPluginBPLibrary::GetFrameCount(const int animationId)
 {
 #if PLATFORM_WINDOWS

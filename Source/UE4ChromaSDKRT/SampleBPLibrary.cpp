@@ -275,3 +275,98 @@ void USampleBPLibrary::SampleClearMousepad()
 {
 	UChromaSDKPluginBPLibrary::ClearAnimationType(EChromaSDKDeviceEnum::DE_Mousepad);
 }
+
+void USampleBPLibrary::SampleLayeredHeal()
+{
+	TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>> keys = TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>();
+	keys.Add(EChromaSDKKeyboardKey::KK_LOGO);
+	keys.Add(EChromaSDKKeyboardKey::KK_ESC);
+	keys.Add(EChromaSDKKeyboardKey::KK_Q);
+	keys.Add(EChromaSDKKeyboardKey::KK_E);
+
+	FString baseLayer = "EnvironmentSnow_Keyboard";
+	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
+
+	FString layer2 = "Heal_Keyboard";
+	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
+
+	FString layer3 = "FadeInOutRed_Keyboard";
+	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
+
+	keys.Reset();
+	keys.Add(EChromaSDKKeyboardKey::KK_W);
+	keys.Add(EChromaSDKKeyboardKey::KK_A);
+	keys.Add(EChromaSDKKeyboardKey::KK_S);
+	keys.Add(EChromaSDKKeyboardKey::KK_D);
+
+	FLinearColor color = FLinearColor(1, 0.5f, 0, 0);
+	UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(baseLayer, keys, color);
+
+	UChromaSDKPluginBPLibrary::PlayAnimation(baseLayer, true);
+}
+
+void USampleBPLibrary::SampleLayeredDamage()
+{
+	TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>> keys = TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>();
+	keys.Add(EChromaSDKKeyboardKey::KK_LOGO);
+	keys.Add(EChromaSDKKeyboardKey::KK_ESC);
+	keys.Add(EChromaSDKKeyboardKey::KK_Q);
+	keys.Add(EChromaSDKKeyboardKey::KK_E);
+
+	FString baseLayer = "EnvironmentSnow_Keyboard";
+	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
+
+	FString layer2 = "Damage_Keyboard";
+	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
+
+	FString layer3 = "FadeInOutGreen_Keyboard";
+	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
+
+	keys.Reset();
+	keys.Add(EChromaSDKKeyboardKey::KK_W);
+	keys.Add(EChromaSDKKeyboardKey::KK_A);
+	keys.Add(EChromaSDKKeyboardKey::KK_S);
+	keys.Add(EChromaSDKKeyboardKey::KK_D);
+
+	FLinearColor color = FLinearColor(1, 0.5f, 0, 0);
+	UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(baseLayer, keys, color);
+
+	UChromaSDKPluginBPLibrary::PlayAnimation(baseLayer, true);
+}
+
+void USampleBPLibrary::SampleLayeredItemPickup()
+{
+	TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>> keys = TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>();
+	keys.Add(EChromaSDKKeyboardKey::KK_LOGO);
+	keys.Add(EChromaSDKKeyboardKey::KK_ESC);
+	keys.Add(EChromaSDKKeyboardKey::KK_Q);
+	keys.Add(EChromaSDKKeyboardKey::KK_E);
+
+	FString baseLayer = "EnvironmentSnow_Keyboard";
+	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
+
+	FString layer2 = "ItemPickup_Keyboard";
+	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
+
+	FString layer3 = "FadeInOutBlue_Keyboard";
+	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
+
+	keys.Reset();
+	keys.Add(EChromaSDKKeyboardKey::KK_W);
+	keys.Add(EChromaSDKKeyboardKey::KK_A);
+	keys.Add(EChromaSDKKeyboardKey::KK_S);
+	keys.Add(EChromaSDKKeyboardKey::KK_D);
+
+	FLinearColor color = FLinearColor(1, 0.5f, 0, 0);
+	UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(baseLayer, keys, color);
+
+	UChromaSDKPluginBPLibrary::PlayAnimation(baseLayer, true);
+}
+
+void USampleBPLibrary::SampleLayeredOff()
+{
+	FString baseLayer = "EnvironmentSnow_Keyboard";
+	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
+
+	UChromaSDKPluginBPLibrary::PlayAnimation(baseLayer, true);
+}
