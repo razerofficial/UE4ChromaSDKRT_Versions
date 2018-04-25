@@ -1,7 +1,8 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 
+//#include "ChromaSDKPluginBPLibrary.h" //___HACK_UE4_VERSION_4_16_OR_GREATER
 #include "ChromaSDKPluginPrivatePCH.h"
-#include "ChromaSDKPluginBPLibrary.h"
+#include "ChromaSDKPluginBPLibrary.h" //___HACK_UE4_VERSION_4_15_OR_LESS
 #include "ChromaSDKPluginAnimation1DObject.h"
 #include "ChromaSDKPluginAnimation2DObject.h"
 

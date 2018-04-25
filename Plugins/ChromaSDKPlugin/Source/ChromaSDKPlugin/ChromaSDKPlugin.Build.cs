@@ -4,10 +4,13 @@ namespace UnrealBuildTool.Rules
 {
 	public class ChromaSDKPlugin : ModuleRules
 	{
-		public ChromaSDKPlugin(TargetInfo Target)
+		public ChromaSDKPlugin(TargetInfo Target) //___HACK_UE4_VERSION_4_15_OR_LESS
+//		public ChromaSDKPlugin(ReadOnlyTargetRules Target) : base(Target) //___HACK_UE4_VERSION_4_16_OR_GREATER
 		{
             // https://answers.unrealengine.com/questions/51798/how-can-i-enable-unwind-semantics-for-c-style-exce.html
-            UEBuildConfiguration.bForceEnableExceptions = true;//___HACK_UE4_VERSION_4_9_OR_GREATER
+//            UEBuildConfiguration.bForceEnableExceptions = true;//___HACK_UE4_VERSION_4_9_TO_VERSION_4_15
+			
+//			PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs; //___HACK_UE4_VERSION_4_16_OR_GREATER
 
 			PublicIncludePaths.AddRange(
 				new string[] {

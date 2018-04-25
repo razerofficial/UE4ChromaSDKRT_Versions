@@ -1,5 +1,6 @@
+#//include "ChromaThread.h" //___HACK_UE4_VERSION_4_16_OR_GREATER
 #include "ChromaSDKPluginPrivatePCH.h"
-#include "ChromaThread.h"
+#include "ChromaThread.h" //___HACK_UE4_VERSION_4_15_OR_LESS
 #include <chrono>
 
 using namespace ChromaSDK;

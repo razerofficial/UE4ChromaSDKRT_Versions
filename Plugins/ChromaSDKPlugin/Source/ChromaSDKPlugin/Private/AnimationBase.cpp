@@ -1,5 +1,6 @@
+#//include "AnimationBase.h" //___HACK_UE4_VERSION_4_16_OR_GREATER
 #include "ChromaSDKPluginPrivatePCH.h"
-#include "AnimationBase.h"
+#include "AnimationBase.h" //___HACK_UE4_VERSION_4_15_OR_LESS
 
 using namespace ChromaSDK;
 using namespace std;

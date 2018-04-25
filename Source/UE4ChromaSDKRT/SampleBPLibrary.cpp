@@ -1,7 +1,8 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 
+//#include "SampleBPLibrary.h" //___HACK_UE4_VERSION_4_16_OR_GREATER
 #include "UE4ChromaSDKRT.h"
-#include "SampleBPLibrary.h"
+#include "SampleBPLibrary.h" //___HACK_UE4_VERSION_4_15_OR_LESS
 #include "ChromaSDKPluginBPLibrary.h"
 
 USampleBPLibrary::USampleBPLibrary(const FPostConstructInitializeProperties& PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS

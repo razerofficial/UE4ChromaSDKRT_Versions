@@ -11,3 +11,5 @@ UnrealEngineVersionChanger/.vs/
 UnrealEngineVersionChanger/bin/
 UnrealEngineVersionChanger/obj/
 .vs/
+UE4ChromaSDKRT.VC.db
+UE4ChromaSDKRT.VC.VC.opendb

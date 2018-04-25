@@ -29,10 +29,9 @@ namespace UnrealEngineVersionChanger
 
         const string TOKEN_VERSION_4_8_OR_LESS = "___HACK_UE4_VERSION_4_8_OR_LESS";
         const string TOKEN_VERSION_4_9_OR_GREATER = "___HACK_UE4_VERSION_4_9_OR_GREATER";
-        const string TOKEN_MODULE_FIRST = "___HACK_UE4_WANTS_MODULE_FIRST"; //(support 4.15 or below)
-        const string TOKEN_HEADER_FIRST = "___HACK_UE4_WANTS_HEADER_FIRST"; //(support 4.16 or above)
-        const string TOKEN_GAME_MODE = "___HACK_UE4_WANTS_GAME_MODE"; //(support 4.12)
-        const string TOKEN_BASE_GAME_MODE = "___HACK_UE4_WANTS_BASE_GAME_MODE"; //(support above 4.12)
+        const string TOKEN_VERSION_4_9_TO_4_15 = "___HACK_UE4_VERSION_4_9_TO_VERSION_4_15";
+        const string TOKEN_VERSION_4_15_OR_LESS = "___HACK_UE4_VERSION_4_15_OR_LESS";
+        const string TOKEN_VERSION_4_16_OR_GREATER = "___HACK_UE4_VERSION_4_16_OR_GREATER";
         const string TOKEN_COMMENTS = "//";
 
         static bool EditLine(ref string contents, ref int i, int lastNewline, string token, bool enable)
@@ -101,18 +100,21 @@ namespace UnrealEngineVersionChanger
                         hasChange = true;
                         continue;
                     }
-                    /*
-                    if (EditLine(ref contents, ref i, lastNewline, TOKEN_MODULE_FIRST, TOKEN_HEADER_FIRST, _sVersion != Versions.UE4_16))
+                    if (EditLine(ref contents, ref i, lastNewline, TOKEN_VERSION_4_9_TO_4_15, _sVersion >= Versions.UE4_9 && _sVersion <= Versions.UE4_15))
                     {
                         hasChange = true;
                         continue;
                     }
-                    if (EditLine(ref contents, ref i, lastNewline, TOKEN_GAME_MODE, TOKEN_BASE_GAME_MODE, _sVersion == Versions.UE4_12 || _sVersion == Versions.UE4_13))
+                    if (EditLine(ref contents, ref i, lastNewline, TOKEN_VERSION_4_15_OR_LESS, _sVersion <= Versions.UE4_15))
                     {
                         hasChange = true;
                         continue;
                     }
-                    */
+                    if (EditLine(ref contents, ref i, lastNewline, TOKEN_VERSION_4_16_OR_GREATER, _sVersion >= Versions.UE4_16))
+                    {
+                        hasChange = true;
+                        continue;
+                    }                    
                 }
 
                 if (!hasChange)
@@ -150,6 +152,7 @@ namespace UnrealEngineVersionChanger
                 {
                     case ".h":
                     case ".cpp":
+                    case ".cs":
                         EditFile(fi);
                         break;
                 }

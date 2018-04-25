@@ -4,8 +4,11 @@ using UnrealBuildTool;
 
 public class UE4ChromaSDKRT : ModuleRules
 {
-	public UE4ChromaSDKRT(TargetInfo Target)
+	public UE4ChromaSDKRT(TargetInfo Target) //___HACK_UE4_VERSION_4_15_OR_LESS
+//	public UE4ChromaSDKRT(ReadOnlyTargetRules Target) : base(Target) //___HACK_UE4_VERSION_4_16_OR_GREATER
 	{
+//		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs; //___HACK_UE4_VERSION_4_16_OR_GREATER
+		
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "ChromaSDKPlugin" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

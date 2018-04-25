@@ -43,6 +43,7 @@ The following UE4 versions are supported:
 4.13
 4.14
 4.15
+4.16
 ```
 
 4.10 and 4.11 requires `Visual Studio 2015 Update 2` [Update 3 has a problem treating warnings as errors](https://answers.unrealengine.com/questions/445126/compile-failed-when-creating-cpp-project.html)

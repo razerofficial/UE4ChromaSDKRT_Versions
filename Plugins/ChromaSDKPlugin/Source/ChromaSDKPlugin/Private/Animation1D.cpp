@@ -1,5 +1,6 @@
+#//include "Animation1D.h" //___HACK_UE4_VERSION_4_16_OR_GREATER
 #include "ChromaSDKPluginPrivatePCH.h"
-#include "Animation1D.h"
+#include "Animation1D.h" //___HACK_UE4_VERSION_4_15_OR_LESS
 #include "ChromaSDKPluginBPLibrary.h"
 #include "ChromaThread.h"
 
