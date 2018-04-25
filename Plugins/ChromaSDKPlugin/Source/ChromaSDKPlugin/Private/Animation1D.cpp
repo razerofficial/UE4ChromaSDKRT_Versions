@@ -21,6 +21,11 @@ Animation1D::Animation1D()
 	Reset();
 }
 
+Animation1D::~Animation1D()
+{
+
+}
+
 void Animation1D::Reset()
 {
 	_mFrames.clear();

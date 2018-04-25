@@ -10,6 +10,7 @@ namespace ChromaSDK
 	{
 	public:
 		Animation1D();
+		~Animation1D();
 		void Reset();
 		EChromaSDKDeviceTypeEnum::Type GetDeviceType();
 		EChromaSDKDevice1DEnum::Type GetDevice();

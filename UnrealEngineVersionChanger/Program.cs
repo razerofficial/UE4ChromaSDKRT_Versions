@@ -32,6 +32,8 @@ namespace UnrealEngineVersionChanger
         const string TOKEN_VERSION_4_9_TO_4_15 = "___HACK_UE4_VERSION_4_9_TO_VERSION_4_15";
         const string TOKEN_VERSION_4_15_OR_LESS = "___HACK_UE4_VERSION_4_15_OR_LESS";
         const string TOKEN_VERSION_4_16_OR_GREATER = "___HACK_UE4_VERSION_4_16_OR_GREATER";
+        const string TOKEN_VERSION_4_17_OR_LESS = "___HACK_UE4_VERSION_4_17_OR_LESS";
+        const string TOKEN_VERSION_4_18_OR_GREATER = "___HACK_UE4_VERSION_4_18_OR_GREATER";
         const string TOKEN_COMMENTS = "//";
 
         static bool EditLine(ref string contents, ref int i, int lastNewline, string token, bool enable)
@@ -114,7 +116,17 @@ namespace UnrealEngineVersionChanger
                     {
                         hasChange = true;
                         continue;
-                    }                    
+                    }
+                    if (EditLine(ref contents, ref i, lastNewline, TOKEN_VERSION_4_17_OR_LESS, _sVersion <= Versions.UE4_17))
+                    {
+                        hasChange = true;
+                        continue;
+                    }
+                    if (EditLine(ref contents, ref i, lastNewline, TOKEN_VERSION_4_18_OR_GREATER, _sVersion >= Versions.UE4_18))
+                    {
+                        hasChange = true;
+                        continue;
+                    }
                 }
 
                 if (!hasChange)

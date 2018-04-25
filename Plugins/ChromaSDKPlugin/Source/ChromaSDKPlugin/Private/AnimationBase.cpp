@@ -12,6 +12,11 @@ AnimationBase::AnimationBase()
 	_mTime = 0.0f;
 }
 
+AnimationBase::~AnimationBase()
+{
+
+}
+
 const string& AnimationBase::GetName()
 {
 	return _mName;

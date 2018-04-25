@@ -21,6 +21,11 @@ Animation2D::Animation2D()
 	Reset();
 }
 
+Animation2D::~Animation2D()
+{
+
+}
+
 void Animation2D::Reset()
 {
 	_mFrames.clear();

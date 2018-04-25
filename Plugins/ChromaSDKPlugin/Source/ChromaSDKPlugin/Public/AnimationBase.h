@@ -11,6 +11,7 @@ namespace ChromaSDK
 	{
 	public:
 		AnimationBase();
+		virtual ~AnimationBase() = 0;
 		const std::string& GetName();
 		void SetName(const std::string& name);
 		virtual EChromaSDKDeviceTypeEnum::Type GetDeviceType() = 0;
