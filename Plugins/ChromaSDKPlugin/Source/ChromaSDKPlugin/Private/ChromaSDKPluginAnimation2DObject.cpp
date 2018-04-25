@@ -4,8 +4,14 @@
 #include "ChromaSDKPluginBPLibrary.h"
 #include "ChromaSDKPluginAnimation2DObject.h"
 
-UChromaSDKPluginAnimation2DObject::UChromaSDKPluginAnimation2DObject(const FPostConstructInitializeProperties& PCIP)
-	: Super(PCIP)
+#if PLATFORM_WINDOWS
+#include "AllowWindowsPlatformTypes.h" 
+#endif
+
+UChromaSDKPluginAnimation2DObject::UChromaSDKPluginAnimation2DObject(const FPostConstructInitializeProperties& PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS
+	: Super(PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS
+//UChromaSDKPluginAnimation2DObject::UChromaSDKPluginAnimation2DObject(const FObjectInitializer& ObjectInitializer) //___HACK_UE4_VERSION_4_9_OR_GREATER
+//	: Super(ObjectInitializer) //___HACK_UE4_VERSION_4_9_OR_GREATER
 {
 }
 
@@ -111,3 +117,7 @@ float UChromaSDKPluginAnimation2DObject::GetDuration(int index)
 	}
 	return 0.0f;
 }
+
+#if PLATFORM_WINDOWS
+#include "HideWindowsPlatformTypes.h" 
+#endif

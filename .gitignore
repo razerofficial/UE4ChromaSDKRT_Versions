@@ -4,9 +4,9 @@ UE4ChromaSDKRT.opensdf
 UE4ChromaSDKRT.sdf
 UE4ChromaSDKRT.sln
 Intermediate/
-Saved/AutoScreenshot.png
-Saved/Autosaves/
-Saved/Logs/
 UE4ChromaSDKRT.v11.suo
-Saved/Config/CleanSourceConfigs/Engine.ini
 Saved/
+Build/
+UnrealEngineVersionChanger/.vs/
+UnrealEngineVersionChanger/bin/
+UnrealEngineVersionChanger/obj/

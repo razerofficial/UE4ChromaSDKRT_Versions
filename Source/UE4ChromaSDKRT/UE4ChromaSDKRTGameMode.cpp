@@ -4,10 +4,10 @@
 #include "UE4ChromaSDKRTGameMode.h"
 
 
-AUE4ChromaSDKRTGameMode::AUE4ChromaSDKRTGameMode(const class FPostConstructInitializeProperties& PCIP)
-	: Super(PCIP)
+AUE4ChromaSDKRTGameMode::AUE4ChromaSDKRTGameMode(const class FPostConstructInitializeProperties& PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS
+	: Super(PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS
+//AUE4ChromaSDKRTGameMode::AUE4ChromaSDKRTGameMode(const FObjectInitializer& ObjectInitializer) //___HACK_UE4_VERSION_4_9_OR_GREATER
+//	: Super(ObjectInitializer) //___HACK_UE4_VERSION_4_9_OR_GREATER
 {
 
 }
-
-

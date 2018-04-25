@@ -25,8 +25,10 @@ bool UChromaSDKPluginBPLibrary::_sInitialized = false;
 
 #endif
 
-UChromaSDKPluginBPLibrary::UChromaSDKPluginBPLibrary(const FPostConstructInitializeProperties& PCIP)
-	: Super(PCIP)
+UChromaSDKPluginBPLibrary::UChromaSDKPluginBPLibrary(const FPostConstructInitializeProperties& PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS
+	: Super(PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS
+//UChromaSDKPluginBPLibrary::UChromaSDKPluginBPLibrary(const FObjectInitializer& ObjectInitializer) //___HACK_UE4_VERSION_4_9_OR_GREATER
+//	: Super(ObjectInitializer) //___HACK_UE4_VERSION_4_9_OR_GREATER
 {
 #if PLATFORM_WINDOWS
 	// keyboard mapping
@@ -1506,3 +1508,9 @@ int UChromaSDKPluginBPLibrary::GetFrameCountName(const FString& animationName)
 	return -1;
 #endif
 }
+
+#if PLATFORM_WINDOWS
+
+#include "HideWindowsPlatformTypes.h"
+
+#endif

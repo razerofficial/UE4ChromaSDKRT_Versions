@@ -6,6 +6,9 @@ namespace UnrealBuildTool.Rules
 	{
 		public ChromaSDKPlugin(TargetInfo Target)
 		{
+            // https://answers.unrealengine.com/questions/51798/how-can-i-enable-unwind-semantics-for-c-style-exce.html
+            UEBuildConfiguration.bForceEnableExceptions = true;//___HACK_UE4_VERSION_4_9_OR_GREATER
+
 			PublicIncludePaths.AddRange(
 				new string[] {
                     "ChromaSDKPlugin/Public",				

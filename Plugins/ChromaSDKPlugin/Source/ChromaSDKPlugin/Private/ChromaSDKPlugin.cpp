@@ -9,6 +9,8 @@
 
 #if PLATFORM_WINDOWS
 
+#include "AllowWindowsPlatformTypes.h" 
+
 typedef unsigned char byte;
 #define ANIMATION_VERSION 1
 
@@ -306,8 +308,6 @@ RZRESULT IChromaSDKPlugin::ChromaSDKDeleteEffect(RZEFFECTID effectId)
 
 	return _mMethodDeleteEffect(effectId);
 }
-
-#include "AllowWindowsPlatformTypes.h" 
 
 int IChromaSDKPlugin::ToBGR(const FLinearColor& color)
 {
@@ -665,34 +665,25 @@ int IChromaSDKPlugin::OpenAnimation(const char* path)
 	return id;
 }
 
-#include "HideWindowsPlatformTypes.h"
-
 int IChromaSDKPlugin::CloseAnimation(int animationId)
 {
-	try
+	if (_mAnimations.find(animationId) != _mAnimations.end())
 	{
-		if (_mAnimations.find(animationId) != _mAnimations.end())
+		AnimationBase* animation = _mAnimations[animationId];
+		if (animation == nullptr)
 		{
-			AnimationBase* animation = _mAnimations[animationId];
-			if (animation == nullptr)
-			{
-				UE_LOG(LogTemp, Error, TEXT("CloseAnimation: Animation is null! id=%d"), animationId);
-				return -1;
-			}
-			animation->Stop();
-			string animationName = animation->GetName();
-			if (_mAnimationMapID.find(animationName) != _mAnimationMapID.end())
-			{
-				_mAnimationMapID.erase(animationName);
-			}
-			delete _mAnimations[animationId];
-			_mAnimations.erase(animationId);
-			return animationId;
+			UE_LOG(LogTemp, Error, TEXT("CloseAnimation: Animation is null! id=%d"), animationId);
+			return -1;
 		}
-	}
-	catch (exception)
-	{
-		UE_LOG(LogTemp, Error, TEXT("CloseAnimation: Exception animationId=%d"), (int)animationId);
+		animation->Stop();
+		string animationName = animation->GetName();
+		if (_mAnimationMapID.find(animationName) != _mAnimationMapID.end())
+		{
+			_mAnimationMapID.erase(animationName);
+		}
+		delete _mAnimations[animationId];
+		_mAnimations.erase(animationId);
+		return animationId;
 	}
 	return -1;
 }
@@ -1325,5 +1316,7 @@ bool IChromaSDKPlugin::ValidateGetProcAddress(bool condition, FString methodName
 	}
 	return condition;
 }
+
+#include "HideWindowsPlatformTypes.h"
 
 #endif

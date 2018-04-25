@@ -4,8 +4,10 @@
 #include "SampleBPLibrary.h"
 #include "ChromaSDKPluginBPLibrary.h"
 
-USampleBPLibrary::USampleBPLibrary(const FPostConstructInitializeProperties& PCIP)
-	: Super(PCIP)
+USampleBPLibrary::USampleBPLibrary(const FPostConstructInitializeProperties& PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS
+	: Super(PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS
+//USampleBPLibrary::USampleBPLibrary(const FObjectInitializer& ObjectInitializer) //___HACK_UE4_VERSION_4_9_OR_GREATER
+//	: Super(ObjectInitializer) //___HACK_UE4_VERSION_4_9_OR_GREATER
 {
 }
 
