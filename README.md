@@ -31,9 +31,17 @@
 
 ## Supported versions
 
-The plugin supports the following UE4 versions:
+The following UE4 versions are supported:
 
-**UE 4.5.1**
+```
+4.5
+4.6
+4.7
+4.8
+4.9
+```
+
+Use the `Engine_Switch_4_X.cmd` scripts to switch between versions.
 
 ## Dependencies
 
