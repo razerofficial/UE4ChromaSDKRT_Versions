@@ -11,13 +11,19 @@
 
 ## See Also
 
-* [ChromaDiscordApp](https://github.com/tgraupmann/ChromaDiscordApp) - Enable Chroma lighting in the Discord App for Windows
+- [ChromaDiscordApp](https://github.com/tgraupmann/ChromaDiscordApp) - Enable Chroma lighting in the Discord App for Windows
 
-* [CChromaEditor](https://github.com/RazerOfficial/CChromaEditor) - Editor for editing Chroma animations
+- [CChromaEditor](https://github.com/RazerOfficial/CChromaEditor) - C++ Native MFC Library for playing and editing Chroma animations
 
-* [ChromaTwitchExtension](https://github.com/tgraupmann/ChromaTwitchExtension) - Adds Chroma lighting to the Twitch streaming experience
+- [ChromaTwitchExtension](https://github.com/tgraupmann/ChromaTwitchExtension) - Adds Chroma lighting to the Twitch streaming experience
 
-* [UE4ChromaSDK](https://github.com/RazerOfficial/UE4ChromaSDK) - UE4 Runtime and Editor modules for the ChromaSDK (requires UE 4.12 or better)
+- [GameMakerChromaExtension](https://github.com/RazerOfficial/GameMakerChromaExtension) - GameMaker Extension to control lighting for Razer Chroma
+
+- [HTML5ChromaSDK](https://github.com/RazerOfficial/HTML5ChromaSDK) - JS Library for playing Chroma animations
+
+- [UE4ChromaSDK](https://github.com/RazerOfficial/UE4ChromaSDK) - UE4 Runtime and Editor modules for the ChromaSDK (requires UE 4.12 or better)
+
+- [UnityNativeChromaSDK](https://github.com/RazerOfficial/UnityNativeChromaSDK) - Unity native library for the ChromaSDK
 
 ## Overview
 
