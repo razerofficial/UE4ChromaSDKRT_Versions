@@ -138,4 +138,13 @@ class USampleBPLibrary : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleLayeredOff", Keywords = "Turn Off Layered Animation"), Category = "Sample")
 	static void SampleLayeredOff();
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleChangeBaseIntensity", Keywords = "Adjust intensity"), Category = "Sample")
+	static void SampleChangeBaseIntensity(float intensity);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleChangeEffectIntensity", Keywords = "Adjust intensity"), Category = "Sample")
+	static void SampleChangeEffectIntensity(float intensity);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleChangeHotkeyIntensity", Keywords = "Adjust intensity"), Category = "Sample")
+	static void SampleChangeHotkeyIntensity(float intensity);
 };

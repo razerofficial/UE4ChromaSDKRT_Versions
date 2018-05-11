@@ -373,3 +373,18 @@ void USampleBPLibrary::SampleLayeredOff()
 
 	UChromaSDKPluginBPLibrary::PlayAnimation(baseLayer, true);
 }
+
+void USampleBPLibrary::SampleChangeBaseIntensity(float intensity)
+{
+
+}
+
+void USampleBPLibrary::SampleChangeEffectIntensity(float intensity)
+{
+
+}
+
+void USampleBPLibrary::SampleChangeHotkeyIntensity(float intensity)
+{
+
+}
