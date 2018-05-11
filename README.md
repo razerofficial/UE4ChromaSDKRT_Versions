@@ -165,12 +165,11 @@ Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/RzErrors.h
 * [OffsetColorsName](#OffsetColorsName)
 * [OffsetNonZeroColorsName](#OffsetNonZeroColorsName)
 * [SetKeyColorName](#SetKeyColorName)
-* [SetKeyNonZeroColorName](#SetKeyNonZeroColorName)
 * [SetKeysColorName](#SetKeysColorName)
-* [SetKeysNonZeroColorName](#SetKeysNonZeroColorName)
 * [SetKeyColorAllFramesName](#SetKeyColorAllFramesName)
 * [SetKeysColorAllFramesName](#SetKeysColorAllFramesName)
-* [SetKeysNonZeroColorAllFrames](#SetKeysNonZeroColorAllFrames)
+* [SetKeyNonZeroColorName](#SetKeyNonZeroColorName)
+* [SetKeysNonZeroColorName](#SetKeysNonZeroColorName)
 * [SetKeysNonZeroColorAllFramesName](#SetKeysNonZeroColorAllFramesName)
 
 ---
@@ -344,5 +343,32 @@ Set the keys to the supplied color for all animation frames
 ```c++
 void UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(const FString& animationName,
     const TArray<EChromaSDKKeyboardKey>& keys, const FLinearColor& color);
+```
+---
+<a name="SetKeyNonZeroColorName"></a>
+**SetKeyNonZeroColorName**
+
+Set the animation frame's key to the supplied color if the key is not already black
+```c++
+void UChromaSDKPluginBPLibrary::SetKeyNonZeroColorName(const FString& animationName,
+  const int frameIndex, EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam)
+```
+---
+<a name="SetKeysNonZeroColorName"></a>
+**SetKeysNonZeroColorName**
+
+Set the animation frame to the supplied color for a set of keys if the key is not already black
+```c++
+void UChromaSDKPluginBPLibrary::SetKeysNonZeroColorName(const FString& animationName,
+  const int frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam)
+```
+---
+<a name="SetKeysNonZeroColorAllFramesName"></a>
+**SetKeysNonZeroColorAllFramesName**
+
+Set the keys to the supplied color for all animation frames if the key is not already black
+```c++
+void UChromaSDKPluginBPLibrary::SetKeysNonZeroColorAllFramesName(const FString& animationName,
+  const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam)
 ```
 ---
