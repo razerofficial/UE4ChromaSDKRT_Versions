@@ -360,7 +360,9 @@ void UChromaSDKPluginBPLibrary::SetKeyNonZeroColorName(const FString& animationN
 Set the animation frame to the supplied color for a set of keys if the key is not already black
 ```c++
 void UChromaSDKPluginBPLibrary::SetKeysNonZeroColorName(const FString& animationName,
-  const int frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam)
+  const int frameIndex,
+  const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys,
+  const FLinearColor& colorParam)
 ```
 ---
 <a name="SetKeysNonZeroColorAllFramesName"></a>
