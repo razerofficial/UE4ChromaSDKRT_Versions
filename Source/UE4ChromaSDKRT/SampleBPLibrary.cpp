@@ -5,6 +5,11 @@
 #include "SampleBPLibrary.h" //___HACK_UE4_VERSION_4_15_OR_LESS
 #include "ChromaSDKPluginBPLibrary.h"
 
+float USampleBPLibrary::_sBaseIntensity = 1.0f;
+float USampleBPLibrary::_sEffectIntensity = 1.0f;
+float USampleBPLibrary::_sHotkeyIntensity = 1.0f;
+int USampleBPLibrary::_sSelectedLayerExample = 0;
+
 USampleBPLibrary::USampleBPLibrary(const FPostConstructInitializeProperties& PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS
 	: Super(PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS
 //USampleBPLibrary::USampleBPLibrary(const FObjectInitializer& ObjectInitializer) //___HACK_UE4_VERSION_4_9_OR_GREATER
@@ -281,6 +286,8 @@ void USampleBPLibrary::SampleClearMousepad()
 
 void USampleBPLibrary::SampleLayeredHeal()
 {
+	_sSelectedLayerExample = 0;
+
 	TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>> keys = TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>();
 	keys.Add(EChromaSDKKeyboardKey::KK_LOGO);
 	keys.Add(EChromaSDKKeyboardKey::KK_ESC);
@@ -289,11 +296,28 @@ void USampleBPLibrary::SampleLayeredHeal()
 
 	FString baseLayer = "EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
+	int frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(baseLayer);
+	for (int i = 0; i < frameCount; ++i)
+	{
+		UChromaSDKPluginBPLibrary::MultiplyIntensityName(baseLayer, i, 1.0f + 64.0f * _sBaseIntensity);
+	}
 
 	FString layer2 = "Heal_Keyboard";
+	UChromaSDKPluginBPLibrary::CloseAnimationName(layer2);
+	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer2);
+	for (int i = 0; i < frameCount; ++i)
+	{
+		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer2, i, _sEffectIntensity);
+	}
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
 	FString layer3 = "FadeInOutRed_Keyboard";
+	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
+	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer3);
+	for (int i = 0; i < frameCount; ++i)
+	{
+		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer3, i, _sHotkeyIntensity);
+	}
 	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
 
 	keys.Reset();
@@ -302,7 +326,7 @@ void USampleBPLibrary::SampleLayeredHeal()
 	keys.Add(EChromaSDKKeyboardKey::KK_S);
 	keys.Add(EChromaSDKKeyboardKey::KK_D);
 
-	FLinearColor color = FLinearColor(1, 0.5f, 0, 0);
+	FLinearColor color = FLinearColor(_sHotkeyIntensity * 1, _sHotkeyIntensity * 0.5f, 0, 0);
 	UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(baseLayer, keys, color);
 
 	UChromaSDKPluginBPLibrary::PlayAnimation(baseLayer, true);
@@ -310,6 +334,8 @@ void USampleBPLibrary::SampleLayeredHeal()
 
 void USampleBPLibrary::SampleLayeredDamage()
 {
+	_sSelectedLayerExample = 1;
+
 	TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>> keys = TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>();
 	keys.Add(EChromaSDKKeyboardKey::KK_LOGO);
 	keys.Add(EChromaSDKKeyboardKey::KK_ESC);
@@ -318,11 +344,28 @@ void USampleBPLibrary::SampleLayeredDamage()
 
 	FString baseLayer = "EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
+	int frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(baseLayer);
+	for (int i = 0; i < frameCount; ++i)
+	{
+		UChromaSDKPluginBPLibrary::MultiplyIntensityName(baseLayer, i, 1.0f + 64.0f * _sBaseIntensity);
+	}
 
 	FString layer2 = "Damage_Keyboard";
+	UChromaSDKPluginBPLibrary::CloseAnimationName(layer2);
+	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer2);
+	for (int i = 0; i < frameCount; ++i)
+	{
+		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer2, i, _sEffectIntensity);
+	}
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
 	FString layer3 = "FadeInOutGreen_Keyboard";
+	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
+	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer3);
+	for (int i = 0; i < frameCount; ++i)
+	{
+		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer3, i, _sHotkeyIntensity);
+	}
 	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
 
 	keys.Reset();
@@ -331,7 +374,7 @@ void USampleBPLibrary::SampleLayeredDamage()
 	keys.Add(EChromaSDKKeyboardKey::KK_S);
 	keys.Add(EChromaSDKKeyboardKey::KK_D);
 
-	FLinearColor color = FLinearColor(1, 0.5f, 0, 0);
+	FLinearColor color = FLinearColor(_sHotkeyIntensity * 1, _sHotkeyIntensity * 0.5f, 0, 0);
 	UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(baseLayer, keys, color);
 
 	UChromaSDKPluginBPLibrary::PlayAnimation(baseLayer, true);
@@ -339,6 +382,8 @@ void USampleBPLibrary::SampleLayeredDamage()
 
 void USampleBPLibrary::SampleLayeredItemPickup()
 {
+	_sSelectedLayerExample = 2;
+
 	TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>> keys = TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>();
 	keys.Add(EChromaSDKKeyboardKey::KK_LOGO);
 	keys.Add(EChromaSDKKeyboardKey::KK_ESC);
@@ -347,11 +392,28 @@ void USampleBPLibrary::SampleLayeredItemPickup()
 
 	FString baseLayer = "EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
+	int frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(baseLayer);
+	for (int i = 0; i < frameCount; ++i)
+	{
+		UChromaSDKPluginBPLibrary::MultiplyIntensityName(baseLayer, i, 1.0f + 64.0f * _sBaseIntensity);
+	}
 
 	FString layer2 = "ItemPickup_Keyboard";
+	UChromaSDKPluginBPLibrary::CloseAnimationName(layer2);
+	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer2);
+	for (int i = 0; i < frameCount; ++i)
+	{
+		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer2, i, _sEffectIntensity);
+	}
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
 	FString layer3 = "FadeInOutBlue_Keyboard";
+	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
+	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer3);
+	for (int i = 0; i < frameCount; ++i)
+	{
+		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer3, i, _sHotkeyIntensity);
+	}
 	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
 
 	keys.Reset();
@@ -360,7 +422,7 @@ void USampleBPLibrary::SampleLayeredItemPickup()
 	keys.Add(EChromaSDKKeyboardKey::KK_S);
 	keys.Add(EChromaSDKKeyboardKey::KK_D);
 
-	FLinearColor color = FLinearColor(1, 0.5f, 0, 0);
+	FLinearColor color = FLinearColor(_sHotkeyIntensity * 1, _sHotkeyIntensity * 0.5f, 0, 0);
 	UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(baseLayer, keys, color);
 
 	UChromaSDKPluginBPLibrary::PlayAnimation(baseLayer, true);
@@ -371,20 +433,39 @@ void USampleBPLibrary::SampleLayeredOff()
 	FString baseLayer = "EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
 
-	UChromaSDKPluginBPLibrary::PlayAnimation(baseLayer, true);
+	UChromaSDKPluginBPLibrary::ClearAll();
+}
+
+void USampleBPLibrary::SetupLastLayeredExample()
+{
+	switch (_sSelectedLayerExample)
+	{
+	case 0:
+		SampleLayeredHeal();
+		return;
+	case 1:
+		SampleLayeredDamage();
+		return;
+	case 2:
+		SampleLayeredItemPickup();
+		return;
+	}
 }
 
 void USampleBPLibrary::SampleChangeBaseIntensity(float intensity)
 {
-
+	_sBaseIntensity = intensity;
+	SetupLastLayeredExample();
 }
 
 void USampleBPLibrary::SampleChangeEffectIntensity(float intensity)
 {
-
+	_sEffectIntensity = intensity;
+	SetupLastLayeredExample();
 }
 
 void USampleBPLibrary::SampleChangeHotkeyIntensity(float intensity)
 {
-
+	_sHotkeyIntensity = intensity;
+	SetupLastLayeredExample();
 }

@@ -147,4 +147,13 @@ class USampleBPLibrary : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleChangeHotkeyIntensity", Keywords = "Adjust intensity"), Category = "Sample")
 	static void SampleChangeHotkeyIntensity(float intensity);
+
+	static void SetupLastLayeredExample();
+private:
+
+	static float _sBaseIntensity;
+	static float _sEffectIntensity;
+	static float _sHotkeyIntensity;
+
+	static int _sSelectedLayerExample;
 };
