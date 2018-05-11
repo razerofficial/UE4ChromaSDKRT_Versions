@@ -1521,6 +1521,36 @@ void UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(const FString& source
 #endif
 }
 
+void UChromaSDKPluginBPLibrary::CopyAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId)
+{
+#if PLATFORM_WINDOWS
+	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCount(sourceAnimationId);
+	for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
+	{
+		IChromaSDKPlugin::Get().CopyAllKeysColor(sourceAnimationId, targetAnimationId, frameIndex);
+	}
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::CopyAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName)
+{
+#if PLATFORM_WINDOWS
+	FString sourcePath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString sourcePath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	sourcePath += sourceAnimationName + ".chroma";
+	const char* sourcePathArg = TCHAR_TO_ANSI(*sourcePath);
+	FString targetPath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	targetPath += targetAnimationName + ".chroma";
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCountName(targetPathArg);
+	for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
+	{
+		IChromaSDKPlugin::Get().CopyAllKeysColorName(sourcePathArg, targetPathArg, frameIndex);
+	}
+#endif
+}
+
 void UChromaSDKPluginBPLibrary::CopyNonZeroKeyColor(int sourceAnimationId, int targetAnimationId, int frameIndex, EChromaSDKKeyboardKey::Type key)
 {
 #if PLATFORM_WINDOWS

@@ -1226,6 +1226,79 @@ void IChromaSDKPlugin::CopyNonZeroKeyColorName(const char* sourceAnimation, cons
 	CopyNonZeroKeyColor(sourceAnimationId, targetAnimationId, frameId, rzkey);
 }
 
+
+void IChromaSDKPlugin::CopyAllKeysColor(int sourceAnimationId, int targetAnimationId, int frameId)
+{
+	StopAnimation(targetAnimationId);
+	AnimationBase* sourceAnimation = GetAnimationInstance(sourceAnimationId);
+	if (nullptr == sourceAnimation)
+	{
+		return;
+	}
+	AnimationBase* targetAnimation = GetAnimationInstance(targetAnimationId);
+	if (nullptr == targetAnimation)
+	{
+		return;
+	}
+	if (sourceAnimation->GetDeviceType() != EChromaSDKDeviceTypeEnum::DE_2D ||
+		sourceAnimation->GetDeviceId() != (int)EChromaSDKDevice2DEnum::DE_Keyboard)
+	{
+		return;
+	}
+	if (targetAnimation->GetDeviceType() != EChromaSDKDeviceTypeEnum::DE_2D ||
+		targetAnimation->GetDeviceId() != (int)EChromaSDKDevice2DEnum::DE_Keyboard)
+	{
+		return;
+	}
+	if (frameId < 0)
+	{
+		return;
+	}
+	Animation2D* sourceAnimation2D = (Animation2D*)(sourceAnimation);
+	Animation2D* targetAnimation2D = (Animation2D*)(targetAnimation);
+	vector<FChromaSDKColorFrame2D>& sourceFrames = sourceAnimation2D->GetFrames();
+	vector<FChromaSDKColorFrame2D>& targetFrames = targetAnimation2D->GetFrames();
+	if (sourceFrames.size() == 0)
+	{
+		return;
+	}
+	if (targetFrames.size() == 0)
+	{
+		return;
+	}
+	if (frameId < targetFrames.size())
+	{
+		FChromaSDKColorFrame2D& sourceFrame = sourceFrames[frameId % sourceFrames.size()];
+		FChromaSDKColorFrame2D& targetFrame = targetFrames[frameId];
+		for (int i = 0; i < sourceFrame.Colors.Num(); ++i)
+		{
+			for (int j = 0; j < sourceFrame.Colors[i].Colors.Num(); ++j)
+			{
+				FLinearColor& color = sourceFrame.Colors[i].Colors[j];
+				targetFrame.Colors[i].Colors[j] = color;
+			}
+		}
+	}
+}
+
+void IChromaSDKPlugin::CopyAllKeysColorName(const char* sourceAnimation, const char* targetAnimation, int frameId)
+{
+	int sourceAnimationId = GetAnimation(sourceAnimation);
+	if (sourceAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CopyAllKeysColorName: Source Animation not found! %s"), *FString(UTF8_TO_TCHAR(sourceAnimation)));
+		return;
+	}
+	int targetAnimationId = GetAnimation(targetAnimation);
+	if (targetAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CopyAllKeysColorName: Target Animation not found! %s"), *FString(UTF8_TO_TCHAR(targetAnimation)));
+		return;
+	}
+	CopyAllKeysColor(sourceAnimationId, targetAnimationId, frameId);
+}
+
+
 void IChromaSDKPlugin::CopyNonZeroAllKeysColor(int sourceAnimationId, int targetAnimationId, int frameId)
 {
 	StopAnimation(targetAnimationId);

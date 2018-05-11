@@ -117,6 +117,8 @@ public:
 	void CopyKeyColorName(const char* sourceAnimation, const char* targetAnimation, int frameId, int rzkey);
 	void CopyNonZeroKeyColor(int sourceAnimationId, int targetAnimationId, int frameId, int rzkey);
 	void CopyNonZeroKeyColorName(const char* sourceAnimation, const char* targetAnimation, int frameId, int rzkey);
+	void CopyAllKeysColor(int sourceAnimationId, int targetAnimationId, int frameId);
+	void CopyAllKeysColorName(const char* sourceAnimation, const char* targetAnimation, int frameId);
 	void CopyNonZeroAllKeysColor(int sourceAnimationId, int targetAnimationId, int frameId);
 	void CopyNonZeroAllKeysColorName(const char* sourceAnimation, const char* targetAnimation, int frameId);
 	void FillColor(int animationId, int frameId, int red, int green, int blue);

@@ -156,6 +156,8 @@ Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/RzErrors.h
 * [CopyKeysColorName](#CopyKeysColorName)
 * [CopyKeysColorAllFrames](#CopyKeysColorAllFrames)
 * [CopyKeysColorAllFramesName](#CopyKeysColorAllFramesName)
+* [CopyAllKeysAllFrames](#CopyAllKeysAllFrames)
+* [CopyAllKeysAllFramesName](#CopyAllKeysAllFramesName)
 * [CopyNonZeroKeyColor](#CopyNonZeroKeyColor)
 * [CopyNonZeroKeyColorName](#CopyNonZeroKeyColorName)
 * [CopyNonZeroKeysColor](#CopyNonZeroKeysColor)
@@ -191,3 +193,167 @@ Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/RzErrors.h
 * [SetKeysColorAllFramesName](#SetKeysColorAllFramesName)
 * [SetKeysNonZeroColorAllFrames](#SetKeysNonZeroColorAllFrames)
 * [SetKeysNonZeroColorAllFramesName](#SetKeysNonZeroColorAllFramesName)
+
+<a name="CopyKeyColorName"></a>
+**CopyKeyColorName**
+
+Copy color from a source animation to a target animation for a key
+```c++
+void UChromaSDKPluginBPLibrary::CopyKeyColorName(const FString& sourceAnimationName,
+  const FString& targetAnimationName,
+  const int frameIndex, EChromaSDKKeyboardKey::Type key)
+```
+<br>
+
+
+<a name="CopyKeysColorName"></a>
+**CopyKeysColorName**
+
+Copy color from a source animation to a target animation for a set of keys
+```c++
+void UChromaSDKPluginBPLibrary::CopyKeysColorName(const FString& sourceAnimationName,
+  const FString& targetAnimationName,
+  const int frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys)
+```
+<br>
+
+
+<a name="CopyKeysColorAllFramesName"></a>
+**CopyKeysColorAllFramesName**
+
+Copy color from a source animation to a target animation for a set of keys for all frames
+```c++
+void UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(const FString& sourceAnimationName,
+  const FString& targetAnimationName,
+  const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys)
+```
+<br>
+
+* [CopyAllKeysAllFrames](#CopyAllKeysAllFrames)
+* [CopyAllKeysAllFramesName](#CopyAllKeysAllFramesName)
+
+<a name="CopyNonZeroAllKeysAllFramesName"></a>
+**CopyNonZeroAllKeysAllFramesName**
+
+Copy nonzero colors from a source animation to a target animation for all keys
+```c++
+void UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(const FString& sourceAnimationName,
+  const FString& targetAnimationName)
+```
+
+
+<a name="CopyNonZeroKeyColorName"></a>
+**CopyNonZeroKeyColorName**
+
+Copy nonzero color from a source animation to a target animation for a key
+```c++
+void UChromaSDKPluginBPLibrary::CopyNonZeroKeyColorName(const FString& sourceAnimationName,
+  const FString& targetAnimationName,
+  const int frameIndex, EChromaSDKKeyboardKey::Type key)
+```
+<br>
+
+
+<a name="CopyNonZeroKeysColorName"></a>
+**CopyNonZeroKeysColorName**
+
+Copy nonzero color from a source animation to a target animation for a set of keys
+```c++
+void UChromaSDKPluginBPLibrary::CopyNonZeroKeysColorName(const FString& sourceAnimationName,
+  const FString& targetAnimationName,
+  const int frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys)
+```
+<br>
+
+
+<a name="CopyNonZeroKeysColorAllFramesName"></a>
+**CopyNonZeroKeysColorAllFramesName**
+
+Copy nonzero color from a source animation to a target animation for a set of keys for all frames
+```c++
+void UChromaSDKPluginBPLibrary::CopyNonZeroKeysColorAllFramesName(const FString& sourceAnimationName,
+  const FString& targetAnimationName,
+  const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys)
+```
+<br>
+
+
+<a name="GetKeyColor"></a>
+**GetKeyColor**
+
+Get the color from the animation frame's key
+
+```c++
+FLinearColor UChromaSDKPluginBPLibrary::GetKeyColor(int animationId,
+  int frameIndex, EChromaSDKKeyboardKey::Type key)
+```
+<br>
+
+
+<a name="GetKeyColorName"></a>
+**GetKeyColorName**
+
+Get the color from the animation frame's key
+
+```c++
+FLinearColor UChromaSDKPluginBPLibrary::GetKeyColorName(const FString& animationName,
+  const int frameIndex, EChromaSDKKeyboardKey::Type key)
+```
+<br>
+
+
+* [FillColor](#FillColor)
+* [FillColorName](#FillColorName)
+* [FillNonZeroColor](#FillNonZeroColor)
+* [FillNonZeroColorName](#FillNonZeroColorName)
+* [MultiplyIntensity](#MultiplyIntensity)
+* [MultiplyIntensityName](#MultiplyIntensityName)
+* [OffsetColors](#OffsetColors)
+* [OffsetColorsName](#OffsetColorsName)
+* [OffsetNonZeroColors](#OffsetNonZeroColors)
+* [OffsetNonZeroColorsName](#OffsetNonZeroColorsName)
+
+
+<a name="SetKeyColorName"></a>
+**SetKeyColorName**
+
+Set the animation frame's key to the supplied color
+
+```c++
+void UChromaSDKPluginBPLibrary::SetKeyColorName(const FString& animationName,
+    const int frameIndex, const EChromaSDKKeyboardKey& key, const FLinearColor& color);
+```
+<br>
+
+
+<a name="SetKeysColorName"></a>
+**SetKeysColorName**
+
+Set the animation frame to the supplied color for a set of keys
+```c++
+void UChromaSDKPluginBPLibrary::SetKeysColorName(const FString& animationName,
+    const int frameIndex, const TArray<EChromaSDKKeyboardKey>& keys, const FLinearColor& color);
+```
+<br>
+
+
+<a name="SetKeyColorAllFramesName"></a>
+**SetKeyColorAllFramesName**
+
+Set the key to the supplied color for all animation frames
+```c++
+void UChromaSDKPluginBPLibrary::SetKeyColorAllFramesName(const FString& animationName,
+    const EChromaSDKKeyboardKey& key, const FLinearColor& color);
+```
+<br>
+
+
+<a name="SetKeysColorAllFramesName"></a>
+**SetKeysColorAllFramesName**
+
+Set the keys to the supplied color for all animation frames
+```c++
+void UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(const FString& animationName,
+    const TArray<EChromaSDKKeyboardKey>& keys, const FLinearColor& color);
+```
+<br>
