@@ -986,6 +986,7 @@ int IChromaSDKPlugin::GetAnimationFrameCountName(const char* path)
 	return GetAnimationFrameCount(animationId);
 }
 
+
 void IChromaSDKPlugin::SetKeyColor(int animationId, int frameId, int rzkey, COLORREF color)
 {
 	StopAnimation(animationId);
@@ -1018,6 +1019,44 @@ void IChromaSDKPlugin::SetKeyColorName(const char* path, int frameId, int rzkey,
 	}
 	SetKeyColor(animationId, frameId, rzkey, color);
 }
+
+
+void IChromaSDKPlugin::SetKeyNonZeroColor(int animationId, int frameId, int rzkey, COLORREF color)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	if (animation->GetDeviceType() == EChromaSDKDeviceTypeEnum::DE_2D &&
+		animation->GetDeviceId() == (int)EChromaSDKDevice2DEnum::DE_Keyboard)
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame2D& frame = frames[frameId];
+			if (frame.Colors[HIBYTE(rzkey)].Colors[LOBYTE(rzkey)] != ToLinearColor(RGB(0,0,0)))
+			{
+				frame.Colors[HIBYTE(rzkey)].Colors[LOBYTE(rzkey)] = ToLinearColor(color);
+			}
+		}
+	}
+}
+
+void IChromaSDKPlugin::SetKeyNonZeroColorName(const char* path, int frameId, int rzkey, COLORREF color)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("SetKeyNonZeroColorName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	SetKeyNonZeroColor(animationId, frameId, rzkey, color);
+}
+
 
 COLORREF IChromaSDKPlugin::GetKeyColor(int animationId, int frameId, int rzkey)
 {
@@ -1259,6 +1298,407 @@ void IChromaSDKPlugin::CopyNonZeroAllKeysColorName(const char* sourceAnimation, 
 		return;
 	}
 	CopyNonZeroAllKeysColor(sourceAnimationId, targetAnimationId, frameId);
+}
+
+int IChromaSDKPlugin::min(int a, int b)
+{
+	if (a < b)
+	{
+		return a;
+	}
+	else
+	{
+		return b;
+	}
+}
+int IChromaSDKPlugin::max(int a, int b)
+{
+	if (a > b)
+	{
+		return a;
+	}
+	else
+	{
+		return b;
+	}
+}
+
+void IChromaSDKPlugin::FillColor(int animationId, int frameId, int red, int green, int blue)
+{
+	//clamp values
+	red = max(0, min(255, red));
+	green = max(0, min(255, green));
+	blue = max(0, min(255, blue));
+	int color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
+
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	switch (animation->GetDeviceType())
+	{
+	case EChromaSDKDeviceTypeEnum::DE_1D:
+	{
+		Animation1D* animation1D = (Animation1D*)(animation);
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame1D& frame = frames[frameId];
+			int maxLeds = IChromaSDKPlugin::Get().GetMaxLeds(animation1D->GetDevice());
+			TArray<FLinearColor>& colors = frame.Colors;
+			for (int i = 0; i < maxLeds; ++i)
+			{
+				colors[i] = ToLinearColor(color);
+			}
+		}
+	}
+	break;
+	case EChromaSDKDeviceTypeEnum::DE_2D:
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame2D& frame = frames[frameId];
+			int maxRow = IChromaSDKPlugin::Get().GetMaxRow(animation2D->GetDevice());
+			int maxColumn = IChromaSDKPlugin::Get().GetMaxColumn(animation2D->GetDevice());
+			for (int i = 0; i < maxRow; ++i)
+			{
+				FChromaSDKColors& row = frame.Colors[i];
+				for (int j = 0; j < maxColumn; ++j)
+				{
+					row.Colors[j] = ToLinearColor(color);
+				}
+			}
+		}
+	}
+	break;
+	}
+}
+void IChromaSDKPlugin::FillColorName(const char* path, int frameId, int red, int green, int blue)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("FillColorName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return FillColor(animationId, frameId, red, green, blue);
+}
+
+void IChromaSDKPlugin::FillNonZeroColor(int animationId, int frameId, int red, int green, int blue)
+{
+	//clamp values
+	red = max(0, min(255, red));
+	green = max(0, min(255, green));
+	blue = max(0, min(255, blue));
+	int color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
+
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	switch (animation->GetDeviceType())
+	{
+	case EChromaSDKDeviceTypeEnum::DE_1D:
+	{
+		Animation1D* animation1D = (Animation1D*)(animation);
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame1D& frame = frames[frameId];
+			int maxLeds = IChromaSDKPlugin::Get().GetMaxLeds(animation1D->GetDevice());
+			TArray<FLinearColor>& colors = frame.Colors;
+			for (int i = 0; i < maxLeds; ++i)
+			{
+				if (ToBGR(colors[i]) != 0)
+				{
+					colors[i] = ToLinearColor(color);
+				}
+			}
+		}
+	}
+	break;
+	case EChromaSDKDeviceTypeEnum::DE_2D:
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame2D& frame = frames[frameId];
+			int maxRow = IChromaSDKPlugin::Get().GetMaxRow(animation2D->GetDevice());
+			int maxColumn = IChromaSDKPlugin::Get().GetMaxColumn(animation2D->GetDevice());
+			for (int i = 0; i < maxRow; ++i)
+			{
+				FChromaSDKColors& row = frame.Colors[i];
+				for (int j = 0; j < maxColumn; ++j)
+				{
+					if (ToBGR(row.Colors[j]) != 0)
+					{
+						row.Colors[j] = ToLinearColor(color);
+					}
+				}
+			}
+		}
+	}
+	break;
+	}
+}
+void IChromaSDKPlugin::FillNonZeroColorName(const char* path, int frameId, int red, int green, int blue)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("FillNonZeroColorName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return FillNonZeroColor(animationId, frameId, red, green, blue);
+}
+
+void IChromaSDKPlugin::OffsetColors(int animationId, int frameId, int offsetRed, int offsetGreen, int offsetBlue)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	switch (animation->GetDeviceType())
+	{
+	case EChromaSDKDeviceTypeEnum::DE_1D:
+	{
+		Animation1D* animation1D = (Animation1D*)(animation);
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame1D& frame = frames[frameId];
+			int maxLeds = IChromaSDKPlugin::Get().GetMaxLeds(animation1D->GetDevice());
+			TArray<FLinearColor>& colors = frame.Colors;
+			for (int i = 0; i < maxLeds; ++i)
+			{
+				int color = ToBGR(colors[i]);
+				int red = (color & 0xFF);
+				int green = (color & 0xFF00) >> 8;
+				int blue = (color & 0xFF0000) >> 16;
+				red = max(0, min(255, red + offsetRed));
+				green = max(0, min(255, green + offsetGreen));
+				blue = max(0, min(255, blue + offsetBlue));
+				color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
+				colors[i] = ToLinearColor(color);
+			}
+		}
+	}
+	break;
+	case EChromaSDKDeviceTypeEnum::DE_2D:
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame2D& frame = frames[frameId];
+			int maxRow = IChromaSDKPlugin::Get().GetMaxRow(animation2D->GetDevice());
+			int maxColumn = IChromaSDKPlugin::Get().GetMaxColumn(animation2D->GetDevice());
+			for (int i = 0; i < maxRow; ++i)
+			{
+				FChromaSDKColors& row = frame.Colors[i];
+				for (int j = 0; j < maxColumn; ++j)
+				{
+					int color = ToBGR(row.Colors[j]);
+					int red = (color & 0xFF);
+					int green = (color & 0xFF00) >> 8;
+					int blue = (color & 0xFF0000) >> 16;
+					red = max(0, min(255, red + offsetRed));
+					green = max(0, min(255, green + offsetGreen));
+					blue = max(0, min(255, blue + offsetBlue));
+					color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
+					row.Colors[j] = ToLinearColor(color);
+				}
+			}
+		}
+	}
+	break;
+	}
+}
+void IChromaSDKPlugin::OffsetColorsName(const char* path, int frameId, int red, int green, int blue)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("OffsetColorsName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return OffsetColors(animationId, frameId, red, green, blue);
+}
+
+void IChromaSDKPlugin::OffsetNonZeroColors(int animationId, int frameId, int offsetRed, int offsetGreen, int offsetBlue)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	switch (animation->GetDeviceType())
+	{
+	case EChromaSDKDeviceTypeEnum::DE_1D:
+	{
+		Animation1D* animation1D = (Animation1D*)(animation);
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame1D& frame = frames[frameId];
+			int maxLeds = IChromaSDKPlugin::Get().GetMaxLeds(animation1D->GetDevice());
+			TArray<FLinearColor>& colors = frame.Colors;
+			for (int i = 0; i < maxLeds; ++i)
+			{
+				int color = ToBGR(colors[i]);
+				if (color != 0)
+				{
+					int red = (color & 0xFF);
+					int green = (color & 0xFF00) >> 8;
+					int blue = (color & 0xFF0000) >> 16;
+					red = max(0, min(255, red + offsetRed));
+					green = max(0, min(255, green + offsetGreen));
+					blue = max(0, min(255, blue + offsetBlue));
+					color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
+					colors[i] = ToLinearColor(color);
+				}
+			}
+		}
+	}
+	break;
+	case EChromaSDKDeviceTypeEnum::DE_2D:
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame2D& frame = frames[frameId];
+			int maxRow = IChromaSDKPlugin::Get().GetMaxRow(animation2D->GetDevice());
+			int maxColumn = IChromaSDKPlugin::Get().GetMaxColumn(animation2D->GetDevice());
+			for (int i = 0; i < maxRow; ++i)
+			{
+				FChromaSDKColors& row = frame.Colors[i];
+				for (int j = 0; j < maxColumn; ++j)
+				{
+					int color = ToBGR(row.Colors[j]);
+					if (color != 0)
+					{
+						int red = (color & 0xFF);
+						int green = (color & 0xFF00) >> 8;
+						int blue = (color & 0xFF0000) >> 16;
+						red = max(0, min(255, red + offsetRed));
+						green = max(0, min(255, green + offsetGreen));
+						blue = max(0, min(255, blue + offsetBlue));
+						color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
+						row.Colors[j] = ToLinearColor(color);
+					}
+				}
+			}
+		}
+	}
+	break;
+	}
+}
+void IChromaSDKPlugin::OffsetNonZeroColorsName(const char* path, int frameId, int red, int green, int blue)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("OffsetNonZeroColorsName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return OffsetNonZeroColors(animationId, frameId, red, green, blue);
+}
+
+void IChromaSDKPlugin::MultiplyIntensity(int animationId, int frameId, float intensity)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	switch (animation->GetDeviceType())
+	{
+	case EChromaSDKDeviceTypeEnum::DE_1D:
+	{
+		Animation1D* animation1D = (Animation1D*)(animation);
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame1D& frame = frames[frameId];
+			int maxLeds = IChromaSDKPlugin::Get().GetMaxLeds(animation1D->GetDevice());
+			TArray<FLinearColor>& colors = frame.Colors;
+			for (int i = 0; i < maxLeds; ++i)
+			{
+				int color = ToBGR(colors[i]);
+				int red = (color & 0xFF);
+				int green = (color & 0xFF00) >> 8;
+				int blue = (color & 0xFF0000) >> 16;
+				red = max(0, min(255, red * intensity));
+				green = max(0, min(255, green * intensity));
+				blue = max(0, min(255, blue * intensity));
+				color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
+				colors[i] = ToLinearColor(color);
+			}
+		}
+	}
+	break;
+	case EChromaSDKDeviceTypeEnum::DE_2D:
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame2D& frame = frames[frameId];
+			int maxRow = IChromaSDKPlugin::Get().GetMaxRow(animation2D->GetDevice());
+			int maxColumn = IChromaSDKPlugin::Get().GetMaxColumn(animation2D->GetDevice());
+			for (int i = 0; i < maxRow; ++i)
+			{
+				FChromaSDKColors& row = frame.Colors[i];
+				for (int j = 0; j < maxColumn; ++j)
+				{
+					int color = ToBGR(row.Colors[j]);
+					int red = (color & 0xFF);
+					int green = (color & 0xFF00) >> 8;
+					int blue = (color & 0xFF0000) >> 16;
+					red = max(0, min(255, red * intensity));
+					green = max(0, min(255, green * intensity));
+					blue = max(0, min(255, blue * intensity));
+					color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
+					row.Colors[j] = ToLinearColor(color);
+				}
+			}
+		}
+	}
+	break;
+	}
+}
+
+void IChromaSDKPlugin::MultiplyIntensityName(const char* path, int frameId, float intensity)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MultiplyIntensityName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return MultiplyIntensity(animationId, frameId, intensity);
 }
 
 void IChromaSDKPlugin::LoadAnimation(int animationId)

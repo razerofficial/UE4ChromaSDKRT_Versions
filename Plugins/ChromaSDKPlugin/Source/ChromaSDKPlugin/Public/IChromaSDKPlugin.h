@@ -109,6 +109,8 @@ public:
 	int GetAnimationFrameCountName(const char* path);
 	void SetKeyColor(int animationId, int frameId, int rzkey, COLORREF color);
 	void SetKeyColorName(const char* path, int frameId, int rzkey, COLORREF color);
+	void SetKeyNonZeroColor(int animationId, int frameId, int rzkey, COLORREF color);
+	void SetKeyNonZeroColorName(const char* path, int frameId, int rzkey, COLORREF color);
 	COLORREF GetKeyColor(int animationId, int frameId, int rzkey);
 	COLORREF GetKeyColorName(const char* path, int frameId, int rzkey);
 	void CopyKeyColor(int sourceAnimationId, int targetAnimationId, int frameId, int rzkey);
@@ -117,12 +119,25 @@ public:
 	void CopyNonZeroKeyColorName(const char* sourceAnimation, const char* targetAnimation, int frameId, int rzkey);
 	void CopyNonZeroAllKeysColor(int sourceAnimationId, int targetAnimationId, int frameId);
 	void CopyNonZeroAllKeysColorName(const char* sourceAnimation, const char* targetAnimation, int frameId);
+	void FillColor(int animationId, int frameId, int red, int green, int blue);
+	void FillColorName(const char* path, int frameId, int red, int green, int blue);
+	void FillNonZeroColor(int animationId, int frameId, int red, int green, int blue);
+	void FillNonZeroColorName(const char* path, int frameId, int red, int green, int blue);
+	void OffsetColors(int animationId, int frameId, int red, int green, int blue);
+	void OffsetColorsName(const char* path, int frameId, int red, int green, int blue);
+	void OffsetNonZeroColors(int animationId, int frameId, int red, int green, int blue);
+	void OffsetNonZeroColorsName(const char* path, int frameId, int red, int green, int blue);
+	void MultiplyIntensity(int animationId, int frameId, float intensity);
+	void MultiplyIntensityName(const char* path, int frameId, float intensity);
 	void LoadAnimation(int animationId);
 	void LoadAnimationName(const char* path);
 	void UnloadAnimation(int animationId);
 	void UnloadAnimationName(const char* path);
 
 protected:
+	int min(int a, int b);
+	int max(int a, int b);
+
 	bool ValidateGetProcAddress(bool condition, FString methodName);
 
 	bool _mInitialized;

@@ -150,11 +150,13 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "StopAnimationComposite", Keywords = "Stop a set of *_Device.chroma Animations"), Category = "ChromaSDK")
 	static void StopAnimationComposite(const FString& animationName);
 
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetKeyColor", Keywords = "Get the color from the animation frame's key"), Category = "ChromaSDK")
 	static FLinearColor GetKeyColor(int32 animationId, int32 frameIndex, EChromaSDKKeyboardKey::Type key);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetKeyColorName", Keywords = "Get the color from the animation frame's key"), Category = "ChromaSDK")
 	static FLinearColor GetKeyColorName(const FString& animationName, const int32 frameIndex, EChromaSDKKeyboardKey::Type key);
+
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyColor", Keywords = "Set the animation frame's key to the supplied color"), Category = "ChromaSDK")
 	static void SetKeyColor(int32 animationId, int32 frameIndex, EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam);
@@ -162,11 +164,27 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyColorName", Keywords = "Set the animation frame's key to the supplied color"), Category = "ChromaSDK")
 	static void SetKeyColorName(const FString& animationName, const int32 frameIndex, EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam);
 
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyNonZeroColor", Keywords = "Set the animation frame's key to the supplied color if the key is not already black"), Category = "ChromaSDK")
+	static void SetKeyNonZeroColor(int32 animationId, int32 frameIndex, EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyNonZeroColorName", Keywords = "Set the animation frame's key to the supplied color if the key is not already black"), Category = "ChromaSDK")
+	static void SetKeyNonZeroColorName(const FString& animationName, const int32 frameIndex, EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam);
+
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysColor", Keywords = "Set the animation frame to the supplied color for a set of keys"), Category = "ChromaSDK")
 	static void SetKeysColor(int32 animationId, int32 frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysColorName", Keywords = "Set the animation frame to the supplied color for a set of keys"), Category = "ChromaSDK")
 	static void SetKeysColorName(const FString& animationName, const int32 frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
+
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysNonZeroColor", Keywords = "Set the animation frame to the supplied color for a set of keys if the key is not already black"), Category = "ChromaSDK")
+	static void SetKeysNonZeroColor(int32 animationId, int32 frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysNonZeroColorName", Keywords = "Set the animation frame to the supplied color for a set of keys if the key is not already black"), Category = "ChromaSDK")
+	static void SetKeysNonZeroColorName(const FString& animationName, const int32 frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
+	
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyColorAllFrames", Keywords = "Set the key to the supplied color for all animation frames"), Category = "ChromaSDK")
 	static void SetKeyColorAllFrames(int32 animationId, EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam);
@@ -174,11 +192,27 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyColorAllFramesName", Keywords = "Set the key to the supplied color for all animation frames"), Category = "ChromaSDK")
 	static void SetKeyColorAllFramesName(const FString& animationName, EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam);
 
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyNonZeroColorAllFrames", Keywords = "Set the key to the supplied color for all animation frames if the key is not already black"), Category = "ChromaSDK")
+	static void SetKeyNonZeroColorAllFrames(int32 animationId, EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyNonZeroColorAllFramesName", Keywords = "Set the key to the supplied color for all animation frames if the key is not already black"), Category = "ChromaSDK")
+	static void SetKeyNonZeroColorAllFramesName(const FString& animationName, EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam);
+
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysColorAllFrames", Keywords = "Set the keys to the supplied color for all animation frames"), Category = "ChromaSDK")
 	static void SetKeysColorAllFrames(int32 animationId, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysColorAllFramesName", Keywords = "Set the keys to the supplied color for all animation frames"), Category = "ChromaSDK")
 	static void SetKeysColorAllFramesName(const FString& animationName, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
+
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysNonZeroColorAllFrames", Keywords = "Set the keys to the supplied color for all animation frames if the key is not already black"), Category = "ChromaSDK")
+	static void SetKeysNonZeroColorAllFrames(int32 animationId, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysNonZeroColorAllFramesName", Keywords = "Set the keys to the supplied color for all animation frames if the key is not already black"), Category = "ChromaSDK")
+	static void SetKeysNonZeroColorAllFramesName(const FString& animationName, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
+
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyKeyColor", Keywords = "Copy color from a source animation to a target animation for a key"), Category = "ChromaSDK")
 	static void CopyKeyColor(int32 sourceAnimationId, int32 targetAnimationId, int32 frameIndex, EChromaSDKKeyboardKey::Type key);
@@ -221,6 +255,42 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroAllKeysAllFramesName", Keywords = "Copy nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
 	static void CopyNonZeroAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName);
+
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillColor", Keywords = "Set the RGB value for all colors in the specified frame"), Category = "ChromaSDK")
+	static void FillColor(int32 animationId, int32 frameId, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillColorName", Keywords = "Set the RGB value for all colors in the specified frame"), Category = "ChromaSDK")
+	static void FillColorName(const FString& animationName, int32 frameId, int32 red, int32 green, int32 blue);
+
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillNonZeroColor", Keywords = "Set the RGB value for all colors in the specified frame if the destination color is not black"), Category = "ChromaSDK")
+	static void FillNonZeroColor(int32 animationId, int32 frameId, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillNonZeroColorName", Keywords = "Set the RGB value for all colors in the specified frame if the destination color is not black"), Category = "ChromaSDK")
+	static void FillNonZeroColorName(const FString& animationName, int32 frameId, int32 red, int32 green, int32 blue);
+
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetColors", Keywords = "Offset all colors in the frame using the RGB offset"), Category = "ChromaSDK")
+	static void OffsetColors(int32 animationId, int32 frameId, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetColorsName", Keywords = "Offset all colors in the frame using the RGB offset"), Category = "ChromaSDK")
+	static void OffsetColorsName(const FString& animationName, int32 frameId, int32 red, int32 green, int32 blue);
+
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetNonZeroColors", Keywords = "Offset all colors in the frame using the RGB offset if the destination color is not black"), Category = "ChromaSDK")
+	static void OffsetNonZeroColors(int32 animationId, int32 frameId, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetNonZeroColorsName", Keywords = "Offset all colors in the frame using the RGB offset if the destination color is not black"), Category = "ChromaSDK")
+	static void OffsetNonZeroColorsName(const FString& animationName, int32 frameId, int32 red, int32 green, int32 blue);
+
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensity", Keywords = "Multiply all the colors in the frame by the intensity value"), Category = "ChromaSDK")
+	static void MultiplyIntensity(int32 animationId, int32 frameId, float intensity);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityName", Keywords = "Multiply all the colors in the frame by the intensity value"), Category = "ChromaSDK")
+	static void MultiplyIntensityName(const FString& animationName, int32 frameId, float intensity);
+
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetFrameCount", Keywords = "Get the .chroma animation frame count"), Category = "ChromaSDK")
 	static int32 GetFrameCount(const int32 animationId);
