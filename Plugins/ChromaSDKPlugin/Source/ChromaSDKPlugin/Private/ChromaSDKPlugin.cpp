@@ -1396,6 +1396,7 @@ int IChromaSDKPlugin::max(int a, int b)
 	}
 }
 
+
 void IChromaSDKPlugin::FillColor(int animationId, int frameId, int red, int green, int blue)
 {
 	//clamp values
@@ -1462,6 +1463,32 @@ void IChromaSDKPlugin::FillColorName(const char* path, int frameId, int red, int
 	}
 	return FillColor(animationId, frameId, red, green, blue);
 }
+
+void IChromaSDKPlugin::FillColorAllFrames(int animationId, int red, int green, int blue)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = GetAnimationFrameCount(animationId);
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		FillColor(animationId, frameId, red, green, blue);
+	}
+}
+void IChromaSDKPlugin::FillColorAllFramesName(const char* path, int red, int green, int blue)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("FillColorAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return FillColorAllFrames(animationId, red, green, blue);
+}
+
 
 void IChromaSDKPlugin::FillNonZeroColor(int animationId, int frameId, int red, int green, int blue)
 {
@@ -1535,6 +1562,33 @@ void IChromaSDKPlugin::FillNonZeroColorName(const char* path, int frameId, int r
 	}
 	return FillNonZeroColor(animationId, frameId, red, green, blue);
 }
+
+
+void IChromaSDKPlugin::FillNonZeroColorAllFrames(int animationId, int red, int green, int blue)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = GetAnimationFrameCount(animationId);
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		FillNonZeroColor(animationId, frameId, red, green, blue);
+	}
+}
+void IChromaSDKPlugin::FillNonZeroColorAllFramesName(const char* path, int red, int green, int blue)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("FillNonZeroColorAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return FillNonZeroColorAllFrames(animationId, red, green, blue);
+}
+
 
 void IChromaSDKPlugin::OffsetColors(int animationId, int frameId, int offsetRed, int offsetGreen, int offsetBlue)
 {
@@ -1612,6 +1666,33 @@ void IChromaSDKPlugin::OffsetColorsName(const char* path, int frameId, int red, 
 	}
 	return OffsetColors(animationId, frameId, red, green, blue);
 }
+
+
+void IChromaSDKPlugin::OffsetColorsAllFrames(int animationId, int offsetRed, int offsetGreen, int offsetBlue)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = GetAnimationFrameCount(animationId);
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		OffsetColors(animationId, frameId, offsetRed, offsetGreen, offsetBlue);
+	}
+}
+void IChromaSDKPlugin::OffsetColorsAllFramesName(const char* path, int red, int green, int blue)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("OffsetColorsAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return OffsetColorsAllFrames(animationId, red, green, blue);
+}
+
 
 void IChromaSDKPlugin::OffsetNonZeroColors(int animationId, int frameId, int offsetRed, int offsetGreen, int offsetBlue)
 {
@@ -1696,6 +1777,33 @@ void IChromaSDKPlugin::OffsetNonZeroColorsName(const char* path, int frameId, in
 	return OffsetNonZeroColors(animationId, frameId, red, green, blue);
 }
 
+
+void IChromaSDKPlugin::OffsetNonZeroColorsAllFrames(int animationId, int offsetRed, int offsetGreen, int offsetBlue)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = GetAnimationFrameCount(animationId);
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		OffsetNonZeroColors(animationId, frameId, offsetRed, offsetGreen, offsetBlue);
+	}
+}
+void IChromaSDKPlugin::OffsetNonZeroColorsAllFramesName(const char* path, int red, int green, int blue)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("OffsetNonZeroColorsAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return OffsetNonZeroColorsAllFrames(animationId, red, green, blue);
+}
+
+
 void IChromaSDKPlugin::MultiplyIntensity(int animationId, int frameId, float intensity)
 {
 	StopAnimation(animationId);
@@ -1773,6 +1881,34 @@ void IChromaSDKPlugin::MultiplyIntensityName(const char* path, int frameId, floa
 	}
 	return MultiplyIntensity(animationId, frameId, intensity);
 }
+
+
+void IChromaSDKPlugin::MultiplyIntensityAllFrames(int animationId, float intensity)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = GetAnimationFrameCount(animationId);
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		MultiplyIntensity(animationId, frameId, intensity);
+	}
+}
+
+void IChromaSDKPlugin::MultiplyIntensityAllFramesName(const char* path, float intensity)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MultiplyIntensityAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return MultiplyIntensityAllFrames(animationId, intensity);
+}
+
 
 void IChromaSDKPlugin::LoadAnimation(int animationId)
 {

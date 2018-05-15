@@ -1716,6 +1716,26 @@ void UChromaSDKPluginBPLibrary::FillColorName(const FString& animationName, int 
 }
 
 
+void UChromaSDKPluginBPLibrary::FillColorAllFrames(int animationId, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	IChromaSDKPlugin::Get().FillColorAllFrames(animationId, red, green, blue);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillColorAllFramesName(const FString& animationName, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillColorAllFramesName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	IChromaSDKPlugin::Get().FillColorAllFramesName(pathArg, red, green, blue);
+#endif
+}
+
+
 void UChromaSDKPluginBPLibrary::FillNonZeroColor(int animationId, int frameId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
@@ -1732,6 +1752,26 @@ void UChromaSDKPluginBPLibrary::FillNonZeroColorName(const FString& animationNam
 	//UE_LOG(LogTemp, Log, TEXT("FillNonZeroColorName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
 	IChromaSDKPlugin::Get().FillNonZeroColorName(pathArg, frameId, red, green, blue);
+#endif
+}
+
+
+void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFrames(int animationId, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	IChromaSDKPlugin::Get().FillNonZeroColorAllFrames(animationId, red, green, blue);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFramesName(const FString& animationName, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillNonZeroColorAllFramesName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	IChromaSDKPlugin::Get().FillNonZeroColorAllFramesName(pathArg, red, green, blue);
 #endif
 }
 
@@ -1756,6 +1796,26 @@ void UChromaSDKPluginBPLibrary::OffsetColorsName(const FString& animationName, i
 }
 
 
+void UChromaSDKPluginBPLibrary::OffsetColorsAllFrames(int animationId, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	IChromaSDKPlugin::Get().OffsetColorsAllFrames(animationId, red, green, blue);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::OffsetColorsAllFramesName(const FString& animationName, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("OffsetColorsAllFramesName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	IChromaSDKPlugin::Get().OffsetColorsAllFramesName(pathArg, red, green, blue);
+#endif
+}
+
+
 void UChromaSDKPluginBPLibrary::OffsetNonZeroColors(int animationId, int frameId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
@@ -1776,6 +1836,26 @@ void UChromaSDKPluginBPLibrary::OffsetNonZeroColorsName(const FString& animation
 }
 
 
+void UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFrames(int animationId, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	IChromaSDKPlugin::Get().OffsetNonZeroColorsAllFrames(animationId, red, green, blue);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(const FString& animationName, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("OffsetNonZeroColorsAllFramesName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	IChromaSDKPlugin::Get().OffsetNonZeroColorsAllFramesName(pathArg, red, green, blue);
+#endif
+}
+
+
 void UChromaSDKPluginBPLibrary::MultiplyIntensity(int animationId, int frameId, float intensity)
 {
 #if PLATFORM_WINDOWS
@@ -1792,6 +1872,26 @@ void UChromaSDKPluginBPLibrary::MultiplyIntensityName(const FString& animationNa
 	//UE_LOG(LogTemp, Log, TEXT("MultiplyIntensityName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
 	IChromaSDKPlugin::Get().MultiplyIntensityName(pathArg, frameId, intensity);
+#endif
+}
+
+
+void UChromaSDKPluginBPLibrary::MultiplyIntensityAllFrames(int animationId, float intensity)
+{
+#if PLATFORM_WINDOWS
+	IChromaSDKPlugin::Get().MultiplyIntensityAllFrames(animationId, intensity);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(const FString& animationName, float intensity)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("MultiplyIntensityAllFramesName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	IChromaSDKPlugin::Get().MultiplyIntensityAllFramesName(pathArg, intensity);
 #endif
 }
 

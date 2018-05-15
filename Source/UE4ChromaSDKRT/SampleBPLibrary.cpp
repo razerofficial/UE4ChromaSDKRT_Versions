@@ -296,28 +296,19 @@ void USampleBPLibrary::SampleLayeredHeal()
 
 	FString baseLayer = "EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
-	int frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(baseLayer);
-	for (int i = 0; i < frameCount; ++i)
-	{
-		UChromaSDKPluginBPLibrary::MultiplyIntensityName(baseLayer, i, 1.0f + 64.0f * _sBaseIntensity);
-	}
+	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(baseLayer, 1.0f + 64.0f * _sBaseIntensity);
 
-	FString layer2 = "Heal_Keyboard";
+	FString layer2 = "RingGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer2);
-	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer2);
-	for (int i = 0; i < frameCount; ++i)
-	{
-		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer2, i, _sEffectIntensity);
-	}
+	// turn animation green
+	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer2, -127, 127, -127); //animation starts with 127,127,127 so adding -127,127,-127 results in 0,255,0 or green
+	// set intensity
+	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer2, _sEffectIntensity);
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
 	FString layer3 = "FadeInOutRed_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
-	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer3);
-	for (int i = 0; i < frameCount; ++i)
-	{
-		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer3, i, _sHotkeyIntensity);
-	}
+	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer3, _sHotkeyIntensity);
 	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
 
 	keys.Reset();
@@ -344,28 +335,19 @@ void USampleBPLibrary::SampleLayeredDamage()
 
 	FString baseLayer = "EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
-	int frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(baseLayer);
-	for (int i = 0; i < frameCount; ++i)
-	{
-		UChromaSDKPluginBPLibrary::MultiplyIntensityName(baseLayer, i, 1.0f + 64.0f * _sBaseIntensity);
-	}
+	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(baseLayer, 1.0f + 64.0f * _sBaseIntensity);
 
-	FString layer2 = "Damage_Keyboard";
+	FString layer2 = "RingGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer2);
-	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer2);
-	for (int i = 0; i < frameCount; ++i)
-	{
-		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer2, i, _sEffectIntensity);
-	}
+	// turn animation red
+	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer2, 127, -127, -127); //animation starts with 127,127,127 so adding 127,-127,-127 results in 255,0,0 or red
+	// set intensity
+	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer2, _sEffectIntensity);
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
 	FString layer3 = "FadeInOutGreen_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
-	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer3);
-	for (int i = 0; i < frameCount; ++i)
-	{
-		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer3, i, _sHotkeyIntensity);
-	}
+	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer3, _sHotkeyIntensity);
 	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
 
 	keys.Reset();
@@ -392,28 +374,19 @@ void USampleBPLibrary::SampleLayeredItemPickup()
 
 	FString baseLayer = "EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
-	int frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(baseLayer);
-	for (int i = 0; i < frameCount; ++i)
-	{
-		UChromaSDKPluginBPLibrary::MultiplyIntensityName(baseLayer, i, 1.0f + 64.0f * _sBaseIntensity);
-	}
+	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(baseLayer, 1.0f + 64.0f * _sBaseIntensity);
 
-	FString layer2 = "ItemPickup_Keyboard";
+	FString layer2 = "RingGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer2);
-	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer2);
-	for (int i = 0; i < frameCount; ++i)
-	{
-		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer2, i, _sEffectIntensity);
-	}
+	// turn animation blue
+	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer2, -127, -127, 127); //animation starts with 127,127,127 so adding -127,-127,127 results in 0,0,255 or blue
+	// set intensity
+	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer2, _sEffectIntensity);
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
 	FString layer3 = "FadeInOutBlue_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
-	frameCount = UChromaSDKPluginBPLibrary::GetFrameCountName(layer3);
-	for (int i = 0; i < frameCount; ++i)
-	{
-		UChromaSDKPluginBPLibrary::MultiplyIntensityName(layer3, i, _sHotkeyIntensity);
-	}
+	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer3, _sHotkeyIntensity);
 	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
 
 	keys.Reset();

@@ -269,12 +269,24 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillColorName", Keywords = "Set the RGB value for all colors in the specified frame"), Category = "ChromaSDK")
 	static void FillColorName(const FString& animationName, int32 frameId, int32 red, int32 green, int32 blue);
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillColorAllFrames", Keywords = "Set the RGB value for all colors for all frames"), Category = "ChromaSDK")
+	static void FillColorAllFrames(int32 animationId, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillColorAllFramesName", Keywords = "Set the RGB value for all colors for all frames"), Category = "ChromaSDK")
+	static void FillColorAllFramesName(const FString& animationName, int32 red, int32 green, int32 blue);
+
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillNonZeroColor", Keywords = "Set the RGB value for all colors in the specified frame if the destination color is not black"), Category = "ChromaSDK")
 	static void FillNonZeroColor(int32 animationId, int32 frameId, int32 red, int32 green, int32 blue);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillNonZeroColorName", Keywords = "Set the RGB value for all colors in the specified frame if the destination color is not black"), Category = "ChromaSDK")
 	static void FillNonZeroColorName(const FString& animationName, int32 frameId, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillNonZeroColorAllFrames", Keywords = "Set the RGB value for all colors for all frames if the destination color is not black"), Category = "ChromaSDK")
+	static void FillNonZeroColorAllFrames(int32 animationId, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillNonZeroColorAllFramesName", Keywords = "Set the RGB value for all colors for all frames if the destination color is not black"), Category = "ChromaSDK")
+	static void FillNonZeroColorAllFramesName(const FString& animationName, int32 red, int32 green, int32 blue);
 
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetColors", Keywords = "Offset all colors in the frame using the RGB offset"), Category = "ChromaSDK")
@@ -283,6 +295,12 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetColorsName", Keywords = "Offset all colors in the frame using the RGB offset"), Category = "ChromaSDK")
 	static void OffsetColorsName(const FString& animationName, int32 frameId, int32 red, int32 green, int32 blue);
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetColorsAllFrames", Keywords = "Offset all colors for all frames using the RGB offset"), Category = "ChromaSDK")
+	static void OffsetColorsAllFrames(int32 animationId, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetColorsAllFramesName", Keywords = "Offset all colors for all frames using the RGB offset"), Category = "ChromaSDK")
+	static void OffsetColorsAllFramesName(const FString& animationName, int32 red, int32 green, int32 blue);
+
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetNonZeroColors", Keywords = "Offset all colors in the frame using the RGB offset if the destination color is not black"), Category = "ChromaSDK")
 	static void OffsetNonZeroColors(int32 animationId, int32 frameId, int32 red, int32 green, int32 blue);
@@ -290,12 +308,24 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetNonZeroColorsName", Keywords = "Offset all colors in the frame using the RGB offset if the destination color is not black"), Category = "ChromaSDK")
 	static void OffsetNonZeroColorsName(const FString& animationName, int32 frameId, int32 red, int32 green, int32 blue);
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetNonZeroColorsAllFrames", Keywords = "Offset all colors for all frames using the RGB offset if the destination color is not black"), Category = "ChromaSDK")
+	static void OffsetNonZeroColorsAllFrames(int32 animationId, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OffsetNonZeroColorsAllFramesName", Keywords = "Offset all colors for all frames using the RGB offset if the destination color is not black"), Category = "ChromaSDK")
+	static void OffsetNonZeroColorsAllFramesName(const FString& animationName, int32 red, int32 green, int32 blue);
+
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensity", Keywords = "Multiply all the colors in the frame by the intensity value"), Category = "ChromaSDK")
 	static void MultiplyIntensity(int32 animationId, int32 frameId, float intensity);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityName", Keywords = "Multiply all the colors in the frame by the intensity value"), Category = "ChromaSDK")
 	static void MultiplyIntensityName(const FString& animationName, int32 frameId, float intensity);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityAllFrames", Keywords = "Multiply all the colors for all frames by the intensity value"), Category = "ChromaSDK")
+	static void MultiplyIntensityAllFrames(int32 animationId, float intensity);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityAllFramesName", Keywords = "Multiply all the colors for all frames by the intensity value"), Category = "ChromaSDK")
+	static void MultiplyIntensityAllFramesName(const FString& animationName, float intensity);
 
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetFrameCount", Keywords = "Get the .chroma animation frame count"), Category = "ChromaSDK")

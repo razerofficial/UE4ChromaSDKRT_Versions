@@ -121,16 +121,32 @@ public:
 	void CopyAllKeysColorName(const char* sourceAnimation, const char* targetAnimation, int frameId);
 	void CopyNonZeroAllKeysColor(int sourceAnimationId, int targetAnimationId, int frameId);
 	void CopyNonZeroAllKeysColorName(const char* sourceAnimation, const char* targetAnimation, int frameId);
+	
 	void FillColor(int animationId, int frameId, int red, int green, int blue);
 	void FillColorName(const char* path, int frameId, int red, int green, int blue);
+	void FillColorAllFrames(int animationId, int red, int green, int blue);
+	void FillColorAllFramesName(const char* path, int red, int green, int blue);
+
 	void FillNonZeroColor(int animationId, int frameId, int red, int green, int blue);
 	void FillNonZeroColorName(const char* path, int frameId, int red, int green, int blue);
+	void FillNonZeroColorAllFrames(int animationId, int red, int green, int blue);
+	void FillNonZeroColorAllFramesName(const char* path, int red, int green, int blue);
+
 	void OffsetColors(int animationId, int frameId, int red, int green, int blue);
 	void OffsetColorsName(const char* path, int frameId, int red, int green, int blue);
+	void OffsetColorsAllFrames(int animationId, int red, int green, int blue);
+	void OffsetColorsAllFramesName(const char* path, int red, int green, int blue);
+
 	void OffsetNonZeroColors(int animationId, int frameId, int red, int green, int blue);
 	void OffsetNonZeroColorsName(const char* path, int frameId, int red, int green, int blue);
+	void OffsetNonZeroColorsAllFrames(int animationId, int red, int green, int blue);
+	void OffsetNonZeroColorsAllFramesName(const char* path, int red, int green, int blue);
+
 	void MultiplyIntensity(int animationId, int frameId, float intensity);
 	void MultiplyIntensityName(const char* path, int frameId, float intensity);
+	void MultiplyIntensityAllFrames(int animationId, float intensity);
+	void MultiplyIntensityAllFramesName(const char* path, float intensity);
+
 	void LoadAnimation(int animationId);
 	void LoadAnimationName(const char* path);
 	void UnloadAnimation(int animationId);
