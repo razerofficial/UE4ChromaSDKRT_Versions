@@ -676,6 +676,7 @@ int IChromaSDKPlugin::CloseAnimation(int animationId)
 			return -1;
 		}
 		animation->Stop();
+		animation->Unload();
 		string animationName = animation->GetName();
 		if (_mAnimationMapID.find(animationName) != _mAnimationMapID.end())
 		{
