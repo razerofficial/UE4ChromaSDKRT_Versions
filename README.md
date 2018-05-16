@@ -160,10 +160,15 @@ Plugins/ChromaSDKPlugin/Source/ChromaSDKPlugin/Public/RzErrors.h
 * [CopyNonZeroAllKeysAllFramesName](#CopyNonZeroAllKeysAllFramesName)
 * [GetKeyColorName](#GetKeyColorName)
 * [FillColorName](#FillColorName)
+* [FillColorAllFramesName](#FillColorAllFramesName)
 * [FillNonZeroColorName](#FillNonZeroColorName)
+* [FillNonZeroColorAllFramesName](#FillNonZeroColorAllFramesName)
 * [MultiplyIntensityName](#MultiplyIntensityName)
+* [MultiplyIntensityAllFramesName](#MultiplyIntensityAllFramesName)
 * [OffsetColorsName](#OffsetColorsName)
+* [OffsetColorsAllFramesName](#OffsetColorsAllFramesName)
 * [OffsetNonZeroColorsName](#OffsetNonZeroColorsName)
+* [OffsetNonZeroColorsAllFramesName](#OffsetNonZeroColorsAllFramesName)
 * [SetKeyColorName](#SetKeyColorName)
 * [SetKeysColorName](#SetKeysColorName)
 * [SetKeyColorAllFramesName](#SetKeyColorAllFramesName)
@@ -270,6 +275,15 @@ void UChromaSDKPluginBPLibrary::FillColorName(const FString& animationName,
   int frameId, int red, int green, int blue)
 ```
 ---
+<a name="FillColorAllFramesName"></a>
+**FillColorAllFramesName**
+
+Set the RGB value for all colors for all frames
+```c++
+void UChromaSDKPluginBPLibrary::FillColorAllFramesName(const FString& animationName,
+  int red, int green, int blue)
+```
+---
 <a name="FillNonZeroColorName"></a>
 **FillNonZeroColorName**
 
@@ -279,6 +293,15 @@ void UChromaSDKPluginBPLibrary::FillNonZeroColorName(const FString& animationNam
   int frameId, int red, int green, int blue)
 ```
 ---
+<a name="FillNonZeroColorAllFramesName"></a>
+**FillNonZeroColorAllFramesName**
+
+Set the RGB value for all colors for all frames if the destination color is not black
+```c++
+void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFramesName(const FString& animationName,
+  int red, int green, int blue)
+```
+---
 <a name="MultiplyIntensityName"></a>
 **MultiplyIntensityName**
 
@@ -286,6 +309,16 @@ Multiply all the colors in the frame by the intensity value
 ```c++
 void UChromaSDKPluginBPLibrary::MultiplyIntensityName(const FString& animationName,
   int frameId, float intensity)
+
+```
+---
+<a name="MultiplyIntensityAllFramesName"></a>
+**MultiplyIntensityAllFramesName**
+
+Multiply all the colors for all frames by the intensity value
+```c++
+void UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(const FString& animationName,
+  float intensity)
 
 ```
 ---
@@ -299,6 +332,16 @@ void UChromaSDKPluginBPLibrary::OffsetColorsName(const FString& animationName,
 
 ```
 ---
+<a name="OffsetColorsAllFramesName"></a>
+**OffsetColorsAllFramesName**
+
+Offset all colors for all frames using the RGB offset
+```c++
+void UChromaSDKPluginBPLibrary::OffsetColorsAllFramesName(const FString& animationName,
+  int red, int green, int blue)
+
+```
+---
 <a name="OffsetNonZeroColorsName"></a>
 **OffsetNonZeroColorsName**
 
@@ -306,6 +349,15 @@ Offset all colors in the frame using the RGB offset if the destination color is 
 ```c++
 void UChromaSDKPluginBPLibrary::OffsetNonZeroColorsName(const FString& animationName,
   int frameId, int red, int green, int blue)
+```
+---
+<a name="OffsetNonZeroColorsAllFramesName"></a>
+**OffsetNonZeroColorsAllFramesName**
+
+Offset all colors for all frames using the RGB offset if the destination color is not black
+```c++
+void UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(const FString& animationName,
+  int red, int green, int blue)
 ```
 ---
 <a name="SetKeyColorName"></a>
