@@ -504,9 +504,9 @@ int IChromaSDKPlugin::OpenAnimation(const char* path)
 					}
 					else
 					{
-						if (duration < 0.1f)
+						if (duration < 0.033f)
 						{
-							duration = 0.1f;
+							duration = 0.033f;
 						}
 						frame.Duration = duration;
 
@@ -604,9 +604,9 @@ int IChromaSDKPlugin::OpenAnimation(const char* path)
 					}
 					else
 					{
-						if (duration < 0.1f)
+						if (duration < 0.033f)
 						{
-							duration = 0.1f;
+							duration = 0.033f;
 						}
 						frame.Duration = duration;
 
