@@ -306,8 +306,11 @@ void USampleBPLibrary::SampleLayeredHeal()
 	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer2, _sEffectIntensity);
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
-	FString layer3 = "FadeInOutRed_Keyboard";
+	FString layer3 = "FadeInOutGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
+	// change color
+	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer3, 173-127, 255-127, 47-127);
+	// set intensity
 	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer3, _sHotkeyIntensity);
 	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
 
@@ -345,9 +348,11 @@ void USampleBPLibrary::SampleLayeredDamage()
 	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer2, _sEffectIntensity);
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
-	FString layer3 = "FadeInOutGreen_Keyboard";
+	FString layer3 = "FadeInOutGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
-	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer3, _sHotkeyIntensity);
+	// change color
+	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer3, 220-127, 20-127, 60-127);
+	// set intensity
 	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
 
 	keys.Reset();
@@ -384,8 +389,11 @@ void USampleBPLibrary::SampleLayeredItemPickup()
 	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer2, _sEffectIntensity);
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
-	FString layer3 = "FadeInOutBlue_Keyboard";
+	FString layer3 = "FadeInOutGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
+	// change color
+	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer3, 64-127, 224-127, 208-127);
+	// set intensity
 	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer3, _sHotkeyIntensity);
 	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(layer3, baseLayer, keys);
 
