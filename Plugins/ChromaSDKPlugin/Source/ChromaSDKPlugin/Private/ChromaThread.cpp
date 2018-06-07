@@ -20,6 +20,38 @@ ChromaThread* ChromaThread::Instance()
 	return _sInstance;
 }
 
+void ChromaThread::ProcessAnimations(float deltaTime)
+{
+	// update animations
+	vector<AnimationBase*> doneList = vector<AnimationBase*>();
+	for (unsigned int i = 0; i < _mAnimations.size(); ++i)
+	{
+		AnimationBase* animation = _mAnimations[i];
+		if (animation != nullptr)
+		{
+			animation->Update(deltaTime);
+			// no need to update animations that are no longer playing
+			if (!animation->IsPlaying())
+			{
+				doneList.push_back(animation);
+			}
+		}
+	}
+
+	for (int i = 0; i < doneList.size(); ++i)
+	{
+		AnimationBase* animation = doneList[i];
+		if (animation != nullptr)
+		{
+			auto it = find(_mAnimations.begin(), _mAnimations.end(), animation);
+			if (it != _mAnimations.end())
+			{
+				_mAnimations.erase(it);
+			}
+		}
+	}
+}
+
 void ChromaThread::ChromaWorker()
 {
 	// get current time
@@ -40,41 +72,9 @@ void ChromaThread::ChromaWorker()
 
 		std::lock_guard<std::mutex> guard(_mMutex);
 
-		// update animations
-		vector<AnimationBase*> doneList = vector<AnimationBase*>();
-		for (unsigned int i = 0; i < _mAnimations.size(); ++i)
-		{
-			AnimationBase* animation = _mAnimations[i];
-			if (animation != nullptr)
-			{
-				animation->Update(deltaTime);
-				// no need to update animations that are no longer playing
-				if (!animation->IsPlaying())
-				{
-					doneList.push_back(animation);
-				}
-			}
-		}
+		ProcessAnimations(deltaTime);
 
-		for (int i = 0; i < doneList.size(); ++i)
-		{
-			AnimationBase* animation = doneList[i];
-			if (animation != nullptr)
-			{
-				auto it = find(_mAnimations.begin(), _mAnimations.end(), animation);
-				if (it != _mAnimations.end())
-				{
-					_mAnimations.erase(it);
-				}
-			}
-		}
-
-		//std::this_thread::sleep_for(std::chrono::seconds(1));
-		//fprintf(stdout, "ChromaThread: Sleeping...\r\n");
-
-		//std::this_thread::sleep_for(std::chrono::microseconds(1));
-
-		this_thread::yield();
+		std::this_thread::sleep_for(std::chrono::microseconds(0));
 	}
 
 	_mThread = nullptr;
