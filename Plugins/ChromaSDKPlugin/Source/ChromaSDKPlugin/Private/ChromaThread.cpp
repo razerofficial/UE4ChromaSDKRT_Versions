@@ -74,7 +74,7 @@ void ChromaThread::ChromaWorker()
 
 		ProcessAnimations(deltaTime);
 
-		std::this_thread::sleep_for(std::chrono::microseconds(0));
+		std::this_thread::sleep_for(std::chrono::microseconds(1));
 	}
 
 	_mThread = nullptr;
