@@ -50,6 +50,8 @@ void ChromaThread::ProcessAnimations(float deltaTime)
 			}
 		}
 	}
+
+	std::this_thread::sleep_for(std::chrono::microseconds(1));
 }
 
 void ChromaThread::ChromaWorker()
@@ -73,8 +75,6 @@ void ChromaThread::ChromaWorker()
 		std::lock_guard<std::mutex> guard(_mMutex);
 
 		ProcessAnimations(deltaTime);
-
-		std::this_thread::sleep_for(std::chrono::microseconds(1));
 	}
 
 	_mThread = nullptr;
