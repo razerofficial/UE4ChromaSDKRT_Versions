@@ -22,6 +22,8 @@ ChromaThread* ChromaThread::Instance()
 
 void ChromaThread::ProcessAnimations(float deltaTime)
 {
+	std::lock_guard<std::mutex> guard(_mMutex);
+
 	// update animations
 	vector<AnimationBase*> doneList = vector<AnimationBase*>();
 	for (unsigned int i = 0; i < _mAnimations.size(); ++i)
@@ -50,8 +52,6 @@ void ChromaThread::ProcessAnimations(float deltaTime)
 			}
 		}
 	}
-
-	std::this_thread::sleep_for(std::chrono::microseconds(1));
 }
 
 void ChromaThread::ChromaWorker()
@@ -72,9 +72,14 @@ void ChromaThread::ChromaWorker()
 		float deltaTime = (float)(time_span.count() / 1000.0f);
 		timerLast = timer;
 
-		std::lock_guard<std::mutex> guard(_mMutex);
-
 		ProcessAnimations(deltaTime);
+
+		if (!_mWaitForExit)
+		{
+			break;
+		}
+
+		std::this_thread::sleep_for(std::chrono::microseconds(1));
 	}
 
 	_mThread = nullptr;
