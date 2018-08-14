@@ -160,20 +160,20 @@ protected:
 
 	bool _mInitialized;
 
-	HMODULE _mLibraryChroma = nullptr;
+	HMODULE _mLibraryChroma;
 
-	CHROMA_SDK_INIT _mMethodInit = NULL;
-	CHROMA_SDK_UNINIT _mMethodUnInit = NULL;
-	CHROMA_SDK_CREATE_EFFECT _mMethodCreateEffect = NULL;
-	CHROMA_SDK_CREATE_CHROMA_LINK_EFFECT _mMethodCreateChromaLinkEffect = NULL;
-	CHROMA_SDK_CREATE_HEADSET_EFFECT _mMethodCreateHeadsetEffect = NULL;
-	CHROMA_SDK_CREATE_KEYBOARD_EFFECT _mMethodCreateKeyboardEffect = NULL;
-	CHROMA_SDK_CREATE_KEYPAD_EFFECT _mMethodCreateKeypadEffect = NULL;
-	CHROMA_SDK_CREATE_MOUSE_EFFECT _mMethodCreateMouseEffect = NULL;
-	CHROMA_SDK_CREATE_MOUSEPAD_EFFECT _mMethodCreateMousepadEffect = NULL;
-	CHROMA_SDK_SET_EFFECT _mMethodSetEffect = NULL;
-	CHROMA_SDK_DELETE_EFFECT _mMethodDeleteEffect = NULL;
-	CHROMA_SDK_QUERY_DEVICE _mMethodQueryDevice = NULL;
+	CHROMA_SDK_INIT _mMethodInit;
+	CHROMA_SDK_UNINIT _mMethodUnInit;
+	CHROMA_SDK_CREATE_EFFECT _mMethodCreateEffect;
+	CHROMA_SDK_CREATE_CHROMA_LINK_EFFECT _mMethodCreateChromaLinkEffect;
+	CHROMA_SDK_CREATE_HEADSET_EFFECT _mMethodCreateHeadsetEffect;
+	CHROMA_SDK_CREATE_KEYBOARD_EFFECT _mMethodCreateKeyboardEffect;
+	CHROMA_SDK_CREATE_KEYPAD_EFFECT _mMethodCreateKeypadEffect;
+	CHROMA_SDK_CREATE_MOUSE_EFFECT _mMethodCreateMouseEffect;
+	CHROMA_SDK_CREATE_MOUSEPAD_EFFECT _mMethodCreateMousepadEffect;
+	CHROMA_SDK_SET_EFFECT _mMethodSetEffect;
+	CHROMA_SDK_DELETE_EFFECT _mMethodDeleteEffect;
+	CHROMA_SDK_QUERY_DEVICE _mMethodQueryDevice;
 
 	int _mAnimationId;
 	std::map<std::string, int> _mAnimationMapID;

@@ -13,6 +13,8 @@
 using namespace ChromaSDK;
 using namespace std;
 
+IChromaSDKPlugin UChromaSDKPluginBPLibrary::_sIChromaSDKPlugin;
+
 // keyboard map
 std::map<EChromaSDKKeyboardKey::Type, int> UChromaSDKPluginBPLibrary::_sKeyboardEnumMap =
 std::map<EChromaSDKKeyboardKey::Type, int>();
@@ -20,9 +22,6 @@ std::map<EChromaSDKKeyboardKey::Type, int>();
 // mouse map
 std::map<EChromaSDKMouseLed::Type, ChromaSDK::Mouse::RZLED2> UChromaSDKPluginBPLibrary::_sMouseEnumMap =
 std::map<EChromaSDKMouseLed::Type, ChromaSDK::Mouse::RZLED2>();
-
-// initialized
-bool UChromaSDKPluginBPLibrary::_sInitialized = false;
 
 #endif
 
@@ -183,8 +182,7 @@ UChromaSDKPluginBPLibrary::UChromaSDKPluginBPLibrary(const FPostConstructInitial
 	_sMouseEnumMap[EChromaSDKMouseLed::ML_RIGHT_SIDE6] = Mouse::RZLED2::RZLED2_RIGHT_SIDE6;
 	_sMouseEnumMap[EChromaSDKMouseLed::ML_RIGHT_SIDE7] = Mouse::RZLED2::RZLED2_RIGHT_SIDE7;
 
-	IChromaSDKPlugin::Get();
-	ChromaSDKInit();
+	_sIChromaSDKPlugin = IChromaSDKPlugin::Get();
 #endif
 }
 
@@ -421,7 +419,7 @@ FLinearColor UChromaSDKPluginBPLibrary::GetMouseLedColor(EChromaSDKMouseLed::Typ
 bool UChromaSDKPluginBPLibrary::IsInitialized()
 {
 #if PLATFORM_WINDOWS
-	return _sInitialized;
+	return _sIChromaSDKPlugin.IsInitialized();
 #else
 	return false;
 #endif
@@ -430,10 +428,16 @@ bool UChromaSDKPluginBPLibrary::IsInitialized()
 int32 UChromaSDKPluginBPLibrary::ChromaSDKInit()
 {
 #if PLATFORM_WINDOWS
-	// Init the SDK
-	int result = IChromaSDKPlugin::Get().ChromaSDKInit();
-	_sInitialized = result == 0;
-	return result;
+	if (!_sIChromaSDKPlugin.IsInitialized())
+	{
+		// Init the SDK
+		int result = _sIChromaSDKPlugin.ChromaSDKInit();
+		return result;
+	}
+	else
+	{
+		return -1;
+	}
 #else
 	return -1;
 #endif
@@ -465,12 +469,16 @@ int32 UChromaSDKPluginBPLibrary::ChromaSDKUnInit()
 	}
 
 	// UnInit the SDK
-	int result = IChromaSDKPlugin::Get().ChromaSDKUnInit();
-	if (result == 0)
+	UE_LOG(LogTemp, Log, TEXT("UChromaSDKPluginBPLibrary:: Uninit"));
+	if (_sIChromaSDKPlugin.IsInitialized())
 	{
-		_sInitialized = false;
+		int result = _sIChromaSDKPlugin.ChromaSDKUnInit();
+		return _sIChromaSDKPlugin.ChromaSDKUnInit();
 	}
-	return result;
+	else
+	{
+		return -1;
+	}
 #else
 	return -1;
 #endif
@@ -487,22 +495,22 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectNone(EChr
 	switch (device)
 	{
 	case EChromaSDKDeviceEnum::DE_ChromaLink:
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateChromaLinkEffect(ChromaSDK::ChromaLink::CHROMA_NONE, NULL, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateChromaLinkEffect(ChromaSDK::ChromaLink::CHROMA_NONE, NULL, &effectId);
 		break;
 	case EChromaSDKDeviceEnum::DE_Headset:
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateHeadsetEffect(ChromaSDK::Headset::CHROMA_NONE, NULL, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateHeadsetEffect(ChromaSDK::Headset::CHROMA_NONE, NULL, &effectId);
 		break;
 	case EChromaSDKDeviceEnum::DE_Keyboard:
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_NONE, NULL, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_NONE, NULL, &effectId);
 		break;
 	case EChromaSDKDeviceEnum::DE_Keypad:
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeypadEffect(ChromaSDK::Keypad::CHROMA_NONE, NULL, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateKeypadEffect(ChromaSDK::Keypad::CHROMA_NONE, NULL, &effectId);
 		break;
 	case EChromaSDKDeviceEnum::DE_Mouse:
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateMouseEffect(ChromaSDK::Mouse::CHROMA_NONE, NULL, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateMouseEffect(ChromaSDK::Mouse::CHROMA_NONE, NULL, &effectId);
 		break;
 	case EChromaSDKDeviceEnum::DE_Mousepad:
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateMousepadEffect(ChromaSDK::Mousepad::CHROMA_NONE, NULL, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateMousepadEffect(ChromaSDK::Mousepad::CHROMA_NONE, NULL, &effectId);
 		break;
 	default:
 		UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectNone Unsupported device used!"));
@@ -535,28 +543,28 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EC
 	{
 		ChromaSDK::ChromaLink::STATIC_EFFECT_TYPE pParam = {};
 		pParam.Color = RGB(red, green, blue);
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateChromaLinkEffect(ChromaSDK::ChromaLink::CHROMA_STATIC, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateChromaLinkEffect(ChromaSDK::ChromaLink::CHROMA_STATIC, &pParam, &effectId);
 	}
 	break;
 	case EChromaSDKDeviceEnum::DE_Headset:
 	{
 		ChromaSDK::Headset::STATIC_EFFECT_TYPE pParam = {};
 		pParam.Color = RGB(red, green, blue);
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateHeadsetEffect(ChromaSDK::Headset::CHROMA_STATIC, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateHeadsetEffect(ChromaSDK::Headset::CHROMA_STATIC, &pParam, &effectId);
 	}
 	break;
 	case EChromaSDKDeviceEnum::DE_Keyboard:
 	{
 		ChromaSDK::Keyboard::STATIC_EFFECT_TYPE pParam = {};
 		pParam.Color = RGB(red, green, blue);
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_STATIC, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_STATIC, &pParam, &effectId);
 	}
 	break;
 	case EChromaSDKDeviceEnum::DE_Keypad:
 	{
 		ChromaSDK::Keypad::STATIC_EFFECT_TYPE pParam = {};
 		pParam.Color = RGB(red, green, blue);
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeypadEffect(ChromaSDK::Keypad::CHROMA_STATIC, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateKeypadEffect(ChromaSDK::Keypad::CHROMA_STATIC, &pParam, &effectId);
 	}
 	break;
 	case EChromaSDKDeviceEnum::DE_Mouse:
@@ -564,14 +572,14 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EC
 		ChromaSDK::Mouse::STATIC_EFFECT_TYPE pParam = {};
 		pParam.Color = RGB(red, green, blue);
 		pParam.LEDId = ChromaSDK::Mouse::RZLED_ALL;
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateMouseEffect(ChromaSDK::Mouse::CHROMA_STATIC, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateMouseEffect(ChromaSDK::Mouse::CHROMA_STATIC, &pParam, &effectId);
 	}
 	break;
 	case EChromaSDKDeviceEnum::DE_Mousepad:
 	{
 		ChromaSDK::Mousepad::STATIC_EFFECT_TYPE pParam = {};
 		pParam.Color = RGB(red, green, blue);
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateMousepadEffect(ChromaSDK::Mousepad::CHROMA_STATIC, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateMousepadEffect(ChromaSDK::Mousepad::CHROMA_STATIC, &pParam, &effectId);
 	}
 	break;
 	default:
@@ -616,7 +624,7 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom1D(
 			int blue = color.B * 255;
 			pParam.Color[i] = RGB(red, green, blue);
 		}
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateChromaLinkEffect(ChromaSDK::ChromaLink::CHROMA_CUSTOM, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateChromaLinkEffect(ChromaSDK::ChromaLink::CHROMA_CUSTOM, &pParam, &effectId);
 	}
 	break;
 	case EChromaSDKDevice1DEnum::DE_Headset:
@@ -638,7 +646,7 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom1D(
 			int blue = color.B * 255;
 			pParam.Color[i] = RGB(red, green, blue);
 		}
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateHeadsetEffect(ChromaSDK::Headset::CHROMA_CUSTOM, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateHeadsetEffect(ChromaSDK::Headset::CHROMA_CUSTOM, &pParam, &effectId);
 	}
 	break;
 	case EChromaSDKDevice1DEnum::DE_Mousepad:
@@ -660,7 +668,7 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom1D(
 			int blue = color.B * 255;
 			pParam.Color[i] = RGB(red, green, blue);
 		}
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateMousepadEffect(ChromaSDK::Mousepad::CHROMA_CUSTOM, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateMousepadEffect(ChromaSDK::Mousepad::CHROMA_CUSTOM, &pParam, &effectId);
 	}
 	break;
 	default:
@@ -715,7 +723,7 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D(
 				pParam.Color[i][j] = RGB(red, green, blue);
 			}
 		}
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_CUSTOM, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_CUSTOM, &pParam, &effectId);
 	}
 	break;
 	case EChromaSDKDevice2DEnum::DE_Keypad:
@@ -746,7 +754,7 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D(
 				pParam.Color[i][j] = RGB(red, green, blue);
 			}
 		}
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateKeypadEffect(ChromaSDK::Keypad::CHROMA_CUSTOM, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateKeypadEffect(ChromaSDK::Keypad::CHROMA_CUSTOM, &pParam, &effectId);
 	}
 	break;
 	case EChromaSDKDevice2DEnum::DE_Mouse:
@@ -777,7 +785,7 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D(
 				pParam.Color[i][j] = RGB(red, green, blue);
 			}
 		}
-		result = IChromaSDKPlugin::Get().ChromaSDKCreateMouseEffect(ChromaSDK::Mouse::CHROMA_CUSTOM2, &pParam, &effectId);
+		result = _sIChromaSDKPlugin.ChromaSDKCreateMouseEffect(ChromaSDK::Mouse::CHROMA_CUSTOM2, &pParam, &effectId);
 	}
 	break;
 	default:
@@ -795,7 +803,7 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D(
 int UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(const FChromaSDKGuid& effectId)
 {
 #if PLATFORM_WINDOWS
-	return IChromaSDKPlugin::Get().ChromaSDKSetEffect(effectId.Data);
+	return _sIChromaSDKPlugin.ChromaSDKSetEffect(effectId.Data);
 #else
 	return -1;
 #endif
@@ -804,7 +812,7 @@ int UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(const FChromaSDKGuid& effectId
 int UChromaSDKPluginBPLibrary::ChromaSDKDeleteEffect(const FChromaSDKGuid& effectId)
 {
 #if PLATFORM_WINDOWS
-	return IChromaSDKPlugin::Get().ChromaSDKDeleteEffect(effectId.Data);
+	return _sIChromaSDKPlugin.ChromaSDKDeleteEffect(effectId.Data);
 #else
 	return -1;
 #endif
@@ -817,7 +825,7 @@ int UChromaSDKPluginBPLibrary::GetAnimationId(const FString& animationName)
 //	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	path += animationName + ".chroma";
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	return IChromaSDKPlugin::Get().GetAnimation(pathArg);
+	return _sIChromaSDKPlugin.GetAnimation(pathArg);
 #else
 	return -1;
 #endif
@@ -826,7 +834,7 @@ int UChromaSDKPluginBPLibrary::GetAnimationId(const FString& animationName)
 FString UChromaSDKPluginBPLibrary::GetAnimationName(const int animationId)
 {
 #if PLATFORM_WINDOWS
-	FString result = IChromaSDKPlugin::Get().GetAnimationName(animationId);
+	FString result = _sIChromaSDKPlugin.GetAnimationName(animationId);
 	return result;
 #else
 	return TEXT("");
@@ -836,7 +844,7 @@ FString UChromaSDKPluginBPLibrary::GetAnimationName(const int animationId)
 void UChromaSDKPluginBPLibrary::LoadAnimation(const int animationId)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().LoadAnimation(animationId);
+	_sIChromaSDKPlugin.LoadAnimation(animationId);
 #endif
 }
 
@@ -847,14 +855,14 @@ void UChromaSDKPluginBPLibrary::LoadAnimationName(const FString& animationName)
 //	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	path += animationName + ".chroma";
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().LoadAnimationName(pathArg);
+	_sIChromaSDKPlugin.LoadAnimationName(pathArg);
 #endif
 }
 
 void UChromaSDKPluginBPLibrary::CloseAnimation(const int animationId)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().CloseAnimation(animationId);
+	_sIChromaSDKPlugin.CloseAnimation(animationId);
 #endif
 }
 
@@ -865,14 +873,14 @@ void UChromaSDKPluginBPLibrary::CloseAnimationName(const FString& animationName)
 //	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	path += animationName + ".chroma";
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().CloseAnimationName(pathArg);
+	_sIChromaSDKPlugin.CloseAnimationName(pathArg);
 #endif
 }
 
 void UChromaSDKPluginBPLibrary::UnloadAnimation(const int animationId)
 {
 #if PLATFORM_WINDOWS
-	return IChromaSDKPlugin::Get().UnloadAnimation(animationId);
+	return _sIChromaSDKPlugin.UnloadAnimation(animationId);
 #endif
 }
 
@@ -883,7 +891,7 @@ void UChromaSDKPluginBPLibrary::UnloadAnimationName(const FString& animationName
 //	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	path += animationName + ".chroma";
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().UnloadAnimationName(pathArg);
+	_sIChromaSDKPlugin.UnloadAnimationName(pathArg);
 #endif
 }
 
@@ -895,7 +903,7 @@ void UChromaSDKPluginBPLibrary::PlayAnimation(const FString& animationName, bool
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("PlayAnimation: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().PlayAnimationName(pathArg, loop);
+	_sIChromaSDKPlugin.PlayAnimationName(pathArg, loop);
 #endif
 }
 
@@ -907,7 +915,7 @@ void UChromaSDKPluginBPLibrary::StopAnimation(const FString& animationName)
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("StopAnimation: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().StopAnimationName(pathArg);
+	_sIChromaSDKPlugin.StopAnimationName(pathArg);
 #endif
 }
 
@@ -917,22 +925,22 @@ void UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::Type dev
 	switch (device)
 	{
 	case EChromaSDKDeviceEnum::DE_ChromaLink:
-		IChromaSDKPlugin::Get().StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_ChromaLink);
+		_sIChromaSDKPlugin.StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_ChromaLink);
 		break;
 	case EChromaSDKDeviceEnum::DE_Headset:
-		IChromaSDKPlugin::Get().StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_Headset);
+		_sIChromaSDKPlugin.StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_Headset);
 		break;
 	case EChromaSDKDeviceEnum::DE_Keyboard:
-		IChromaSDKPlugin::Get().StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Keyboard);
+		_sIChromaSDKPlugin.StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Keyboard);
 		break;
 	case EChromaSDKDeviceEnum::DE_Keypad:
-		IChromaSDKPlugin::Get().StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Keypad);
+		_sIChromaSDKPlugin.StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Keypad);
 		break;
 	case EChromaSDKDeviceEnum::DE_Mouse:
-		IChromaSDKPlugin::Get().StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Mouse);
+		_sIChromaSDKPlugin.StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Mouse);
 		break;
 	case EChromaSDKDeviceEnum::DE_Mousepad:
-		IChromaSDKPlugin::Get().StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_Mousepad);
+		_sIChromaSDKPlugin.StopAnimationType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_Mousepad);
 		break;
 	}
 #endif
@@ -979,7 +987,7 @@ void UChromaSDKPluginBPLibrary::ClearAll()
 int UChromaSDKPluginBPLibrary::GetAnimationCount()
 {
 #if PLATFORM_WINDOWS
-	return IChromaSDKPlugin::Get().GetAnimationCount();
+	return _sIChromaSDKPlugin.GetAnimationCount();
 #else
 	return -1;
 #endif
@@ -988,7 +996,7 @@ int UChromaSDKPluginBPLibrary::GetAnimationCount()
 int UChromaSDKPluginBPLibrary::GetAnimationIdByIndex(int index)
 {
 #if PLATFORM_WINDOWS
-	return IChromaSDKPlugin::Get().GetAnimationId(index);
+	return _sIChromaSDKPlugin.GetAnimationId(index);
 #else
 	return -1;
 #endif
@@ -997,7 +1005,7 @@ int UChromaSDKPluginBPLibrary::GetAnimationIdByIndex(int index)
 int UChromaSDKPluginBPLibrary::GetPlayingAnimationCount()
 {
 #if PLATFORM_WINDOWS
-	return IChromaSDKPlugin::Get().GetPlayingAnimationCount();
+	return _sIChromaSDKPlugin.GetPlayingAnimationCount();
 #else
 	return -1;
 #endif
@@ -1006,7 +1014,7 @@ int UChromaSDKPluginBPLibrary::GetPlayingAnimationCount()
 int UChromaSDKPluginBPLibrary::GetPlayingAnimationId(int index)
 {
 #if PLATFORM_WINDOWS
-	return IChromaSDKPlugin::Get().GetPlayingAnimationId(index);
+	return _sIChromaSDKPlugin.GetPlayingAnimationId(index);
 #else
 	return -1;
 #endif
@@ -1020,7 +1028,7 @@ bool UChromaSDKPluginBPLibrary::IsAnimationPlaying(const FString& animationName)
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("IsAnimationPlaying: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	return IChromaSDKPlugin::Get().IsAnimationPlayingName(pathArg);
+	return _sIChromaSDKPlugin.IsAnimationPlayingName(pathArg);
 #else
 	return false;
 #endif
@@ -1032,17 +1040,17 @@ bool UChromaSDKPluginBPLibrary::IsAnimationTypePlaying(EChromaSDKDeviceEnum::Typ
 	switch (device)
 	{
 	case EChromaSDKDeviceEnum::DE_ChromaLink:
-		return IChromaSDKPlugin::Get().IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_ChromaLink);
+		return _sIChromaSDKPlugin.IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_ChromaLink);
 	case EChromaSDKDeviceEnum::DE_Headset:
-		return IChromaSDKPlugin::Get().IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_Headset);
+		return _sIChromaSDKPlugin.IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_Headset);
 	case EChromaSDKDeviceEnum::DE_Keyboard:
-		return IChromaSDKPlugin::Get().IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Keyboard);
+		return _sIChromaSDKPlugin.IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Keyboard);
 	case EChromaSDKDeviceEnum::DE_Keypad:
-		return IChromaSDKPlugin::Get().IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Keypad);
+		return _sIChromaSDKPlugin.IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Keypad);
 	case EChromaSDKDeviceEnum::DE_Mouse:
-		return IChromaSDKPlugin::Get().IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Mouse);
+		return _sIChromaSDKPlugin.IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_2D, (int)EChromaSDKDevice2DEnum::DE_Mouse);
 	case EChromaSDKDeviceEnum::DE_Mousepad:
-		return IChromaSDKPlugin::Get().IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_Mousepad);
+		return _sIChromaSDKPlugin.IsAnimationPlayingType((int)EChromaSDKDeviceTypeEnum::DE_1D, (int)EChromaSDKDevice1DEnum::DE_Mousepad);
 	}
 #endif
 	return false;
@@ -1090,7 +1098,7 @@ FLinearColor UChromaSDKPluginBPLibrary::GetKeyColor(int animationId, int frameIn
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		int color = IChromaSDKPlugin::Get().GetKeyColor(animationId, frameIndex, rzkey);
+		int color = _sIChromaSDKPlugin.GetKeyColor(animationId, frameIndex, rzkey);
 		return IChromaSDKPlugin::ToLinearColor(color);
 	}
 #endif
@@ -1107,7 +1115,7 @@ FLinearColor UChromaSDKPluginBPLibrary::GetKeyColorName(const FString& animation
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		int color = IChromaSDKPlugin::Get().GetKeyColorName(pathArg, frameIndex, rzkey);
+		int color = _sIChromaSDKPlugin.GetKeyColorName(pathArg, frameIndex, rzkey);
 		return IChromaSDKPlugin::ToLinearColor(color);
 	}
 #endif
@@ -1121,7 +1129,7 @@ void UChromaSDKPluginBPLibrary::SetKeyColor(int animationId, int frameIndex, ECh
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		IChromaSDKPlugin::Get().SetKeyColor(animationId, frameIndex, rzkey, IChromaSDKPlugin::ToBGR(colorParam));
+		_sIChromaSDKPlugin.SetKeyColor(animationId, frameIndex, rzkey, IChromaSDKPlugin::ToBGR(colorParam));
 	}
 #endif
 }
@@ -1136,7 +1144,7 @@ void UChromaSDKPluginBPLibrary::SetKeyColorName(const FString& animationName, co
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		IChromaSDKPlugin::Get().SetKeyColorName(pathArg, frameIndex, rzkey, IChromaSDKPlugin::ToBGR(colorParam));
+		_sIChromaSDKPlugin.SetKeyColorName(pathArg, frameIndex, rzkey, IChromaSDKPlugin::ToBGR(colorParam));
 	}
 #endif
 }
@@ -1148,7 +1156,7 @@ void UChromaSDKPluginBPLibrary::SetKeyNonZeroColor(int animationId, int frameInd
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		IChromaSDKPlugin::Get().SetKeyNonZeroColor(animationId, frameIndex, rzkey, IChromaSDKPlugin::ToBGR(colorParam));
+		_sIChromaSDKPlugin.SetKeyNonZeroColor(animationId, frameIndex, rzkey, IChromaSDKPlugin::ToBGR(colorParam));
 	}
 #endif
 }
@@ -1163,7 +1171,7 @@ void UChromaSDKPluginBPLibrary::SetKeyNonZeroColorName(const FString& animationN
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		IChromaSDKPlugin::Get().SetKeyNonZeroColorName(pathArg, frameIndex, rzkey, IChromaSDKPlugin::ToBGR(colorParam));
+		_sIChromaSDKPlugin.SetKeyNonZeroColorName(pathArg, frameIndex, rzkey, IChromaSDKPlugin::ToBGR(colorParam));
 	}
 #endif
 }
@@ -1179,7 +1187,7 @@ void UChromaSDKPluginBPLibrary::SetKeysColor(int animationId, int frameIndex, co
 		int rzkey = _sKeyboardEnumMap[key];
 		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 		{
-			IChromaSDKPlugin::Get().SetKeyColor(animationId, frameIndex, rzkey, colorArg);
+			_sIChromaSDKPlugin.SetKeyColor(animationId, frameIndex, rzkey, colorArg);
 		}
 	}
 #endif
@@ -1199,7 +1207,7 @@ void UChromaSDKPluginBPLibrary::SetKeysColorName(const FString& animationName, c
 		int rzkey = _sKeyboardEnumMap[key];
 		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 		{
-			IChromaSDKPlugin::Get().SetKeyColorName(pathArg, frameIndex, rzkey, colorArg);
+			_sIChromaSDKPlugin.SetKeyColorName(pathArg, frameIndex, rzkey, colorArg);
 		}
 	}
 #endif
@@ -1216,7 +1224,7 @@ void UChromaSDKPluginBPLibrary::SetKeysNonZeroColor(int animationId, int frameIn
 		int rzkey = _sKeyboardEnumMap[key];
 		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 		{
-			IChromaSDKPlugin::Get().SetKeyNonZeroColor(animationId, frameIndex, rzkey, colorArg);
+			_sIChromaSDKPlugin.SetKeyNonZeroColor(animationId, frameIndex, rzkey, colorArg);
 		}
 	}
 #endif
@@ -1236,7 +1244,7 @@ void UChromaSDKPluginBPLibrary::SetKeysNonZeroColorName(const FString& animation
 		int rzkey = _sKeyboardEnumMap[key];
 		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 		{
-			IChromaSDKPlugin::Get().SetKeyNonZeroColorName(pathArg, frameIndex, rzkey, colorArg);
+			_sIChromaSDKPlugin.SetKeyNonZeroColorName(pathArg, frameIndex, rzkey, colorArg);
 		}
 	}
 #endif
@@ -1249,11 +1257,11 @@ void UChromaSDKPluginBPLibrary::SetKeyColorAllFrames(int animationId, EChromaSDK
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCount(animationId);
+		int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCount(animationId);
 		int colorArg = IChromaSDKPlugin::ToBGR(colorParam);
 		for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 		{
-			IChromaSDKPlugin::Get().SetKeyColor(animationId, frameIndex, rzkey, colorArg);
+			_sIChromaSDKPlugin.SetKeyColor(animationId, frameIndex, rzkey, colorArg);
 		}
 	}
 #endif
@@ -1269,11 +1277,11 @@ void UChromaSDKPluginBPLibrary::SetKeyColorAllFramesName(const FString& animatio
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCountName(pathArg);
+		int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCountName(pathArg);
 		int colorArg = IChromaSDKPlugin::ToBGR(colorParam);
 		for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 		{
-			IChromaSDKPlugin::Get().SetKeyColorName(pathArg, frameIndex, rzkey, colorArg);
+			_sIChromaSDKPlugin.SetKeyColorName(pathArg, frameIndex, rzkey, colorArg);
 		}
 	}
 #endif
@@ -1286,11 +1294,11 @@ void UChromaSDKPluginBPLibrary::SetKeyNonZeroColorAllFrames(int animationId, ECh
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCount(animationId);
+		int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCount(animationId);
 		int colorArg = IChromaSDKPlugin::ToBGR(colorParam);
 		for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 		{
-			IChromaSDKPlugin::Get().SetKeyNonZeroColor(animationId, frameIndex, rzkey, colorArg);
+			_sIChromaSDKPlugin.SetKeyNonZeroColor(animationId, frameIndex, rzkey, colorArg);
 		}
 	}
 #endif
@@ -1306,11 +1314,11 @@ void UChromaSDKPluginBPLibrary::SetKeyNonZeroColorAllFramesName(const FString& a
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCountName(pathArg);
+		int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCountName(pathArg);
 		int colorArg = IChromaSDKPlugin::ToBGR(colorParam);
 		for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 		{
-			IChromaSDKPlugin::Get().SetKeyNonZeroColorName(pathArg, frameIndex, rzkey, colorArg);
+			_sIChromaSDKPlugin.SetKeyNonZeroColorName(pathArg, frameIndex, rzkey, colorArg);
 		}
 	}
 #endif
@@ -1320,7 +1328,7 @@ void UChromaSDKPluginBPLibrary::SetKeyNonZeroColorAllFramesName(const FString& a
 void UChromaSDKPluginBPLibrary::SetKeysColorAllFrames(int animationId, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam)
 {
 #if PLATFORM_WINDOWS
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCount(animationId);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCount(animationId);
 	int colorArg = IChromaSDKPlugin::ToBGR(colorParam);
 	for (int k = 0; k < keys.Num(); ++k)
 	{
@@ -1330,7 +1338,7 @@ void UChromaSDKPluginBPLibrary::SetKeysColorAllFrames(int animationId, const TAr
 		{
 			for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 			{
-				IChromaSDKPlugin::Get().SetKeyColor(animationId, frameIndex, rzkey, colorArg);
+				_sIChromaSDKPlugin.SetKeyColor(animationId, frameIndex, rzkey, colorArg);
 			}
 		}
 	}
@@ -1344,7 +1352,7 @@ void UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(const FString& animati
 //	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	path += animationName + ".chroma";
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCountName(pathArg);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCountName(pathArg);
 	int colorArg = IChromaSDKPlugin::ToBGR(colorParam);
 	for (int k = 0; k < keys.Num(); ++k)
 	{
@@ -1354,7 +1362,7 @@ void UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(const FString& animati
 		{
 			for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 			{
-				IChromaSDKPlugin::Get().SetKeyColorName(pathArg, frameIndex, rzkey, colorArg);
+				_sIChromaSDKPlugin.SetKeyColorName(pathArg, frameIndex, rzkey, colorArg);
 			}
 		}
 	}
@@ -1365,7 +1373,7 @@ void UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(const FString& animati
 void UChromaSDKPluginBPLibrary::SetKeysNonZeroColorAllFrames(int animationId, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam)
 {
 #if PLATFORM_WINDOWS
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCount(animationId);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCount(animationId);
 	int colorArg = IChromaSDKPlugin::ToBGR(colorParam);
 	for (int k = 0; k < keys.Num(); ++k)
 	{
@@ -1375,7 +1383,7 @@ void UChromaSDKPluginBPLibrary::SetKeysNonZeroColorAllFrames(int animationId, co
 		{
 			for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 			{
-				IChromaSDKPlugin::Get().SetKeyNonZeroColor(animationId, frameIndex, rzkey, colorArg);
+				_sIChromaSDKPlugin.SetKeyNonZeroColor(animationId, frameIndex, rzkey, colorArg);
 			}
 		}
 	}
@@ -1389,7 +1397,7 @@ void UChromaSDKPluginBPLibrary::SetKeysNonZeroColorAllFramesName(const FString& 
 //	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	path += animationName + ".chroma";
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCountName(pathArg);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCountName(pathArg);
 	int colorArg = IChromaSDKPlugin::ToBGR(colorParam);
 	for (int k = 0; k < keys.Num(); ++k)
 	{
@@ -1399,7 +1407,7 @@ void UChromaSDKPluginBPLibrary::SetKeysNonZeroColorAllFramesName(const FString& 
 		{
 			for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 			{
-				IChromaSDKPlugin::Get().SetKeyNonZeroColorName(pathArg, frameIndex, rzkey, colorArg);
+				_sIChromaSDKPlugin.SetKeyNonZeroColorName(pathArg, frameIndex, rzkey, colorArg);
 			}
 		}
 	}
@@ -1413,7 +1421,7 @@ void UChromaSDKPluginBPLibrary::CopyKeyColor(int sourceAnimationId, int targetAn
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		IChromaSDKPlugin::Get().CopyKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
+		_sIChromaSDKPlugin.CopyKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
 	}
 #endif
 }
@@ -1432,7 +1440,7 @@ void UChromaSDKPluginBPLibrary::CopyKeyColorName(const FString& sourceAnimationN
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		IChromaSDKPlugin::Get().CopyKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
+		_sIChromaSDKPlugin.CopyKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
 	}
 #endif
 }
@@ -1446,7 +1454,7 @@ void UChromaSDKPluginBPLibrary::CopyKeysColor(int sourceAnimationId, int targetA
 		int rzkey = _sKeyboardEnumMap[key];
 		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 		{
-			IChromaSDKPlugin::Get().CopyKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
+			_sIChromaSDKPlugin.CopyKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
 		}
 	}
 #endif
@@ -1469,7 +1477,7 @@ void UChromaSDKPluginBPLibrary::CopyKeysColorName(const FString& sourceAnimation
 		int rzkey = _sKeyboardEnumMap[key];
 		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 		{
-			IChromaSDKPlugin::Get().CopyKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
+			_sIChromaSDKPlugin.CopyKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
 		}
 	}
 #endif
@@ -1478,7 +1486,7 @@ void UChromaSDKPluginBPLibrary::CopyKeysColorName(const FString& sourceAnimation
 void UChromaSDKPluginBPLibrary::CopyKeysColorAllFrames(int sourceAnimationId, int targetAnimationId, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys)
 {
 #if PLATFORM_WINDOWS
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCount(targetAnimationId);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCount(targetAnimationId);
 	for (int k = 0; k < keys.Num(); ++k)
 	{
 		EChromaSDKKeyboardKey::Type key = keys[k];
@@ -1487,7 +1495,7 @@ void UChromaSDKPluginBPLibrary::CopyKeysColorAllFrames(int sourceAnimationId, in
 		{
 			for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 			{
-				IChromaSDKPlugin::Get().CopyKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
+				_sIChromaSDKPlugin.CopyKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
 			}
 		}
 	}
@@ -1505,7 +1513,7 @@ void UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(const FString& source
 //	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	targetPath += targetAnimationName + ".chroma";
 	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCountName(targetPathArg);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCountName(targetPathArg);
 	for (int k = 0; k < keys.Num(); ++k)
 	{
 		EChromaSDKKeyboardKey::Type key = keys[k];
@@ -1514,7 +1522,7 @@ void UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(const FString& source
 		{
 			for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 			{
-				IChromaSDKPlugin::Get().CopyKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
+				_sIChromaSDKPlugin.CopyKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
 			}
 		}
 	}
@@ -1524,10 +1532,10 @@ void UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(const FString& source
 void UChromaSDKPluginBPLibrary::CopyAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId)
 {
 #if PLATFORM_WINDOWS
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCount(sourceAnimationId);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCount(sourceAnimationId);
 	for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 	{
-		IChromaSDKPlugin::Get().CopyAllKeysColor(sourceAnimationId, targetAnimationId, frameIndex);
+		_sIChromaSDKPlugin.CopyAllKeysColor(sourceAnimationId, targetAnimationId, frameIndex);
 	}
 #endif
 }
@@ -1543,10 +1551,10 @@ void UChromaSDKPluginBPLibrary::CopyAllKeysAllFramesName(const FString& sourceAn
 //	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	targetPath += targetAnimationName + ".chroma";
 	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCountName(targetPathArg);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCountName(targetPathArg);
 	for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 	{
-		IChromaSDKPlugin::Get().CopyAllKeysColorName(sourcePathArg, targetPathArg, frameIndex);
+		_sIChromaSDKPlugin.CopyAllKeysColorName(sourcePathArg, targetPathArg, frameIndex);
 	}
 #endif
 }
@@ -1557,7 +1565,7 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroKeyColor(int sourceAnimationId, int t
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		IChromaSDKPlugin::Get().CopyNonZeroKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
+		_sIChromaSDKPlugin.CopyNonZeroKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
 	}
 #endif
 }
@@ -1576,7 +1584,7 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroKeyColorName(const FString& sourceAni
 	int rzkey = _sKeyboardEnumMap[key];
 	if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 	{
-		IChromaSDKPlugin::Get().CopyNonZeroKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
+		_sIChromaSDKPlugin.CopyNonZeroKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
 	}
 #endif
 }
@@ -1590,7 +1598,7 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroKeysColor(int sourceAnimationId, int 
 		int rzkey = _sKeyboardEnumMap[key];
 		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 		{
-			IChromaSDKPlugin::Get().CopyNonZeroKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
+			_sIChromaSDKPlugin.CopyNonZeroKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
 		}
 	}
 #endif
@@ -1613,7 +1621,7 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroKeysColorName(const FString& sourceAn
 		int rzkey = _sKeyboardEnumMap[key];
 		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
 		{
-			IChromaSDKPlugin::Get().CopyNonZeroKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
+			_sIChromaSDKPlugin.CopyNonZeroKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
 		}
 	}
 #endif
@@ -1622,7 +1630,7 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroKeysColorName(const FString& sourceAn
 void UChromaSDKPluginBPLibrary::CopyNonZeroKeysColorAllFrames(int sourceAnimationId, int targetAnimationId, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys)
 {
 #if PLATFORM_WINDOWS
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCount(targetAnimationId);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCount(targetAnimationId);
 	for (int k = 0; k < keys.Num(); ++k)
 	{
 		EChromaSDKKeyboardKey::Type key = keys[k];
@@ -1631,7 +1639,7 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroKeysColorAllFrames(int sourceAnimatio
 		{
 			for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 			{
-				IChromaSDKPlugin::Get().CopyNonZeroKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
+				_sIChromaSDKPlugin.CopyNonZeroKeyColor(sourceAnimationId, targetAnimationId, frameIndex, rzkey);
 			}
 		}
 	}
@@ -1649,7 +1657,7 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroKeysColorAllFramesName(const FString&
 //	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	targetPath += targetAnimationName + ".chroma";
 	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCountName(targetPathArg);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCountName(targetPathArg);
 	for (int k = 0; k < keys.Num(); ++k)
 	{
 		EChromaSDKKeyboardKey::Type key = keys[k];
@@ -1658,7 +1666,7 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroKeysColorAllFramesName(const FString&
 		{
 			for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 			{
-				IChromaSDKPlugin::Get().CopyNonZeroKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
+				_sIChromaSDKPlugin.CopyNonZeroKeyColorName(sourcePathArg, targetPathArg, frameIndex, rzkey);
 			}
 		}
 	}
@@ -1668,10 +1676,10 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroKeysColorAllFramesName(const FString&
 void UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId)
 {
 #if PLATFORM_WINDOWS
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCount(sourceAnimationId);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCount(sourceAnimationId);
 	for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 	{
-		IChromaSDKPlugin::Get().CopyNonZeroAllKeysColor(sourceAnimationId, targetAnimationId, frameIndex);
+		_sIChromaSDKPlugin.CopyNonZeroAllKeysColor(sourceAnimationId, targetAnimationId, frameIndex);
 	}
 #endif
 }
@@ -1687,10 +1695,10 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(const FString& s
 //	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	targetPath += targetAnimationName + ".chroma";
 	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
-	int frameCount = IChromaSDKPlugin::Get().GetAnimationFrameCountName(targetPathArg);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCountName(targetPathArg);
 	for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
 	{
-		IChromaSDKPlugin::Get().CopyNonZeroAllKeysColorName(sourcePathArg, targetPathArg, frameIndex);
+		_sIChromaSDKPlugin.CopyNonZeroAllKeysColorName(sourcePathArg, targetPathArg, frameIndex);
 	}
 #endif
 }
@@ -1699,7 +1707,7 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(const FString& s
 void UChromaSDKPluginBPLibrary::FillColor(int animationId, int frameId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().FillColor(animationId, frameId, red, green, blue);
+	_sIChromaSDKPlugin.FillColor(animationId, frameId, red, green, blue);
 #endif
 }
 
@@ -1711,7 +1719,7 @@ void UChromaSDKPluginBPLibrary::FillColorName(const FString& animationName, int 
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("FillColorName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().FillColorName(pathArg, frameId, red, green, blue);
+	_sIChromaSDKPlugin.FillColorName(pathArg, frameId, red, green, blue);
 #endif
 }
 
@@ -1719,7 +1727,7 @@ void UChromaSDKPluginBPLibrary::FillColorName(const FString& animationName, int 
 void UChromaSDKPluginBPLibrary::FillColorAllFrames(int animationId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().FillColorAllFrames(animationId, red, green, blue);
+	_sIChromaSDKPlugin.FillColorAllFrames(animationId, red, green, blue);
 #endif
 }
 
@@ -1731,7 +1739,7 @@ void UChromaSDKPluginBPLibrary::FillColorAllFramesName(const FString& animationN
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("FillColorAllFramesName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().FillColorAllFramesName(pathArg, red, green, blue);
+	_sIChromaSDKPlugin.FillColorAllFramesName(pathArg, red, green, blue);
 #endif
 }
 
@@ -1739,7 +1747,7 @@ void UChromaSDKPluginBPLibrary::FillColorAllFramesName(const FString& animationN
 void UChromaSDKPluginBPLibrary::FillNonZeroColor(int animationId, int frameId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().FillNonZeroColor(animationId, frameId, red, green, blue);
+	_sIChromaSDKPlugin.FillNonZeroColor(animationId, frameId, red, green, blue);
 #endif
 }
 
@@ -1751,7 +1759,7 @@ void UChromaSDKPluginBPLibrary::FillNonZeroColorName(const FString& animationNam
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("FillNonZeroColorName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().FillNonZeroColorName(pathArg, frameId, red, green, blue);
+	_sIChromaSDKPlugin.FillNonZeroColorName(pathArg, frameId, red, green, blue);
 #endif
 }
 
@@ -1759,7 +1767,7 @@ void UChromaSDKPluginBPLibrary::FillNonZeroColorName(const FString& animationNam
 void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFrames(int animationId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().FillNonZeroColorAllFrames(animationId, red, green, blue);
+	_sIChromaSDKPlugin.FillNonZeroColorAllFrames(animationId, red, green, blue);
 #endif
 }
 
@@ -1771,7 +1779,7 @@ void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFramesName(const FString& ani
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("FillNonZeroColorAllFramesName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().FillNonZeroColorAllFramesName(pathArg, red, green, blue);
+	_sIChromaSDKPlugin.FillNonZeroColorAllFramesName(pathArg, red, green, blue);
 #endif
 }
 
@@ -1779,7 +1787,7 @@ void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFramesName(const FString& ani
 void UChromaSDKPluginBPLibrary::OffsetColors(int animationId, int frameId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().OffsetColors(animationId, frameId, red, green, blue);
+	_sIChromaSDKPlugin.OffsetColors(animationId, frameId, red, green, blue);
 #endif
 }
 
@@ -1791,7 +1799,7 @@ void UChromaSDKPluginBPLibrary::OffsetColorsName(const FString& animationName, i
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("OffsetColorsName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().OffsetColorsName(pathArg, frameId, red, green, blue);
+	_sIChromaSDKPlugin.OffsetColorsName(pathArg, frameId, red, green, blue);
 #endif
 }
 
@@ -1799,7 +1807,7 @@ void UChromaSDKPluginBPLibrary::OffsetColorsName(const FString& animationName, i
 void UChromaSDKPluginBPLibrary::OffsetColorsAllFrames(int animationId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().OffsetColorsAllFrames(animationId, red, green, blue);
+	_sIChromaSDKPlugin.OffsetColorsAllFrames(animationId, red, green, blue);
 #endif
 }
 
@@ -1811,7 +1819,7 @@ void UChromaSDKPluginBPLibrary::OffsetColorsAllFramesName(const FString& animati
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("OffsetColorsAllFramesName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().OffsetColorsAllFramesName(pathArg, red, green, blue);
+	_sIChromaSDKPlugin.OffsetColorsAllFramesName(pathArg, red, green, blue);
 #endif
 }
 
@@ -1819,7 +1827,7 @@ void UChromaSDKPluginBPLibrary::OffsetColorsAllFramesName(const FString& animati
 void UChromaSDKPluginBPLibrary::OffsetNonZeroColors(int animationId, int frameId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().OffsetNonZeroColors(animationId, frameId, red, green, blue);
+	_sIChromaSDKPlugin.OffsetNonZeroColors(animationId, frameId, red, green, blue);
 #endif
 }
 
@@ -1831,7 +1839,7 @@ void UChromaSDKPluginBPLibrary::OffsetNonZeroColorsName(const FString& animation
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("OffsetNonZeroColorsName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().OffsetNonZeroColorsName(pathArg, frameId, red, green, blue);
+	_sIChromaSDKPlugin.OffsetNonZeroColorsName(pathArg, frameId, red, green, blue);
 #endif
 }
 
@@ -1839,7 +1847,7 @@ void UChromaSDKPluginBPLibrary::OffsetNonZeroColorsName(const FString& animation
 void UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFrames(int animationId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().OffsetNonZeroColorsAllFrames(animationId, red, green, blue);
+	_sIChromaSDKPlugin.OffsetNonZeroColorsAllFrames(animationId, red, green, blue);
 #endif
 }
 
@@ -1851,7 +1859,7 @@ void UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(const FString& 
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("OffsetNonZeroColorsAllFramesName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().OffsetNonZeroColorsAllFramesName(pathArg, red, green, blue);
+	_sIChromaSDKPlugin.OffsetNonZeroColorsAllFramesName(pathArg, red, green, blue);
 #endif
 }
 
@@ -1859,7 +1867,7 @@ void UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(const FString& 
 void UChromaSDKPluginBPLibrary::MultiplyIntensity(int animationId, int frameId, float intensity)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().MultiplyIntensity(animationId, frameId, intensity);
+	_sIChromaSDKPlugin.MultiplyIntensity(animationId, frameId, intensity);
 #endif
 }
 
@@ -1871,7 +1879,7 @@ void UChromaSDKPluginBPLibrary::MultiplyIntensityName(const FString& animationNa
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("MultiplyIntensityName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().MultiplyIntensityName(pathArg, frameId, intensity);
+	_sIChromaSDKPlugin.MultiplyIntensityName(pathArg, frameId, intensity);
 #endif
 }
 
@@ -1879,7 +1887,7 @@ void UChromaSDKPluginBPLibrary::MultiplyIntensityName(const FString& animationNa
 void UChromaSDKPluginBPLibrary::MultiplyIntensityAllFrames(int animationId, float intensity)
 {
 #if PLATFORM_WINDOWS
-	IChromaSDKPlugin::Get().MultiplyIntensityAllFrames(animationId, intensity);
+	_sIChromaSDKPlugin.MultiplyIntensityAllFrames(animationId, intensity);
 #endif
 }
 
@@ -1891,7 +1899,7 @@ void UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(const FString& an
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("MultiplyIntensityAllFramesName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	IChromaSDKPlugin::Get().MultiplyIntensityAllFramesName(pathArg, intensity);
+	_sIChromaSDKPlugin.MultiplyIntensityAllFramesName(pathArg, intensity);
 #endif
 }
 
@@ -1899,7 +1907,7 @@ void UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(const FString& an
 int UChromaSDKPluginBPLibrary::GetFrameCount(const int animationId)
 {
 #if PLATFORM_WINDOWS
-	return IChromaSDKPlugin::Get().GetAnimationFrameCount(animationId);
+	return _sIChromaSDKPlugin.GetAnimationFrameCount(animationId);
 #else
 	return -1;
 #endif
@@ -1913,7 +1921,7 @@ int UChromaSDKPluginBPLibrary::GetFrameCountName(const FString& animationName)
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("StopAnimation: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	return IChromaSDKPlugin::Get().GetAnimationFrameCountName(pathArg);
+	return _sIChromaSDKPlugin.GetAnimationFrameCountName(pathArg);
 #else
 	return -1;
 #endif

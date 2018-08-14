@@ -4,6 +4,7 @@
 
 #include "Engine.h"
 #include <map>
+#include "IChromaSDKPlugin.h"
 #include "ChromaSDKPluginTypes.h"
 #include "ChromaSDKPluginBPLibrary.generated.h"
 
@@ -336,9 +337,9 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 #if PLATFORM_WINDOWS
 private:
+	static IChromaSDKPlugin _sIChromaSDKPlugin;
+
 	static std::map<EChromaSDKKeyboardKey::Type, int32> _sKeyboardEnumMap;
 	static std::map<EChromaSDKMouseLed::Type, ChromaSDK::Mouse::RZLED2> _sMouseEnumMap;
-
-	static bool _sInitialized;
 #endif
 };

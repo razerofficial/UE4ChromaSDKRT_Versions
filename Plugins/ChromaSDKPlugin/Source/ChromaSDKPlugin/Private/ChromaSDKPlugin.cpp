@@ -131,9 +131,13 @@ void FChromaSDKPlugin::StartupModule()
 	{
 		return;
 	}
+
 #pragma warning(default: 4191)
 
-	UChromaSDKPluginBPLibrary::ChromaSDKInit();
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		UChromaSDKPluginBPLibrary::ChromaSDKInit();
+	}
 
 	ChromaThread::Instance()->Start();
 #endif
@@ -148,15 +152,16 @@ void FChromaSDKPlugin::ShutdownModule()
 #if PLATFORM_WINDOWS
 	ChromaThread::Instance()->Stop();
 
-	UChromaSDKPluginBPLibrary::ChromaSDKUnInit();
+	if (UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		UChromaSDKPluginBPLibrary::ChromaSDKUnInit();
+	}
 
 	if (_mLibraryChroma)
 	{
 		FreeLibrary(_mLibraryChroma);
 		_mLibraryChroma = nullptr;
 	}
-
-	//UE_LOG(LogTemp, Log, TEXT("ChromaSDKPlugin unloaded."));
 #endif
 }
 
@@ -164,27 +169,40 @@ void FChromaSDKPlugin::ShutdownModule()
 
 int IChromaSDKPlugin::ChromaSDKInit()
 {
+	if (_mInitialized)
+	{
+		//UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin is already initialized!"));
+		return RZRESULT_INVALID;
+	}
+
 	if (_mMethodInit == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin Init method is not set!"));
-		return -1;
+		return RZRESULT_INVALID;
 	}
 
 	int result = _mMethodInit();
-	if (result == 0)
+	if (result == RZRESULT_SUCCESS)
 	{
 		_mInitialized = true;
 	}
-	UE_LOG(LogTemp, Log, TEXT("ChromaSDKPlugin [INITIALIZED] result=%d"), result);
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin [Init] result=%d"), result);
+	}
 	return result;
 }
 
 int IChromaSDKPlugin::ChromaSDKUnInit()
 {
+	if (!_mInitialized)
+	{
+		//UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin is not initialized!"));
+		return RZRESULT_INVALID;
+	}
+
 	if (_mMethodUnInit == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin UnInit method is not set!"));
-		return -1;
+		return RZRESULT_INVALID;
 	}
 
 	while (_mAnimations.size() > 0)
@@ -201,7 +219,10 @@ int IChromaSDKPlugin::ChromaSDKUnInit()
 	_mAnimations.clear();
 	_mPlayMap1D.clear();
 	_mPlayMap2D.clear();
-	//UE_LOG(LogTemp, Log, TEXT("ChromaSDKPlugin [UNINITIALIZED] result=%d"), result);
+	if (result != RZRESULT_SUCCESS)
+	{
+		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin [Uninit] result=%d"), result);
+	}
 	return result;
 }
 
@@ -214,8 +235,7 @@ RZRESULT IChromaSDKPlugin::ChromaSDKCreateEffect(RZDEVICEID deviceId, ChromaSDK:
 {
 	if (_mMethodCreateEffect == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin CreateEffect method is not set!"));
-		return -1;
+		return RZRESULT_INVALID;
 	}
 
 	return _mMethodCreateEffect(deviceId, effect, pParam, pEffectId);
@@ -225,8 +245,7 @@ RZRESULT IChromaSDKPlugin::ChromaSDKCreateChromaLinkEffect(ChromaSDK::ChromaLink
 {
 	if (_mMethodCreateChromaLinkEffect == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin CreateChromaLinkEffect method is not set!"));
-		return -1;
+		return RZRESULT_INVALID;
 	}
 
 	return _mMethodCreateChromaLinkEffect(effect, pParam, pEffectId);
@@ -236,8 +255,7 @@ RZRESULT IChromaSDKPlugin::ChromaSDKCreateHeadsetEffect(ChromaSDK::Headset::EFFE
 {
 	if (_mMethodCreateHeadsetEffect == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin CreateHeadsetEffect method is not set!"));
-		return -1;
+		return RZRESULT_INVALID;
 	}
 
 	return _mMethodCreateHeadsetEffect(effect, pParam, pEffectId);
@@ -247,8 +265,7 @@ RZRESULT IChromaSDKPlugin::ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::EF
 {
 	if (_mMethodCreateKeyboardEffect == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin CreateKeyboardEffect method is not set!"));
-		return -1;
+		return RZRESULT_INVALID;
 	}
 
 	return _mMethodCreateKeyboardEffect(effect, pParam, pEffectId);
@@ -258,8 +275,7 @@ RZRESULT IChromaSDKPlugin::ChromaSDKCreateKeypadEffect(ChromaSDK::Keypad::EFFECT
 {
 	if (_mMethodCreateKeypadEffect == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin CreateKeypadEffect method is not set!"));
-		return -1;
+		return RZRESULT_INVALID;
 	}
 
 	return _mMethodCreateKeypadEffect(effect, pParam, pEffectId);
@@ -269,8 +285,7 @@ RZRESULT IChromaSDKPlugin::ChromaSDKCreateMouseEffect(ChromaSDK::Mouse::EFFECT_T
 {
 	if (_mMethodCreateMouseEffect == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin CreateMouseEffect method is not set!"));
-		return -1;
+		return RZRESULT_INVALID;
 	}
 
 	return _mMethodCreateMouseEffect(effect, pParam, pEffectId);
@@ -280,8 +295,7 @@ RZRESULT IChromaSDKPlugin::ChromaSDKCreateMousepadEffect(ChromaSDK::Mousepad::EF
 {
 	if (_mMethodCreateMousepadEffect == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin CreateMousepadEffect method is not set!"));
-		return -1;
+		return RZRESULT_INVALID;
 	}
 
 	return _mMethodCreateMousepadEffect(effect, pParam, pEffectId);
@@ -291,8 +305,7 @@ RZRESULT IChromaSDKPlugin::ChromaSDKSetEffect(RZEFFECTID effectId)
 {
 	if (_mMethodSetEffect == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin SetEffect method is not set!"));
-		return -1;
+		return RZRESULT_INVALID;
 	}
 
 	return _mMethodSetEffect(effectId);
@@ -302,8 +315,7 @@ RZRESULT IChromaSDKPlugin::ChromaSDKDeleteEffect(RZEFFECTID effectId)
 {
 	if (_mMethodDeleteEffect == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ChromaSDKPlugin DeleteEffect method is not set!"));
-		return -1;
+		return RZRESULT_INVALID;
 	}
 
 	return _mMethodDeleteEffect(effectId);

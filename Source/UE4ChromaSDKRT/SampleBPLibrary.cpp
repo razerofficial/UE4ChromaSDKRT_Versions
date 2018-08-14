@@ -19,36 +19,68 @@ USampleBPLibrary::USampleBPLibrary(const FPostConstructInitializeProperties& PCI
 
 void USampleBPLibrary::SampleStart()
 {
-	UChromaSDKPluginBPLibrary::ChromaSDKInit();
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		UChromaSDKPluginBPLibrary::ChromaSDKInit();
+	}
 }
 
 void USampleBPLibrary::SampleEnd()
 {
-	UChromaSDKPluginBPLibrary::ChromaSDKUnInit();
+	if (UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		UChromaSDKPluginBPLibrary::ChromaSDKUnInit();
+	}
 }
 
 void USampleBPLibrary::SamplePlayComposite()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
 	UChromaSDKPluginBPLibrary::PlayAnimationComposite("Random", false);
 }
 
 void USampleBPLibrary::SamplePlayCompositeLoop()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
 	UChromaSDKPluginBPLibrary::PlayAnimationComposite("Random", true);
 }
 
 void USampleBPLibrary::SampleStopComposite()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
 	UChromaSDKPluginBPLibrary::StopAnimationComposite("Random");
 }
 
 void USampleBPLibrary::SampleClearComposite()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
 	UChromaSDKPluginBPLibrary::ClearAll();
 }
 
 void USampleBPLibrary::SampleShowHotkeysAnimated()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>> keys = TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>();
 	keys.Add(EChromaSDKKeyboardKey::KK_W);
 	keys.Add(EChromaSDKKeyboardKey::KK_A);
@@ -68,6 +100,12 @@ void USampleBPLibrary::SampleShowHotkeysAnimated()
 
 void USampleBPLibrary::SampleShowHotkeysStaticColor()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>> keys = TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>();
 	keys.Add(EChromaSDKKeyboardKey::KK_W);
 	keys.Add(EChromaSDKKeyboardKey::KK_A);
@@ -87,6 +125,12 @@ void USampleBPLibrary::SampleShowHotkeysStaticColor()
 
 void USampleBPLibrary::SampleHideHotkeys()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Random_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(animation);
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
@@ -94,114 +138,228 @@ void USampleBPLibrary::SampleHideHotkeys()
 
 void USampleBPLibrary::SamplePlayAnimationChromaLink()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_ChromaLink";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
 void USampleBPLibrary::SamplePlayAnimationHeadset()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Headset";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
 void USampleBPLibrary::SamplePlayAnimationKeyboard()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Keyboard";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
 void USampleBPLibrary::SamplePlayAnimationKeypad()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Keypad";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
 void USampleBPLibrary::SamplePlayAnimationMouse()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Mouse";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
 void USampleBPLibrary::SamplePlayAnimationMousepad()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Mousepad";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
 void USampleBPLibrary::SampleLoopAnimationChromaLink()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_ChromaLink";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
 void USampleBPLibrary::SampleLoopAnimationHeadset()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Headset";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
 void USampleBPLibrary::SampleLoopAnimationKeyboard()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Keyboard";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
 void USampleBPLibrary::SampleLoopAnimationKeypad()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Keypad";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
 void USampleBPLibrary::SampleLoopAnimationMouse()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Mouse";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
 void USampleBPLibrary::SampleLoopAnimationMousepad()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Mousepad";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
 void USampleBPLibrary::SampleStopAnimationChromaLink()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_ChromaLink";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
 void USampleBPLibrary::SampleStopAnimationHeadset()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Headset";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
 void USampleBPLibrary::SampleStopAnimationKeyboard()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Keyboard";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
 void USampleBPLibrary::SampleStopAnimationKeypad()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Keypad";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
 void USampleBPLibrary::SampleStopAnimationMouse()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Mouse";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
 void USampleBPLibrary::SampleStopAnimationMousepad()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString animation = "Fire_Mousepad";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
 void USampleBPLibrary::SampleStaticColorChromaLink()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_ChromaLink);
 	FLinearColor color = FLinearColor(1, 0, 0);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_ChromaLink, color);
@@ -211,6 +369,12 @@ void USampleBPLibrary::SampleStaticColorChromaLink()
 
 void USampleBPLibrary::SampleStaticColorHeadset()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_Headset);
 	FLinearColor color = FLinearColor(1, 1, 0);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_Headset, color);
@@ -220,6 +384,12 @@ void USampleBPLibrary::SampleStaticColorHeadset()
 
 void USampleBPLibrary::SampleStaticColorKeyboard()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_Keyboard);
 	FLinearColor color = FLinearColor(1, 0, 1);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_Keyboard, color);
@@ -229,6 +399,12 @@ void USampleBPLibrary::SampleStaticColorKeyboard()
 
 void USampleBPLibrary::SampleStaticColorKeypad()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_Keypad);
 	FLinearColor color = FLinearColor(0, 1, 1);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_Keypad, color);
@@ -238,6 +414,12 @@ void USampleBPLibrary::SampleStaticColorKeypad()
 
 void USampleBPLibrary::SampleStaticColorMouse()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_Mouse);
 	FLinearColor color = FLinearColor(1, 1, 1);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_Mouse, color);
@@ -247,6 +429,12 @@ void USampleBPLibrary::SampleStaticColorMouse()
 
 void USampleBPLibrary::SampleStaticColorMousepad()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::StopAnimationType(EChromaSDKDeviceEnum::DE_Mousepad);
 	FLinearColor color = FLinearColor(1, 0.5f, 0);
 	FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectStatic(EChromaSDKDeviceEnum::DE_Mousepad, color);
@@ -256,36 +444,78 @@ void USampleBPLibrary::SampleStaticColorMousepad()
 
 void USampleBPLibrary::SampleClearChromaLink()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::ClearAnimationType(EChromaSDKDeviceEnum::DE_ChromaLink);
 }
 
 void USampleBPLibrary::SampleClearHeadset()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::ClearAnimationType(EChromaSDKDeviceEnum::DE_Headset);
 }
 
 void USampleBPLibrary::SampleClearKeyboard()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::ClearAnimationType(EChromaSDKDeviceEnum::DE_Keyboard);
 }
 
 void USampleBPLibrary::SampleClearKeypad()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::ClearAnimationType(EChromaSDKDeviceEnum::DE_Keypad);
 }
 
 void USampleBPLibrary::SampleClearMouse()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::ClearAnimationType(EChromaSDKDeviceEnum::DE_Mouse);
 }
 
 void USampleBPLibrary::SampleClearMousepad()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	UChromaSDKPluginBPLibrary::ClearAnimationType(EChromaSDKDeviceEnum::DE_Mousepad);
 }
 
 void USampleBPLibrary::SampleLayeredHeal()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	_sSelectedLayerExample = 0;
 
 	TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>> keys = TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>();
@@ -328,6 +558,12 @@ void USampleBPLibrary::SampleLayeredHeal()
 
 void USampleBPLibrary::SampleLayeredDamage()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	_sSelectedLayerExample = 1;
 
 	TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>> keys = TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>();
@@ -369,6 +605,12 @@ void USampleBPLibrary::SampleLayeredDamage()
 
 void USampleBPLibrary::SampleLayeredItemPickup()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	_sSelectedLayerExample = 2;
 
 	TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>> keys = TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>();
@@ -411,6 +653,12 @@ void USampleBPLibrary::SampleLayeredItemPickup()
 
 void USampleBPLibrary::SampleLayeredOff()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	FString baseLayer = "EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
 
@@ -419,6 +667,12 @@ void USampleBPLibrary::SampleLayeredOff()
 
 void USampleBPLibrary::SetupLastLayeredExample()
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	switch (_sSelectedLayerExample)
 	{
 	case 0:
@@ -435,18 +689,36 @@ void USampleBPLibrary::SetupLastLayeredExample()
 
 void USampleBPLibrary::SampleChangeBaseIntensity(float intensity)
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	_sBaseIntensity = intensity;
 	SetupLastLayeredExample();
 }
 
 void USampleBPLibrary::SampleChangeEffectIntensity(float intensity)
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	_sEffectIntensity = intensity;
 	SetupLastLayeredExample();
 }
 
 void USampleBPLibrary::SampleChangeHotkeyIntensity(float intensity)
 {
+	if (!UChromaSDKPluginBPLibrary::IsInitialized())
+	{
+		//Chroma is not available
+		return;
+	}
+
 	_sHotkeyIntensity = intensity;
 	SetupLastLayeredExample();
 }
