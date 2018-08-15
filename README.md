@@ -37,6 +37,10 @@
 
 ## Tutorials
 
+**UE4ChromaSDKRT Plugin Setup** for your specific version of UE4.
+
+<a target="_blank" href="https://www.youtube.com/watch?v=7buO9YCXjtY"><img src="https://img.youtube.com/vi/7buO9YCXjtY/0.jpg"/></a>
+
 **UE4ChromaSDKRT Overview**
 
 <a target="_blank" href="https://www.youtube.com/watch?v=-Q6Dn15m1Jg"><img src="https://img.youtube.com/vi/-Q6Dn15m1Jg/0.jpg"/></a>
@@ -59,6 +63,7 @@ The following UE4 versions are supported:
 4.17
 4.18
 4.19
+4.20
 ```
 
 4.10 and 4.11 requires `Visual Studio 2015 Update 2` [Update 3 has a problem treating warnings as errors](https://answers.unrealengine.com/questions/445126/compile-failed-when-creating-cpp-project.html)
