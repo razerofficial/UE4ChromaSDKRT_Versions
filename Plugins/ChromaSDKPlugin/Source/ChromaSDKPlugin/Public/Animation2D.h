@@ -24,9 +24,12 @@ namespace ChromaSDK
 		void Update(float deltaTime);
 		void ResetFrames();
 		int Save(const char* path);
+		void SetChromaCustom(bool flag);
+		bool UseChromaCustom();
 	private:
 		EChromaSDKDevice2DEnum::Type _mDevice;
 		std::vector<FChromaSDKColorFrame2D> _mFrames;
 		bool _mLoop;
+		bool _mUseChromaCustom;
 	};
 }

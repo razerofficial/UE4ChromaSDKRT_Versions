@@ -152,9 +152,18 @@ public:
 	void UnloadAnimation(int animationId);
 	void UnloadAnimationName(const char* path);
 
+	void SetChromaCustomFlag(int animationId, bool flag);
+	void SetChromaCustomFlagName(const char* path, bool flag);
+
+	void SetChromaCustomColorAllFrames(int animationId);
+	void SetChromaCustomColorAllFramesName(const char* path);
+
+	int OverrideFrameDuration(int animationId, float duration);
+	void OverrideFrameDurationName(const char* path, float duration);
+
 protected:
-	int min(int a, int b);
-	int max(int a, int b);
+	static int min(int a, int b);
+	static int max(int a, int b);
 
 	bool ValidateGetProcAddress(bool condition, FString methodName);
 

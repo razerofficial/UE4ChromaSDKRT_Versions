@@ -323,10 +323,12 @@ RZRESULT IChromaSDKPlugin::ChromaSDKDeleteEffect(RZEFFECTID effectId)
 
 int IChromaSDKPlugin::ToBGR(const FLinearColor& color)
 {
-	int red = color.R * 255;
-	int green = color.G * 255;
-	int blue = color.B * 255;
-	return RGB(red, green, blue);
+	int red = max(0, min(255, color.R * 255));
+	int green = max(0, min(255, color.G * 255));
+	int blue = max(0, min(255, color.B * 255));
+	int customFlag = max(0, min(255, color.A * 255));
+	int bgrColor = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16) | (customFlag << 24);
+	return bgrColor;
 }
 
 FLinearColor IChromaSDKPlugin::ToLinearColor(int color)
@@ -334,7 +336,8 @@ FLinearColor IChromaSDKPlugin::ToLinearColor(int color)
 	float red = GetRValue(color) / 255.0f;
 	float green = GetGValue(color) / 255.0f;
 	float blue = GetBValue(color) / 255.0f;
-	return FLinearColor(red, green, blue, 1.0f);
+	float alpha = ((color & 0xFF000000) >> 24) / 255.0f;
+	return FLinearColor(red, green, blue, alpha);
 }
 
 int IChromaSDKPlugin::GetMaxLeds(EChromaSDKDevice1DEnum::Type device)
@@ -1960,10 +1963,151 @@ void IChromaSDKPlugin::UnloadAnimationName(const char* path)
 	int animationId = GetAnimation(path);
 	if (animationId < 0)
 	{
-		UE_LOG(LogTemp, Error, TEXT("UnloadName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		UE_LOG(LogTemp, Error, TEXT("UnloadAnimationName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
 		return;
 	}
 	UnloadAnimation(animationId);
+}
+
+void IChromaSDKPlugin::SetChromaCustomFlag(int animationId, bool flag)
+{
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	if (animation->GetDeviceType() != EChromaSDKDeviceTypeEnum::DE_2D)
+	{
+		return;
+	}
+	if (animation->GetDeviceId() != EChromaSDKDevice2DEnum::DE_Keyboard)
+	{
+		return;
+	}
+	Animation2D* animation2D = (Animation2D*)(animation);
+	animation2D->SetChromaCustom(flag);
+}
+
+void IChromaSDKPlugin::SetChromaCustomFlagName(const char* path, bool flag)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("SetChromaCustomFlagName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	SetChromaCustomFlag(animationId, flag);
+}
+
+void IChromaSDKPlugin::SetChromaCustomColorAllFrames(int animationId)
+{
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	if (animation->GetDeviceType() != EChromaSDKDeviceTypeEnum::DE_2D)
+	{
+		return;
+	}
+	if (animation->GetDeviceId() != EChromaSDKDevice2DEnum::DE_Keyboard)
+	{
+		return;
+	}
+	Animation2D* animation2D = (Animation2D*)(animation);
+	vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+	for (int frameId = 0; frameId < int(frames.size()); ++frameId)
+	{
+		FChromaSDKColorFrame2D& frame = frames[frameId];
+		int maxRow = GetMaxRow(animation2D->GetDevice());
+		int maxColumn = GetMaxColumn(animation2D->GetDevice());
+		for (int i = 0; i < maxRow; ++i)
+		{
+			FChromaSDKColors& row = frame.Colors[i];
+			for (int j = 0; j < maxColumn; ++j)
+			{
+				int color = ToBGR(row.Colors[j]);
+				int customFlag = 0x1;
+				int red = (color & 0xFF);
+				int green = (color & 0xFF00) >> 8;
+				int blue = (color & 0xFF0000) >> 16;
+				color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16) | (customFlag << 24);
+				row.Colors[j] = ToLinearColor(color);
+			}
+		}
+	}
+}
+
+void IChromaSDKPlugin::SetChromaCustomColorAllFramesName(const char* path)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("SetChromaCustomColorAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	SetChromaCustomColorAllFrames(animationId);
+}
+
+int IChromaSDKPlugin::OverrideFrameDuration(int animationId, float duration)
+{
+	StopAnimation(animationId);
+
+	if (_mAnimations.find(animationId) != _mAnimations.end())
+	{
+		AnimationBase* animation = _mAnimations[animationId];
+		if (animation == nullptr)
+		{
+			return -1;
+		}
+		switch (animation->GetDeviceType())
+		{
+		case EChromaSDKDeviceTypeEnum::DE_1D:
+		{
+			Animation1D* animation1D = (Animation1D*)(animation);
+			vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+			for (int i = 0; i < int(frames.size()); ++i)
+			{
+				FChromaSDKColorFrame1D& frame = frames[i];
+				if (duration < 0.033f)
+				{
+					duration = 0.033f;
+				}
+				frame.Duration = duration;
+			}
+		}
+		break;
+		case EChromaSDKDeviceTypeEnum::DE_2D:
+		{
+			Animation2D* animation2D = (Animation2D*)(animation);
+			vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+			for (int i = 0; i < int(frames.size()); ++i)
+			{
+				FChromaSDKColorFrame2D& frame = frames[i];
+				if (duration < 0.033f)
+				{
+					duration = 0.033f;
+				}
+				frame.Duration = duration;
+			}
+		}
+		break;
+		}
+		return animationId;
+	}
+
+	return -1;
+}
+
+void IChromaSDKPlugin::OverrideFrameDurationName(const char* path, float duration)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("OverrideFrameDurationName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	OverrideFrameDuration(animationId, duration);
 }
 
 bool IChromaSDKPlugin::ValidateGetProcAddress(bool condition, FString methodName)

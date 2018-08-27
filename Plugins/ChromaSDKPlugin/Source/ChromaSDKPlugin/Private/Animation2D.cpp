@@ -18,6 +18,7 @@ Animation2D::Animation2D()
 {
 	//default device
 	_mDevice = EChromaSDKDevice2DEnum::DE_Keyboard;
+	_mUseChromaCustom = false;
 	Reset();
 }
 
@@ -99,7 +100,16 @@ void Animation2D::Load()
 	for (unsigned int i = 0; i < _mFrames.size(); ++i)
 	{
 		FChromaSDKColorFrame2D& frame = _mFrames[i];
-		FChromaSDKEffectResult effect = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D(_mDevice, frame.Colors);
+		FChromaSDKEffectResult effect;
+		if (_mDevice == EChromaSDKDevice2DEnum::DE_Keyboard &&
+			_mUseChromaCustom)
+		{
+			effect = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectKeyboardCustom2D(frame.Colors);
+		}
+		else
+		{
+			effect = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D(_mDevice, frame.Colors);
+		}
 		if (effect.Result != 0)
 		{
 			fprintf(stderr, "Load: Failed to create effect!\r\n");
@@ -327,6 +337,17 @@ int Animation2D::Save(const char* path)
 
 	return -1;
 }
+
+void Animation2D::SetChromaCustom(bool flag)
+{
+	_mUseChromaCustom = flag;
+}
+
+bool Animation2D::UseChromaCustom()
+{
+	return _mUseChromaCustom;
+}
+
 
 #include "HideWindowsPlatformTypes.h"
 

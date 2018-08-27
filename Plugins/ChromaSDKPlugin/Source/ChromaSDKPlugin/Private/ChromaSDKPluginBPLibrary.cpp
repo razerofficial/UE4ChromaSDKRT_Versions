@@ -800,6 +800,53 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D(
 	return data;
 }
 
+FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectKeyboardCustom2D(const TArray<FChromaSDKColors>& colors)
+{
+	FChromaSDKEffectResult data = FChromaSDKEffectResult();
+
+#if PLATFORM_WINDOWS
+
+	int result = 0;
+	RZEFFECTID effectId = RZEFFECTID();
+	int maxRow = ChromaSDK::Keyboard::MAX_ROW;
+	int maxColumn = ChromaSDK::Keyboard::MAX_COLUMN;
+
+	if (maxRow != colors.Num() ||
+		(colors.Num() > 0 &&
+		maxColumn != colors[0].Colors.Num()))
+	{
+		UE_LOG(LogTemp, Error, TEXT("UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectKeyboardCustom2D Array size mismatch row: %d==%d column: %d==%d!"),
+			maxRow,
+			colors.Num(),
+			maxColumn,
+			colors.Num() > 0 ? colors[0].Colors.Num() : 0);
+	}
+	else
+	{
+		ChromaSDK::Keyboard::CUSTOM_KEY_EFFECT_TYPE pParam = {};
+		for (int i = 0; i < maxRow; i++)
+		{
+			const FChromaSDKColors& row = colors[i];
+			for (int j = 0; j < maxColumn; j++)
+			{
+				const FLinearColor& color = row.Colors[j];
+				int red = color.R * 255;
+				int green = color.G * 255;
+				int blue = color.B * 255;
+				pParam.Key[i][j] = RGB(red, green, blue);
+			}
+		}
+		result = _sIChromaSDKPlugin.ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_CUSTOM_KEY, &pParam, &effectId);
+	}
+	
+	data.EffectId.Data = effectId;
+	data.Result = result;
+
+#endif
+
+	return data;
+}
+
 int UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(const FChromaSDKGuid& effectId)
 {
 #if PLATFORM_WINDOWS
@@ -902,6 +949,18 @@ void UChromaSDKPluginBPLibrary::PlayAnimation(const FString& animationName, bool
 //	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("PlayAnimation: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.PlayAnimationName(pathArg, loop);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::PlayAnimationName(const FString& animationName, bool loop)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("PlayAnimationName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
 	_sIChromaSDKPlugin.PlayAnimationName(pathArg, loop);
 #endif
@@ -1913,7 +1972,7 @@ int UChromaSDKPluginBPLibrary::GetFrameCount(const int animationId)
 #endif
 }
 
-int UChromaSDKPluginBPLibrary::GetFrameCountName(const FString& animationName)
+void UChromaSDKPluginBPLibrary::GetFrameCountName(const FString& animationName)
 {
 #if PLATFORM_WINDOWS
 	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
@@ -1921,9 +1980,43 @@ int UChromaSDKPluginBPLibrary::GetFrameCountName(const FString& animationName)
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("StopAnimation: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	return _sIChromaSDKPlugin.GetAnimationFrameCountName(pathArg);
-#else
-	return -1;
+	_sIChromaSDKPlugin.GetAnimationFrameCountName(pathArg);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::SetChromaCustomFlagName(const FString& animationName, bool flag)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("StopAnimation: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.SetChromaCustomFlagName(pathArg, flag);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::SetChromaCustomColorAllFramesName(const FString& animationName)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("StopAnimation: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.SetChromaCustomColorAllFramesName(pathArg);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::OverrideFrameDurationName(const FString& animationName, float duration)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("StopAnimation: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.OverrideFrameDurationName(pathArg, duration);
 #endif
 }
 

@@ -70,6 +70,9 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateEffectCustom2D", Keywords = "Create a custom color effect using two-dimensional array"), Category = "ChromaSDK")
 	static FChromaSDKEffectResult ChromaSDKCreateEffectCustom2D(EChromaSDKDevice2DEnum::Type device, const TArray<FChromaSDKColors>& colors);
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateEffectKeyboardCustom2D", Keywords = "Create a custom color keyboard effect using two-dimensional array"), Category = "ChromaSDK")
+	static FChromaSDKEffectResult ChromaSDKCreateEffectKeyboardCustom2D(const TArray<FChromaSDKColors>& colors);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetEffect", Keywords = "Set Effect with Effect Id"), Category = "ChromaSDK")
 	static int32 ChromaSDKSetEffect(const FChromaSDKGuid& effectId);
 
@@ -105,6 +108,9 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "PlayAnimation", Keywords = "Play the *.chroma Animation"), Category = "ChromaSDK")
 	static void PlayAnimation(const FString& animationName, bool loop);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "PlayAnimationName", Keywords = "Play the *.chroma Animation"), Category = "ChromaSDK")
+	static void PlayAnimationName(const FString& animationName, bool loop);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "StopAnimation", Keywords = "Stop the *.chroma Animation"), Category = "ChromaSDK")
 	static void StopAnimation(const FString& animationName);
@@ -333,7 +339,17 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static int32 GetFrameCount(const int32 animationId);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetFrameCountName", Keywords = "Get the .chroma animation frame count"), Category = "ChromaSDK")
-	static int32 GetFrameCountName(const FString& animationName);
+	static void GetFrameCountName(const FString& animationName);
+
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetChromaCustomFlagName", Keywords = "Set the Chroma custom flag for keyboard"), Category = "ChromaSDK")
+	static void SetChromaCustomFlagName(const FString& animationName, bool flag);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetChromaCustomColorAllFramesName", Keywords = "Set the custom color mask on all the colors"), Category = "ChromaSDK")
+	static void SetChromaCustomColorAllFramesName(const FString& animationName);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OverrideFrameDurationName", Keywords = "Set the Chroma custom flag for keyboard"), Category = "ChromaSDK")
+	static void OverrideFrameDurationName(const FString& animationName, float duration);
 
 #if PLATFORM_WINDOWS
 private:
