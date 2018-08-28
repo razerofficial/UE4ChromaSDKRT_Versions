@@ -278,6 +278,8 @@ TArray<FChromaSDKColors> UChromaSDKPluginBPLibrary::CreateColors2D(EChromaSDKDev
 	return result;
 }
 
+// RANDOM
+
 TArray<FLinearColor> UChromaSDKPluginBPLibrary::CreateRandomColors1D(EChromaSDKDevice1DEnum::Type device)
 {
 	TArray<FLinearColor> colors = TArray<FLinearColor>();
@@ -312,6 +314,46 @@ TArray<FChromaSDKColors> UChromaSDKPluginBPLibrary::CreateRandomColors2D(EChroma
 			float blue = FMath::RandRange(0.0f, 1.0f);
 			float alpha = 1.0f;
 			FLinearColor color = FLinearColor(red, green, blue, alpha);
+			row.Colors.Add(color);
+		}
+		result.Add(row);
+	}
+#endif
+	return result;
+}
+
+// RANDOM BLACK AND WHITE
+
+TArray<FLinearColor> UChromaSDKPluginBPLibrary::CreateRandomColorsBlackAndWhite1D(EChromaSDKDevice1DEnum::Type device)
+{
+	TArray<FLinearColor> colors = TArray<FLinearColor>();
+#if PLATFORM_WINDOWS
+	int elements = GetMaxLeds(device);
+	for (int i = 0; i < elements; ++i)
+	{
+		float gray = FMath::RandRange(0.0f, 1.0f);
+		float alpha = 1.0f;
+		FLinearColor color = FLinearColor(gray, gray, gray, alpha);
+		colors.Add(color);
+	}
+#endif
+	return colors;
+}
+
+TArray<FChromaSDKColors> UChromaSDKPluginBPLibrary::CreateRandomColorsBlackAndWhite2D(EChromaSDKDevice2DEnum::Type device)
+{
+	TArray<FChromaSDKColors> result = TArray<FChromaSDKColors>();
+#if PLATFORM_WINDOWS
+	int maxRows = GetMaxRow(device);
+	int maxColumns = GetMaxColumn(device);
+	for (int i = 0; i < maxRows; ++i)
+	{
+		FChromaSDKColors row = FChromaSDKColors();
+		for (int j = 0; j < maxColumns; ++j)
+		{
+			float gray = FMath::RandRange(0.0f, 1.0f);
+			float alpha = 1.0f;
+			FLinearColor color = FLinearColor(gray, gray, gray, alpha);
 			row.Colors.Add(color);
 		}
 		result.Add(row);
@@ -2014,6 +2056,92 @@ void UChromaSDKPluginBPLibrary::FillZeroColorAllFramesRGBName(const FString& ani
 	_sIChromaSDKPlugin.FillZeroColorAllFramesRGBName(pathArg, red, green, blue);
 #endif
 }
+
+
+// FILL RANDOM COLORS
+
+void UChromaSDKPluginBPLibrary::FillRandomColors(int32 animationId, int32 frameId)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillRandomColors(animationId, frameId);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillRandomColorsName(const FString& animationName, int32 frameId)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillRandomColorsName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillRandomColorsName(pathArg, frameId);
+#endif
+}
+
+
+void UChromaSDKPluginBPLibrary::FillRandomColorsAllFrames(int32 animationId)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillRandomColorsAllFrames(animationId);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillRandomColorsAllFramesName(const FString& animationName)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillRandomColorsAllFramesName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillRandomColorsAllFramesName(pathArg);
+#endif
+}
+
+
+// FILL RANDOM BLACK AND WHITE
+
+
+void UChromaSDKPluginBPLibrary::FillRandomColorsBlackAndWhite(int32 animationId, int32 frameId)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillRandomColorsBlackAndWhite(animationId, frameId);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillRandomColorsBlackAndWhiteName(const FString& animationName, int32 frameId)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillRandomColorsBlackAndWhiteName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillRandomColorsBlackAndWhiteName(pathArg, frameId);
+#endif
+}
+
+
+void UChromaSDKPluginBPLibrary::FillRandomColorsBlackAndWhiteAllFrames(int32 animationId)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillRandomColorsBlackAndWhiteAllFrames(animationId);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillRandomColorsBlackAndWhiteAllFramesName(const FString& animationName)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillRandomColorsBlackAndWhiteAllFramesName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillRandomColorsBlackAndWhiteAllFramesName(pathArg);
+#endif
+}
+
 
 // OFFSET COLORS
 

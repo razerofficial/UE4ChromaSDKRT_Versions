@@ -37,6 +37,12 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateRandomColors2D", Keywords = "Create a random two-dimensional color array"), Category = "ChromaSDK")
 	static TArray<FChromaSDKColors> CreateRandomColors2D(EChromaSDKDevice2DEnum::Type device);
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateRandomColorsBlackAndWhite1D", Keywords = "Create a random one-dimensional black and white color array"), Category = "ChromaSDK")
+	static TArray<FLinearColor> CreateRandomColorsBlackAndWhite1D(EChromaSDKDevice1DEnum::Type device);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateRandomColorsBlackAndWhite2D", Keywords = "Create a random two-dimensional black and white color array"), Category = "ChromaSDK")
+	static TArray<FChromaSDKColors> CreateRandomColorsBlackAndWhite2D(EChromaSDKDevice2DEnum::Type device);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeyboardKeyColor", Keywords = "Set the key to the supplied color"), Category = "ChromaSDK")
 	static void SetKeyboardKeyColor(EChromaSDKKeyboardKey::Type key, const FLinearColor& colorParam, UPARAM(ref) TArray<FChromaSDKColors>& colors);
 
@@ -373,6 +379,39 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillZeroColorAllFramesRGBName", Keywords = "Set the RGB value for all zero colors in all frames"), Category = "ChromaSDK")
 	static void FillZeroColorAllFramesRGBName(const FString& animationName, int32 red, int32 green, int32 blue);
+
+
+	// FILL RANDOM COLORS
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillRandomColors", Keywords = "Fill the frame with random colors"), Category = "ChromaSDK")
+	static void FillRandomColors(int32 animationId, int32 frameId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillRandomColorsName", Keywords = "Fill the frame with random colors"), Category = "ChromaSDK")
+	static void FillRandomColorsName(const FString& animationName, int32 frameId);
+
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillRandomColorsAllFrames", Keywords = "Fill all frames with random colors"), Category = "ChromaSDK")
+	static void FillRandomColorsAllFrames(int32 animationId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillRandomColorsAllFramesName", Keywords = "Fill all frames with random colors"), Category = "ChromaSDK")
+	static void FillRandomColorsAllFramesName(const FString& animationName);
+
+
+	// FILL RANDOM BLACK AND WHITE
+
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillRandomColorsBlackAndWhite", Keywords = "Fill the frame with random black and white colors"), Category = "ChromaSDK")
+	static void FillRandomColorsBlackAndWhite(int32 animationId, int32 frameId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillRandomColorsBlackAndWhiteName", Keywords = "Fill the frame with random black and white colors"), Category = "ChromaSDK")
+	static void FillRandomColorsBlackAndWhiteName(const FString& animationName, int32 frameId);
+
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillRandomColorsBlackAndWhiteAllFrames", Keywords = "Fill all frames with random black and white colors"), Category = "ChromaSDK")
+	static void FillRandomColorsBlackAndWhiteAllFrames(int32 animationId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillRandomColorsBlackAndWhiteAllFramesName", Keywords = "Fill all frames with random black and white colors"), Category = "ChromaSDK")
+	static void FillRandomColorsBlackAndWhiteAllFramesName(const FString& animationName);
 
 
 	// OFFSET COLORS

@@ -2011,6 +2011,172 @@ void IChromaSDKPlugin::FillZeroColorAllFramesRGBName(const char* path, int red, 
 }
 
 
+// FILL RANDOM COLORS
+
+
+void IChromaSDKPlugin::FillRandomColors(int animationId, int frameId)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = animation->GetFrameCount();
+	if (frameId >= 0 && frameId < frameCount)
+	{
+		switch (animation->GetDeviceType())
+		{
+		case EChromaSDKDeviceTypeEnum::DE_1D:
+		{
+			Animation1D* animation1D = (Animation1D*)(animation);
+			vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+			if (frameId >= 0 &&
+				frameId < frames.size())
+			{
+				FChromaSDKColorFrame1D& frame = frames[frameId];
+				frame.Colors = UChromaSDKPluginBPLibrary::CreateRandomColors1D(animation1D->GetDevice());
+			}
+		}
+		break;
+		case EChromaSDKDeviceTypeEnum::DE_2D:
+		{
+			Animation2D* animation2D = (Animation2D*)(animation);
+			vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+			if (frameId >= 0 &&
+				frameId < frames.size())
+			{
+				FChromaSDKColorFrame2D& frame = frames[frameId];
+				frame.Colors = UChromaSDKPluginBPLibrary::CreateRandomColors2D(animation2D->GetDevice());
+			}
+		}
+		break;
+		}
+	}
+}
+
+void IChromaSDKPlugin::FillRandomColorsName(const char* path, int frameId)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("FillRandomColorsName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	FillRandomColors(animationId, frameId);
+}
+
+
+void IChromaSDKPlugin::FillRandomColorsAllFrames(int animationId)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = animation->GetFrameCount();
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		FillRandomColors(animationId, frameId);
+	}
+}
+
+void IChromaSDKPlugin::FillRandomColorsAllFramesName(const char* path)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("FillRandomColorsAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	FillRandomColorsAllFrames(animationId);
+}
+
+
+// FILL RANDOM BLACK AND WHITE
+
+
+void IChromaSDKPlugin::FillRandomColorsBlackAndWhite(int animationId, int frameId)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = animation->GetFrameCount();
+	if (frameId >= 0 && frameId < frameCount)
+	{
+		switch (animation->GetDeviceType())
+		{
+		case EChromaSDKDeviceTypeEnum::DE_1D:
+		{
+			Animation1D* animation1D = (Animation1D*)(animation);
+			vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+			if (frameId >= 0 &&
+				frameId < frames.size())
+			{
+				FChromaSDKColorFrame1D& frame = frames[frameId];
+				frame.Colors = UChromaSDKPluginBPLibrary::CreateRandomColorsBlackAndWhite1D(animation1D->GetDevice());
+			}
+		}
+		break;
+		case EChromaSDKDeviceTypeEnum::DE_2D:
+		{
+			Animation2D* animation2D = (Animation2D*)(animation);
+			vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+			if (frameId >= 0 &&
+				frameId < frames.size())
+			{
+				FChromaSDKColorFrame2D& frame = frames[frameId];
+				frame.Colors = UChromaSDKPluginBPLibrary::CreateRandomColorsBlackAndWhite2D(animation2D->GetDevice());
+			}
+		}
+		break;
+		}
+	}
+}
+
+void IChromaSDKPlugin::FillRandomColorsBlackAndWhiteName(const char* path, int frameId)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("FillRandomColorsBlackAndWhiteName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	FillRandomColorsBlackAndWhite(animationId, frameId);
+}
+
+
+void IChromaSDKPlugin::FillRandomColorsBlackAndWhiteAllFrames(int animationId)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = animation->GetFrameCount();
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		FillRandomColorsBlackAndWhite(animationId, frameId);
+	}
+}
+
+void IChromaSDKPlugin::FillRandomColorsBlackAndWhiteAllFramesName(const char* path)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("FillRandomColorsBlackAndWhiteAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	FillRandomColorsBlackAndWhiteAllFrames(animationId);
+}
+
+
 // OFFSET COLORS
 
 void IChromaSDKPlugin::OffsetColors(int animationId, int frameId, int offsetRed, int offsetGreen, int offsetBlue)
