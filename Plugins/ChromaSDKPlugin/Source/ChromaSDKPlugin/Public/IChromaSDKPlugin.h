@@ -122,30 +122,65 @@ public:
 	void CopyNonZeroAllKeysColor(int sourceAnimationId, int targetAnimationId, int frameId);
 	void CopyNonZeroAllKeysColorName(const char* sourceAnimation, const char* targetAnimation, int frameId);
 	
-	void FillColor(int animationId, int frameId, int red, int green, int blue);
-	void FillColorName(const char* path, int frameId, int red, int green, int blue);
-	void FillColorAllFrames(int animationId, int red, int green, int blue);
-	void FillColorAllFramesName(const char* path, int red, int green, int blue);
+	void FillColor(int animationId, int frameId, int color);
+	void FillColorName(const char* path, int frameId, int color);
 
-	void FillNonZeroColor(int animationId, int frameId, int red, int green, int blue);
-	void FillNonZeroColorName(const char* path, int frameId, int red, int green, int blue);
-	void FillNonZeroColorAllFrames(int animationId, int red, int green, int blue);
-	void FillNonZeroColorAllFramesName(const char* path, int red, int green, int blue);
+	void FillColorRGB(int animationId, int frameId, int red, int green, int blue);
+	void FillColorRGBName(const char* path, int frameId, int red, int green, int blue);
+
+	void FillZeroColor(int animationId, int frameId, int color);
+	void FillZeroColorName(const char* path, int frameId, int color);
+
+	void FillZeroColorRGB(int animationId, int frameId, int red, int green, int blue);
+	void FillZeroColorRGBName(const char* path, int frameId, int red, int green, int blue);
+
+	void FillColorAllFrames(int animationId, int color);
+	void FillColorAllFramesName(const char* path, int color);
+
+	void FillColorAllFramesRGB(int animationId, int red, int green, int blue);
+	void FillColorAllFramesRGBName(const char* path, int red, int green, int blue);
+
+	void FillNonZeroColor(int animationId, int frameId, int color);
+	void FillNonZeroColorName(const char* path, int frameId, int color);
+
+	void FillNonZeroColorRGB(int animationId, int frameId, int red, int green, int blue);
+	void FillNonZeroColorRGBName(const char* path, int frameId, int red, int green, int blue);
+
+	void FillNonZeroColorAllFrames(int animationId, int color);
+	void FillNonZeroColorAllFramesName(const char* path, int color);
+
+	void FillNonZeroColorAllFramesRGB(int animationId, int red, int green, int blue);
+	void FillNonZeroColorAllFramesRGBName(const char* path, int red, int green, int blue);
+
+	void FillZeroColorAllFrames(int animationId, int color);
+	void FillZeroColorAllFramesName(const char* path, int color);
+
+	void FillZeroColorAllFramesRGB(int animationId, int red, int green, int blue);
+	void FillZeroColorAllFramesRGBName(const char* path, int red, int green, int blue);
 
 	void OffsetColors(int animationId, int frameId, int red, int green, int blue);
 	void OffsetColorsName(const char* path, int frameId, int red, int green, int blue);
+
 	void OffsetColorsAllFrames(int animationId, int red, int green, int blue);
 	void OffsetColorsAllFramesName(const char* path, int red, int green, int blue);
 
 	void OffsetNonZeroColors(int animationId, int frameId, int red, int green, int blue);
 	void OffsetNonZeroColorsName(const char* path, int frameId, int red, int green, int blue);
+
 	void OffsetNonZeroColorsAllFrames(int animationId, int red, int green, int blue);
 	void OffsetNonZeroColorsAllFramesName(const char* path, int red, int green, int blue);
 
 	void MultiplyIntensity(int animationId, int frameId, float intensity);
 	void MultiplyIntensityName(const char* path, int frameId, float intensity);
+
+	void MultiplyIntensityRGB(int animationId, int frameId, float redIntensity, float greenIntensity, float blueIntensity);
+	void MultiplyIntensityRGBName(const char* path, int frameId, float redIntensity, float greenIntensity, float blueIntensity);
+
 	void MultiplyIntensityAllFrames(int animationId, float intensity);
 	void MultiplyIntensityAllFramesName(const char* path, float intensity);
+
+	void MultiplyIntensityAllFramesRGB(int animationId, float redIntensity, float greenIntensity, float blueIntensity);
+	void MultiplyIntensityAllFramesRGBName(const char* path, float redIntensity, float greenIntensity, float blueIntensity);
 
 	void LoadAnimation(int animationId);
 	void LoadAnimationName(const char* path);

@@ -865,6 +865,19 @@ int UChromaSDKPluginBPLibrary::ChromaSDKDeleteEffect(const FChromaSDKGuid& effec
 #endif
 }
 
+int UChromaSDKPluginBPLibrary::GetAnimation(const FString& animationName)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	return _sIChromaSDKPlugin.GetAnimation(pathArg);
+#else
+	return -1;
+#endif
+}
+
 int UChromaSDKPluginBPLibrary::GetAnimationId(const FString& animationName)
 {
 #if PLATFORM_WINDOWS
@@ -1762,15 +1775,16 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(const FString& s
 #endif
 }
 
+// FILL COLOR
 
-void UChromaSDKPluginBPLibrary::FillColor(int animationId, int frameId, int red, int green, int blue)
+void UChromaSDKPluginBPLibrary::FillColor(int animationId, int frameId, const FLinearColor& colorParam)
 {
 #if PLATFORM_WINDOWS
-	_sIChromaSDKPlugin.FillColor(animationId, frameId, red, green, blue);
+	_sIChromaSDKPlugin.FillColor(animationId, frameId, IChromaSDKPlugin::ToBGR(colorParam));
 #endif
 }
 
-void UChromaSDKPluginBPLibrary::FillColorName(const FString& animationName, int frameId, int red, int green, int blue)
+void UChromaSDKPluginBPLibrary::FillColorName(const FString& animationName, int frameId, const FLinearColor& colorParam)
 {
 #if PLATFORM_WINDOWS
 	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
@@ -1778,19 +1792,119 @@ void UChromaSDKPluginBPLibrary::FillColorName(const FString& animationName, int 
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("FillColorName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	_sIChromaSDKPlugin.FillColorName(pathArg, frameId, red, green, blue);
+	_sIChromaSDKPlugin.FillColorName(pathArg, frameId, IChromaSDKPlugin::ToBGR(colorParam));
 #endif
 }
 
-
-void UChromaSDKPluginBPLibrary::FillColorAllFrames(int animationId, int red, int green, int blue)
+void UChromaSDKPluginBPLibrary::FillColorRGB(int animationId, int frameId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
-	_sIChromaSDKPlugin.FillColorAllFrames(animationId, red, green, blue);
+	_sIChromaSDKPlugin.FillColorRGB(animationId, frameId, red, green, blue);
 #endif
 }
 
-void UChromaSDKPluginBPLibrary::FillColorAllFramesName(const FString& animationName, int red, int green, int blue)
+void UChromaSDKPluginBPLibrary::FillColorRGBName(const FString& animationName, int frameId, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillColorName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillColorRGBName(pathArg, frameId, red, green, blue);
+#endif
+}
+
+// NONZERO COLOR
+
+void UChromaSDKPluginBPLibrary::FillNonZeroColor(int animationId, int frameId, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillNonZeroColor(animationId, frameId, IChromaSDKPlugin::ToBGR(colorParam));
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillNonZeroColorName(const FString& animationName, int frameId, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillNonZeroColorName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillNonZeroColorName(pathArg, frameId, IChromaSDKPlugin::ToBGR(colorParam));
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillNonZeroColorRGB(int animationId, int frameId, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillNonZeroColorRGB(animationId, frameId, red, green, blue);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillNonZeroColorRGBName(const FString& animationName, int frameId, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillNonZeroColorName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillNonZeroColorRGBName(pathArg, frameId, red, green, blue);
+#endif
+}
+
+// ZERO COLOR
+
+void UChromaSDKPluginBPLibrary::FillZeroColor(int animationId, int frameId, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillZeroColor(animationId, frameId, IChromaSDKPlugin::ToBGR(colorParam));
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillZeroColorName(const FString& animationName, int frameId, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillZeroColorName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillZeroColorName(pathArg, frameId, IChromaSDKPlugin::ToBGR(colorParam));
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillZeroColorRGB(int animationId, int frameId, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillZeroColorRGB(animationId, frameId, red, green, blue);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillZeroColorRGBName(const FString& animationName, int frameId, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillZeroColorName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillZeroColorRGBName(pathArg, frameId, red, green, blue);
+#endif
+}
+
+// FILL COLOR ALL FRAMES
+
+void UChromaSDKPluginBPLibrary::FillColorAllFrames(int animationId, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillColorAllFrames(animationId, IChromaSDKPlugin::ToBGR(colorParam));
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillColorAllFramesName(const FString& animationName, const FLinearColor& colorParam)
 {
 #if PLATFORM_WINDOWS
 	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
@@ -1798,39 +1912,39 @@ void UChromaSDKPluginBPLibrary::FillColorAllFramesName(const FString& animationN
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("FillColorAllFramesName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	_sIChromaSDKPlugin.FillColorAllFramesName(pathArg, red, green, blue);
+	_sIChromaSDKPlugin.FillColorAllFramesName(pathArg, IChromaSDKPlugin::ToBGR(colorParam));
 #endif
 }
 
-
-void UChromaSDKPluginBPLibrary::FillNonZeroColor(int animationId, int frameId, int red, int green, int blue)
+void UChromaSDKPluginBPLibrary::FillColorAllFramesRGB(int animationId, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
-	_sIChromaSDKPlugin.FillNonZeroColor(animationId, frameId, red, green, blue);
+	_sIChromaSDKPlugin.FillColorAllFramesRGB(animationId, red, green, blue);
 #endif
 }
 
-void UChromaSDKPluginBPLibrary::FillNonZeroColorName(const FString& animationName, int frameId, int red, int green, int blue)
+void UChromaSDKPluginBPLibrary::FillColorAllFramesRGBName(const FString& animationName, int red, int green, int blue)
 {
 #if PLATFORM_WINDOWS
 	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
-//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	path += animationName + ".chroma";
-	//UE_LOG(LogTemp, Log, TEXT("FillNonZeroColorName: %s"), *path);
+	//UE_LOG(LogTemp, Log, TEXT("FillColorAllFramesName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	_sIChromaSDKPlugin.FillNonZeroColorName(pathArg, frameId, red, green, blue);
+	_sIChromaSDKPlugin.FillColorAllFramesRGBName(pathArg, red, green, blue);
 #endif
 }
 
+// NONZERO COLOR
 
-void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFrames(int animationId, int red, int green, int blue)
+void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFrames(int animationId, const FLinearColor& colorParam)
 {
 #if PLATFORM_WINDOWS
-	_sIChromaSDKPlugin.FillNonZeroColorAllFrames(animationId, red, green, blue);
+	_sIChromaSDKPlugin.FillNonZeroColorAllFrames(animationId, IChromaSDKPlugin::ToBGR(colorParam));
 #endif
 }
 
-void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFramesName(const FString& animationName, int red, int green, int blue)
+void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFramesName(const FString& animationName, const FLinearColor& colorParam)
 {
 #if PLATFORM_WINDOWS
 	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
@@ -1838,10 +1952,70 @@ void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFramesName(const FString& ani
 	path += animationName + ".chroma";
 	//UE_LOG(LogTemp, Log, TEXT("FillNonZeroColorAllFramesName: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
-	_sIChromaSDKPlugin.FillNonZeroColorAllFramesName(pathArg, red, green, blue);
+	_sIChromaSDKPlugin.FillNonZeroColorAllFramesName(pathArg, IChromaSDKPlugin::ToBGR(colorParam));
 #endif
 }
 
+void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFramesRGB(int animationId, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillNonZeroColorAllFramesRGB(animationId, red, green, blue);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillNonZeroColorAllFramesRGBName(const FString& animationName, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillNonZeroColorAllFramesName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillNonZeroColorAllFramesRGBName(pathArg, red, green, blue);
+#endif
+}
+
+// ZERO COLOR
+
+void UChromaSDKPluginBPLibrary::FillZeroColorAllFrames(int animationId, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillZeroColorAllFrames(animationId, IChromaSDKPlugin::ToBGR(colorParam));
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillZeroColorAllFramesName(const FString& animationName, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillNonZeroColorAllFramesName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillZeroColorAllFramesName(pathArg, IChromaSDKPlugin::ToBGR(colorParam));
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillZeroColorAllFramesRGB(int animationId, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillZeroColorAllFramesRGB(animationId, red, green, blue);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillZeroColorAllFramesRGBName(const FString& animationName, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("FillNonZeroColorAllFramesName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillZeroColorAllFramesRGBName(pathArg, red, green, blue);
+#endif
+}
+
+// OFFSET COLORS
 
 void UChromaSDKPluginBPLibrary::OffsetColors(int animationId, int frameId, int red, int green, int blue)
 {
