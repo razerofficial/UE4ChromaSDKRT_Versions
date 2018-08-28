@@ -260,6 +260,28 @@ FLinearColor UChromaSDKPluginBPLibrary::ToLinearColor(int32 colorParam)
 	return IChromaSDKPlugin::ToLinearColor(colorParam);
 }
 
+float UChromaSDKPluginBPLibrary::Lerp(float start, float end, float amt)
+{
+	return (1 - amt)*start + amt * end;
+}
+
+int32 UChromaSDKPluginBPLibrary::LerpColorBGR(int from, int to, float t)
+{
+	int red = floor(Lerp((from & 0xFF), (to & 0xFF), t));
+	int green = floor(Lerp((from & 0xFF00) >> 8, (to & 0xFF00) >> 8, t));
+	int blue = floor(Lerp((from & 0xFF0000) >> 16, (to & 0xFF0000) >> 16, t));
+	int color = red | (green << 8) | (blue << 16);
+	return color;
+}
+
+FLinearColor UChromaSDKPluginBPLibrary::LerpColor(FLinearColor colorParam1, FLinearColor colorParam2, float t)
+{
+	int color1 = ToBGR(colorParam1);
+	int color2 = ToBGR(colorParam2);
+	int color = LerpColorBGR(color1, color2, t);
+	return ToLinearColor(color);
+}
+
 TArray<FLinearColor> UChromaSDKPluginBPLibrary::CreateColors1D(EChromaSDKDevice1DEnum::Type device)
 {
 	TArray<FLinearColor> colors = TArray<FLinearColor>();

@@ -34,6 +34,15 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "ToLinearColor", Keywords = "Convert BGR int to LinearColor"), Category = "ChromaSDK")
 	static FLinearColor ToLinearColor(int32 colorParam);
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Lerp", Keywords = "Lerp floating point over 0 to 1"), Category = "ChromaSDK")
+	static float Lerp(float start, float end, float amt);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "LerpColorBGR", Keywords = "Lerp from one color to another over 0 to 1"), Category = "ChromaSDK")
+	static int32 LerpColorBGR(int32 from, int32 to, float t);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "LerpColor", Keywords = "Lerp from one color to another over 0 to 1"), Category = "ChromaSDK")
+	static FLinearColor LerpColor(FLinearColor colorParam1, FLinearColor colorParam2, float t);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateColors1D", Keywords = "Create a blank one-dimensional color array"), Category = "ChromaSDK")
 	static TArray<FLinearColor> CreateColors1D(EChromaSDKDevice1DEnum::Type device);
 
