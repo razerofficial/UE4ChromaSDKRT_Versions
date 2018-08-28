@@ -3081,6 +3081,8 @@ void IChromaSDKPlugin::OffsetNonZeroColorsAllFramesName(const char* path, int re
 }
 
 
+// MULTIPLY INTENSITY
+
 void IChromaSDKPlugin::MultiplyIntensity(int animationId, int frameId, float intensity)
 {
 	StopAnimation(animationId);
@@ -3157,6 +3159,92 @@ void IChromaSDKPlugin::MultiplyIntensityName(const char* path, int frameId, floa
 		return;
 	}
 	return MultiplyIntensity(animationId, frameId, intensity);
+}
+
+// MULTIPLY INTENSITY COLOR
+
+void IChromaSDKPlugin::MultiplyIntensityColor(int animationId, int frameId, int color)
+{
+	StopAnimation(animationId);
+	int red = (color & 0xFF);
+	int green = (color & 0xFF00) >> 8;
+	int blue = (color & 0xFF0000) >> 16;
+	float redIntensity = red / 255.0f;
+	float greenIntensity = green / 255.0f;
+	float blueIntensity = blue / 255.0f;
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	switch (animation->GetDeviceType())
+	{
+	case EChromaSDKDeviceTypeEnum::DE_1D:
+	{
+		Animation1D* animation1D = (Animation1D*)(animation);
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame1D& frame = frames[frameId];
+			int maxLeds = IChromaSDKPlugin::Get().GetMaxLeds(animation1D->GetDevice());
+			TArray<FLinearColor>& colors = frame.Colors;
+			for (int i = 0; i < maxLeds; ++i)
+			{
+				int color = ToBGR(colors[i]);
+				int red = (color & 0xFF);
+				int green = (color & 0xFF00) >> 8;
+				int blue = (color & 0xFF0000) >> 16;
+				red = max(0, min(255, red * redIntensity));
+				green = max(0, min(255, green * greenIntensity));
+				blue = max(0, min(255, blue * blueIntensity));
+				color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
+				colors[i] = ToLinearColor(color);
+			}
+		}
+	}
+	break;
+	case EChromaSDKDeviceTypeEnum::DE_2D:
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame2D& frame = frames[frameId];
+			int maxRow = IChromaSDKPlugin::Get().GetMaxRow(animation2D->GetDevice());
+			int maxColumn = IChromaSDKPlugin::Get().GetMaxColumn(animation2D->GetDevice());
+			for (int i = 0; i < maxRow; ++i)
+			{
+				FChromaSDKColors& row = frame.Colors[i];
+				for (int j = 0; j < maxColumn; ++j)
+				{
+					int color = ToBGR(row.Colors[j]);
+					int red = (color & 0xFF);
+					int green = (color & 0xFF00) >> 8;
+					int blue = (color & 0xFF0000) >> 16;
+					red = max(0, min(255, red * redIntensity));
+					green = max(0, min(255, green * greenIntensity));
+					blue = max(0, min(255, blue * blueIntensity));
+					color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
+					row.Colors[j] = ToLinearColor(color);
+				}
+			}
+		}
+	}
+	break;
+	}
+}
+
+void IChromaSDKPlugin::MultiplyIntensityColorName(const char* path, int frameId, int color)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MultiplyIntensityColorName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return MultiplyIntensity(animationId, frameId, color);
 }
 
 
@@ -3273,6 +3361,35 @@ void IChromaSDKPlugin::MultiplyIntensityAllFramesName(const char* path, float in
 		return;
 	}
 	return MultiplyIntensityAllFrames(animationId, intensity);
+}
+
+
+// MULTIPLY INTENSITY COLOR ALL FRAMES
+
+void IChromaSDKPlugin::MultiplyIntensityColorAllFrames(int animationId, int color)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = GetAnimationFrameCount(animationId);
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		MultiplyIntensityColor(animationId, frameId, color);
+	}
+}
+
+void IChromaSDKPlugin::MultiplyIntensityColorAllFramesName(const char* path, int color)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MultiplyIntensityColorAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return MultiplyIntensityColorAllFrames(animationId, color);
 }
 
 

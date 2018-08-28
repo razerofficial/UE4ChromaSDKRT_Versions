@@ -2634,6 +2634,8 @@ void UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(const FString& 
 }
 
 
+// MULTIPLY INTENSITY
+
 void UChromaSDKPluginBPLibrary::MultiplyIntensity(int animationId, int frameId, float intensity)
 {
 #if PLATFORM_WINDOWS
@@ -2654,8 +2656,31 @@ void UChromaSDKPluginBPLibrary::MultiplyIntensityName(const FString& animationNa
 }
 
 
-// MULTIPLY INTENSITY ALL FRAMES
+// MULTIPLY INTENSITY COLOR
 
+void UChromaSDKPluginBPLibrary::MultiplyIntensityColor(int animationId, int frameId, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	int color = ToBGR(colorParam);
+	_sIChromaSDKPlugin.MultiplyIntensityColor(animationId, frameId, color);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::MultiplyIntensityColorName(const FString& animationName, int frameId, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("MultiplyIntensityName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	int color = ToBGR(colorParam);
+	_sIChromaSDKPlugin.MultiplyIntensityColorName(pathArg, frameId, color);
+#endif
+}
+
+
+// MULTIPLY INTENSITY ALL FRAMES
 
 void UChromaSDKPluginBPLibrary::MultiplyIntensityAllFrames(int animationId, float intensity)
 {
@@ -2676,6 +2701,29 @@ void UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(const FString& an
 #endif
 }
 
+
+// MULTIPLY INTENSITY COLOR ALL FRAMES
+
+void UChromaSDKPluginBPLibrary::MultiplyIntensityColorAllFrames(int animationId, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	int color = ToBGR(colorParam);
+	_sIChromaSDKPlugin.MultiplyIntensityColorAllFrames(animationId, color);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::MultiplyIntensityColorAllFramesName(const FString& animationName, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("MultiplyIntensityAllFramesName: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	int color = ToBGR(colorParam);
+	_sIChromaSDKPlugin.MultiplyIntensityColorAllFramesName(pathArg, color);
+#endif
+}
 
 // RGB
 

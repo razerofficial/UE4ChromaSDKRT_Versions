@@ -593,11 +593,23 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static void OffsetNonZeroColorsAllFramesName(const FString& animationName, int32 red, int32 green, int32 blue);
 
 
+	// MULTIPLY INTENSITY
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensity", Keywords = "Multiply all the colors in the frame by the intensity value"), Category = "ChromaSDK")
 	static void MultiplyIntensity(int32 animationId, int32 frameId, float intensity);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityName", Keywords = "Multiply all the colors in the frame by the intensity value"), Category = "ChromaSDK")
 	static void MultiplyIntensityName(const FString& animationName, int32 frameId, float intensity);
+
+
+	// MULTIPLY INTENSITY COLOR
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityColor", Keywords = "Multiply all the colors in the frame by the intensity value"), Category = "ChromaSDK")
+	static void MultiplyIntensityColor(int32 animationId, int32 frameId, const FLinearColor& colorParam);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityColorName", Keywords = "Multiply all the colors in the frame by the intensity value"), Category = "ChromaSDK")
+	static void MultiplyIntensityColorName(const FString& animationName, int32 frameId, const FLinearColor& colorParam);
+
 
 	// MULTIPLY INTENSITY ALL FRAMES
 
@@ -606,6 +618,16 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityAllFramesName", Keywords = "Multiply all the colors for all frames by the intensity value"), Category = "ChromaSDK")
 	static void MultiplyIntensityAllFramesName(const FString& animationName, float intensity);
+
+
+	// MULTIPLY INTENSITY COLOR ALL FRAMES
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityColorAllFrames", Keywords = "Multiply all the colors for all frames by the intensity value"), Category = "ChromaSDK")
+	static void MultiplyIntensityColorAllFrames(int32 animationId, const FLinearColor& colorParam);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityColorAllFramesName", Keywords = "Multiply all the colors for all frames by the intensity value"), Category = "ChromaSDK")
+	static void MultiplyIntensityColorAllFramesName(const FString& animationName, const FLinearColor& colorParam);
+
 
 	// RGB
 

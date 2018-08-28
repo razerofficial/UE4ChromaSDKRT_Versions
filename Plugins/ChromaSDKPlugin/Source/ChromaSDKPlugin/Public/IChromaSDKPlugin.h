@@ -253,11 +253,17 @@ public:
 	void MultiplyIntensity(int animationId, int frameId, float intensity);
 	void MultiplyIntensityName(const char* path, int frameId, float intensity);
 
+	void MultiplyIntensityColor(int animationId, int frameId, int color);
+	void MultiplyIntensityColorName(const char* path, int frameId, int color);
+
 	void MultiplyIntensityRGB(int animationId, int frameId, int red, int green, int blue);
 	void MultiplyIntensityRGBName(const char* path, int frameId, int red, int green, int blue);
 
 	void MultiplyIntensityAllFrames(int animationId, float intensity);
 	void MultiplyIntensityAllFramesName(const char* path, float intensity);
+
+	void MultiplyIntensityColorAllFrames(int animationId, int color);
+	void MultiplyIntensityColorAllFramesName(const char* path, int color);
 
 	void MultiplyIntensityAllFramesRGB(int animationId, int red, int green, int blue);
 	void MultiplyIntensityAllFramesRGBName(const char* path, int red, int green, int blue);
