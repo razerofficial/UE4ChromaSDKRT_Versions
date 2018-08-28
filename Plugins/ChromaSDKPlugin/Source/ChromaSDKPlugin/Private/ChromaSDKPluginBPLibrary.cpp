@@ -244,6 +244,12 @@ int UChromaSDKPluginBPLibrary::GetMaxColumn(EChromaSDKDevice2DEnum::Type device)
 	return result;
 }
 
+FLinearColor UChromaSDKPluginBPLibrary::GetRGB(int32 red, int32 green, int32 blue)
+{
+	FLinearColor color = FLinearColor(red/255.0f, green/255.0f, blue/255.0f, 1.0f);
+	return color;
+}
+
 TArray<FLinearColor> UChromaSDKPluginBPLibrary::CreateColors1D(EChromaSDKDevice1DEnum::Type device)
 {
 	TArray<FLinearColor> colors = TArray<FLinearColor>();

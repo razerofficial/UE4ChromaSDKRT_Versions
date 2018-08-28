@@ -25,6 +25,9 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetMaxColumn", Keywords = "Get the max column size for the device"), Category = "ChromaSDK")
 	static int32 GetMaxColumn(EChromaSDKDevice2DEnum::Type device);
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetRGB", Keywords = "Convert RGB to LinearColor"), Category = "ChromaSDK")
+	static FLinearColor GetRGB(int32 red, int32 green, int32 blue);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateColors1D", Keywords = "Create a blank one-dimensional color array"), Category = "ChromaSDK")
 	static TArray<FLinearColor> CreateColors1D(EChromaSDKDevice1DEnum::Type device);
 
