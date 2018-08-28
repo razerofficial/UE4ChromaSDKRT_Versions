@@ -241,6 +241,13 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static void SetKeysColorAllFramesName(const FString& animationName, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
 
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysColorAllFramesRGB", Keywords = "Set the keys to the supplied color for all animation frames"), Category = "ChromaSDK")
+	static void SetKeysColorAllFramesRGB(int32 animationId, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysColorAllFramesRGBName", Keywords = "Set the keys to the supplied color for all animation frames"), Category = "ChromaSDK")
+	static void SetKeysColorAllFramesRGBName(const FString& animationName, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, int32 red, int32 green, int32 blue);
+
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysNonZeroColorAllFrames", Keywords = "Set the keys to the supplied color for all animation frames if the key is not already black"), Category = "ChromaSDK")
 	static void SetKeysNonZeroColorAllFrames(int32 animationId, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
 

@@ -1522,6 +1522,51 @@ void UChromaSDKPluginBPLibrary::SetKeysColorAllFramesName(const FString& animati
 }
 
 
+void UChromaSDKPluginBPLibrary::SetKeysColorAllFramesRGB(int animationId, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, int32 red, int32 green, int32 blue)
+{
+#if PLATFORM_WINDOWS
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCount(animationId);
+	int colorArg = IChromaSDKPlugin::GetRGB(red, green, blue);
+	for (int k = 0; k < keys.Num(); ++k)
+	{
+		EChromaSDKKeyboardKey::Type key = keys[k];
+		int rzkey = _sKeyboardEnumMap[key];
+		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
+		{
+			for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
+			{
+				_sIChromaSDKPlugin.SetKeyColor(animationId, frameIndex, rzkey, colorArg);
+			}
+		}
+	}
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::SetKeysColorAllFramesRGBName(const FString& animationName, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, int32 red, int32 green, int32 blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	int frameCount = _sIChromaSDKPlugin.GetAnimationFrameCountName(pathArg);
+	int colorArg = IChromaSDKPlugin::GetRGB(red, green, blue);
+	for (int k = 0; k < keys.Num(); ++k)
+	{
+		EChromaSDKKeyboardKey::Type key = keys[k];
+		int rzkey = _sKeyboardEnumMap[key];
+		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
+		{
+			for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
+			{
+				_sIChromaSDKPlugin.SetKeyColorName(pathArg, frameIndex, rzkey, colorArg);
+			}
+		}
+	}
+#endif
+}
+
+
 void UChromaSDKPluginBPLibrary::SetKeysNonZeroColorAllFrames(int animationId, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam)
 {
 #if PLATFORM_WINDOWS
