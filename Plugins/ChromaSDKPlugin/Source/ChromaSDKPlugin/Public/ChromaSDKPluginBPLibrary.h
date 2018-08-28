@@ -28,6 +28,12 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetRGB", Keywords = "Convert RGB to LinearColor"), Category = "ChromaSDK")
 	static FLinearColor GetRGB(int32 red, int32 green, int32 blue);
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "ToBGR", Keywords = "Convert LinearColor to BGR int"), Category = "ChromaSDK")
+	static int32 ToBGR(const FLinearColor& colorParam);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "ToLinearColor", Keywords = "Convert BGR int to LinearColor"), Category = "ChromaSDK")
+	static FLinearColor ToLinearColor(int32 colorParam);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CreateColors1D", Keywords = "Create a blank one-dimensional color array"), Category = "ChromaSDK")
 	static TArray<FLinearColor> CreateColors1D(EChromaSDKDevice1DEnum::Type device);
 
@@ -474,6 +480,36 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OverrideFrameDurationName", Keywords = "Set the Chroma custom flag for keyboard"), Category = "ChromaSDK")
 	static void OverrideFrameDurationName(const FString& animationName, float duration);
+
+	// MAKE FRAMES
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MakeBlankFrames", Keywords = "Make sure animation has the number of blank frames"), Category = "ChromaSDK")
+	static void MakeBlankFrames(int32 animationId, int32 frameCount, float duration, const FLinearColor& colorParam);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MakeBlankFramesName", Keywords = "Make sure animation has the number of blank frames"), Category = "ChromaSDK")
+	static void MakeBlankFramesName(const FString& animationName, int32 frameCount, float duration, const FLinearColor& colorParam);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MakeBlankFramesRGB", Keywords = "Make sure animation has the number of blank frames"), Category = "ChromaSDK")
+	static void MakeBlankFramesRGB(int32 animationId, int32 frameCount, float duration, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MakeBlankFramesRGBName", Keywords = "Make sure animation has the number of blank frames"), Category = "ChromaSDK")
+	static void MakeBlankFramesRGBName(const FString& animationName, int32 frameCount, float duration, int32 red, int32 green, int32 blue);
+
+	// RANDOM
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MakeBlankFramesRandom", Keywords = "Make sure animation has the number of random color frames"), Category = "ChromaSDK")
+	static void MakeBlankFramesRandom(int32 animationId, int32 frameCount, float duration);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MakeBlankFramesRandomName", Keywords = "Make sure animation has the number of random color frames"), Category = "ChromaSDK")
+	static void MakeBlankFramesRandomName(const FString& animationName, int32 frameCount, float duration);
+
+	// RANDOM BLACK AND WHITE
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MakeBlankFramesRandomBlackAndWhite", Keywords = "Make sure animation has the number of random black and white frames"), Category = "ChromaSDK")
+	static void MakeBlankFramesRandomBlackAndWhite(int32 animationId, int32 frameCount, float duration);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MakeBlankFramesRandomBlackAndWhiteName", Keywords = "Make sure animation has the number of random black and white frames"), Category = "ChromaSDK")
+	static void MakeBlankFramesRandomBlackAndWhiteName(const FString& animationName, int32 frameCount, float duration);
 
 #if PLATFORM_WINDOWS
 private:

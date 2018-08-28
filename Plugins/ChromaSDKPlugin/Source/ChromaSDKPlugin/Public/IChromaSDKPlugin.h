@@ -81,6 +81,7 @@ public:
 	RZRESULT ChromaSDKSetEffect(RZEFFECTID effectId);
 	RZRESULT ChromaSDKDeleteEffect(RZEFFECTID effectId);
 
+	static int GetRGB(int red, int green, int blue);
 	static int ToBGR(const FLinearColor& color);
 	static FLinearColor ToLinearColor(int color);
 	static int GetMaxLeds(EChromaSDKDevice1DEnum::Type device);
@@ -223,6 +224,21 @@ public:
 
 	int OverrideFrameDuration(int animationId, float duration);
 	void OverrideFrameDurationName(const char* path, float duration);
+
+	// MAKE FRAMES
+	void MakeBlankFrames(int animationId, int frameCount, float duration, int color);
+	void MakeBlankFramesName(const char* path, int frameCount, float duration, int color);
+
+	void MakeBlankFramesRGB(int animationId, int frameCount, float duration, int red, int green, int blue);
+	void MakeBlankFramesRGBName(const char* path, int frameCount, float duration, int red, int green, int blue);
+
+	// RANDOM
+	void MakeBlankFramesRandom(int animationId, int frameCount, float duration);
+	void MakeBlankFramesRandomName(const char* path, int frameCount, float duration);
+
+	// RANDOM BLACK AND WHITE
+	void MakeBlankFramesRandomBlackAndWhite(int animationId, int frameCount, float duration);
+	void MakeBlankFramesRandomBlackAndWhiteName(const char* path, int frameCount, float duration);
 
 protected:
 	static int min(int a, int b);

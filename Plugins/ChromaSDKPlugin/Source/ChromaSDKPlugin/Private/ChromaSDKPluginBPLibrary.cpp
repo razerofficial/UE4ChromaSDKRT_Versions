@@ -250,6 +250,16 @@ FLinearColor UChromaSDKPluginBPLibrary::GetRGB(int32 red, int32 green, int32 blu
 	return color;
 }
 
+int32 UChromaSDKPluginBPLibrary::ToBGR(const FLinearColor& colorParam)
+{
+	return IChromaSDKPlugin::ToBGR(colorParam);
+}
+
+FLinearColor UChromaSDKPluginBPLibrary::ToLinearColor(int32 colorParam)
+{
+	return IChromaSDKPlugin::ToLinearColor(colorParam);
+}
+
 TArray<FLinearColor> UChromaSDKPluginBPLibrary::CreateColors1D(EChromaSDKDevice1DEnum::Type device)
 {
 	TArray<FLinearColor> colors = TArray<FLinearColor>();
@@ -2325,6 +2335,88 @@ void UChromaSDKPluginBPLibrary::OverrideFrameDurationName(const FString& animati
 	//UE_LOG(LogTemp, Log, TEXT("StopAnimation: %s"), *path);
 	const char* pathArg = TCHAR_TO_ANSI(*path);
 	_sIChromaSDKPlugin.OverrideFrameDurationName(pathArg, duration);
+#endif
+}
+
+// MAKE FRAMES
+
+void UChromaSDKPluginBPLibrary::MakeBlankFrames(int32 animationId, int32 frameCount, float duration, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.MakeBlankFrames(animationId, frameCount, duration, ToBGR(colorParam));
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::MakeBlankFramesName(const FString& animationName, int32 frameCount, float duration, const FLinearColor& colorParam)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("StopAnimation: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.MakeBlankFramesName(pathArg, frameCount, duration, ToBGR(colorParam));
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::MakeBlankFramesRGB(int32 animationId, int32 frameCount, float duration, int32 red, int32 green, int32 blue)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.MakeBlankFramesRGB(animationId, frameCount, duration, red, green, blue);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::MakeBlankFramesRGBName(const FString& animationName, int32 frameCount, float duration, int32 red, int32 green, int32 blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("StopAnimation: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.MakeBlankFramesRGBName(pathArg, frameCount, duration, red, green, blue);
+#endif
+}
+
+// RANDOM
+
+void UChromaSDKPluginBPLibrary::MakeBlankFramesRandom(int32 animationId, int32 frameCount, float duration)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.MakeBlankFramesRandom(animationId, frameCount, duration);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::MakeBlankFramesRandomName(const FString& animationName, int32 frameCount, float duration)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("StopAnimation: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.MakeBlankFramesRandomName(pathArg, frameCount, duration);
+#endif
+}
+
+// RANDOM BLACK AND WHITE
+
+void UChromaSDKPluginBPLibrary::MakeBlankFramesRandomBlackAndWhite(int32 animationId, int32 frameCount, float duration)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.MakeBlankFramesRandomBlackAndWhite(animationId, frameCount, duration);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::MakeBlankFramesRandomBlackAndWhiteName(const FString& animationName, int32 frameCount, float duration)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	//UE_LOG(LogTemp, Log, TEXT("StopAnimation: %s"), *path);
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.MakeBlankFramesRandomBlackAndWhiteName(pathArg, frameCount, duration);
 #endif
 }
 

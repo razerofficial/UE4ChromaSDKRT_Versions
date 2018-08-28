@@ -31,6 +31,12 @@ using namespace std;
 
 #endif
 
+int g_seed = 0;
+inline int fastrand() {
+	g_seed = (214013 * g_seed + 2531011);
+	return (g_seed >> 16) & 0x7FFF;
+}
+
 class FChromaSDKPlugin : public IChromaSDKPlugin
 {
 	/** IModuleInterface implementation */
@@ -319,6 +325,11 @@ RZRESULT IChromaSDKPlugin::ChromaSDKDeleteEffect(RZEFFECTID effectId)
 	}
 
 	return _mMethodDeleteEffect(effectId);
+}
+
+int IChromaSDKPlugin::GetRGB(int red, int green, int blue)
+{
+	return (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
 }
 
 int IChromaSDKPlugin::ToBGR(const FLinearColor& color)
@@ -2682,6 +2693,225 @@ void IChromaSDKPlugin::OverrideFrameDurationName(const char* path, float duratio
 	}
 	OverrideFrameDuration(animationId, duration);
 }
+
+
+// MAKE FRAMES
+
+
+void IChromaSDKPlugin::MakeBlankFrames(int animationId, int frameCount, float duration, int color)
+{
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	if (animation->GetDeviceType() != EChromaSDKDeviceTypeEnum::DE_2D)
+	{
+		return;
+	}
+	if (animation->GetDeviceId() != EChromaSDKDevice2DEnum::DE_Keyboard)
+	{
+		return;
+	}
+	StopAnimation(animationId);
+	Animation2D* animation2D = (Animation2D*)animation;
+	vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+	frames.clear();
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		FChromaSDKColorFrame2D frame = FChromaSDKColorFrame2D();
+		frame.Duration = duration;
+		frame.Colors = UChromaSDKPluginBPLibrary::CreateColors2D(animation2D->GetDevice());
+		int maxRow = UChromaSDKPluginBPLibrary::GetMaxRow(animation2D->GetDevice());
+		int maxColumn = UChromaSDKPluginBPLibrary::GetMaxColumn(animation2D->GetDevice());
+		for (int i = 0; i < maxRow; ++i)
+		{
+			FChromaSDKColors& row = frame.Colors[i];
+			for (int j = 0; j < maxColumn; ++j)
+			{
+				row.Colors[j] = ToLinearColor(color);
+			}
+		}
+		frames.push_back(frame);
+	}
+}
+
+void IChromaSDKPlugin::MakeBlankFramesName(const char* path, int frameCount, float duration, int color)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MakeBlankFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	MakeBlankFrames(animationId, frameCount, duration, color);
+}
+
+
+void IChromaSDKPlugin::MakeBlankFramesRGB(int animationId, int frameCount, float duration, int red, int green, int blue)
+{
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	if (animation->GetDeviceType() != EChromaSDKDeviceTypeEnum::DE_2D)
+	{
+		return;
+	}
+	if (animation->GetDeviceId() != EChromaSDKDevice2DEnum::DE_Keyboard)
+	{
+		return;
+	}
+	StopAnimation(animationId);
+	int color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
+	Animation2D* animation2D = (Animation2D*)(animation);
+	vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+	frames.clear();
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		FChromaSDKColorFrame2D frame = FChromaSDKColorFrame2D();
+		frame.Duration = duration;
+		frame.Colors = UChromaSDKPluginBPLibrary::CreateColors2D(animation2D->GetDevice());
+		int maxRow = UChromaSDKPluginBPLibrary::GetMaxRow(animation2D->GetDevice());
+		int maxColumn = UChromaSDKPluginBPLibrary::GetMaxColumn(animation2D->GetDevice());
+		for (int i = 0; i < maxRow; ++i)
+		{
+			FChromaSDKColors& row = frame.Colors[i];
+			for (int j = 0; j < maxColumn; ++j)
+			{
+				row.Colors[j] = ToLinearColor(color);
+			}
+		}
+		frames.push_back(frame);
+	}
+}
+
+void IChromaSDKPlugin::MakeBlankFramesRGBName(const char* path, int frameCount, float duration, int red, int green, int blue)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MakeBlankFramesRGBName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	MakeBlankFramesRGB(animationId, frameCount, duration, red, green, blue);
+}
+
+
+// RANDOM
+
+
+void IChromaSDKPlugin::MakeBlankFramesRandom(int animationId, int frameCount, float duration)
+{
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	if (animation->GetDeviceType() != EChromaSDKDeviceTypeEnum::DE_2D)
+	{
+		return;
+	}
+	if (animation->GetDeviceId() != EChromaSDKDevice2DEnum::DE_Keyboard)
+	{
+		return;
+	}
+	StopAnimation(animationId);
+	Animation2D* animation2D = (Animation2D*)(animation);
+	vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+	frames.clear();
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		FChromaSDKColorFrame2D frame = FChromaSDKColorFrame2D();
+		frame.Duration = duration;
+		frame.Colors = UChromaSDKPluginBPLibrary::CreateColors2D(animation2D->GetDevice());
+		int maxRow = UChromaSDKPluginBPLibrary::GetMaxRow(animation2D->GetDevice());
+		int maxColumn = UChromaSDKPluginBPLibrary::GetMaxColumn(animation2D->GetDevice());
+		for (int i = 0; i < maxRow; ++i)
+		{
+			FChromaSDKColors& row = frame.Colors[i];
+			for (int j = 0; j < maxColumn; ++j)
+			{
+				int red = fastrand() % 256;
+				int green = fastrand() % 256;
+				int blue = fastrand() % 256;
+				COLORREF color = GetRGB(red, green, blue);
+				row.Colors[j] = ToLinearColor(color);
+			}
+		}
+		frames.push_back(frame);
+	}
+}
+
+void IChromaSDKPlugin::MakeBlankFramesRandomName(const char* path, int frameCount, float duration)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MakeBlankFramesRandomName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	MakeBlankFramesRandom(animationId, frameCount, duration);
+}
+
+
+// RANDOM BLACK AND WHITE
+
+
+void IChromaSDKPlugin::MakeBlankFramesRandomBlackAndWhite(int animationId, int frameCount, float duration)
+{
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	if (animation->GetDeviceType() != EChromaSDKDeviceTypeEnum::DE_2D)
+	{
+		return;
+	}
+	if (animation->GetDeviceId() != EChromaSDKDevice2DEnum::DE_Keyboard)
+	{
+		return;
+	}
+	StopAnimation(animationId);
+	Animation2D* animation2D = (Animation2D*)(animation);
+	vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+	frames.clear();
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		FChromaSDKColorFrame2D frame = FChromaSDKColorFrame2D();
+		frame.Duration = duration;
+		frame.Colors = UChromaSDKPluginBPLibrary::CreateColors2D(animation2D->GetDevice());
+		int maxRow = UChromaSDKPluginBPLibrary::GetMaxRow(animation2D->GetDevice());
+		int maxColumn = UChromaSDKPluginBPLibrary::GetMaxColumn(animation2D->GetDevice());
+		for (int i = 0; i < maxRow; ++i)
+		{
+			FChromaSDKColors& row = frame.Colors[i];
+			for (int j = 0; j < maxColumn; ++j)
+			{
+				int gray = fastrand() % 256;
+				COLORREF color = RGB(gray, gray, gray);
+				row.Colors[j] = ToLinearColor(color);
+			}
+		}
+		frames.push_back(frame);
+	}
+}
+
+void IChromaSDKPlugin::MakeBlankFramesRandomBlackAndWhiteName(const char* path, int frameCount, float duration)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MakeBlankFramesRandomBlackAndWhiteName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	MakeBlankFramesRandomBlackAndWhite(animationId, frameCount, duration);
+}
+
+
+// VALIDATE DLL METHODS
 
 bool IChromaSDKPlugin::ValidateGetProcAddress(bool condition, FString methodName)
 {
