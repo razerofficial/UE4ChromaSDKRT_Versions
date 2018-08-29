@@ -910,10 +910,7 @@ FChromaSDKEffectResult UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectKeyboardC
 			for (int j = 0; j < maxColumn; j++)
 			{
 				const FLinearColor& color = row.Colors[j];
-				int red = color.R * 255;
-				int green = color.G * 255;
-				int blue = color.B * 255;
-				pParam.Key[i][j] = RGB(red, green, blue);
+				pParam.Key[i][j] = ToBGR(color);
 			}
 		}
 		result = _sIChromaSDKPlugin.ChromaSDKCreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_CUSTOM_KEY, &pParam, &effectId);
