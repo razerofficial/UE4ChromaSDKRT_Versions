@@ -325,9 +325,9 @@ TArray<FLinearColor> UChromaSDKPluginBPLibrary::CreateRandomColors1D(EChromaSDKD
 	int elements = GetMaxLeds(device);
 	for (int i = 0; i < elements; ++i)
 	{
-		float red = FMath::RandRange(0.0f, 1.0f);
-		float green = FMath::RandRange(0.0f, 1.0f);
-		float blue = FMath::RandRange(0.0f, 1.0f);
+		float red = FMath::FRandRange(0.0f, 1.0f);
+		float green = FMath::FRandRange(0.0f, 1.0f);
+		float blue = FMath::FRandRange(0.0f, 1.0f);
 		float alpha = 1.0f;
 		FLinearColor color = FLinearColor(red, green, blue, alpha);
 		colors.Add(color);
@@ -347,9 +347,9 @@ TArray<FChromaSDKColors> UChromaSDKPluginBPLibrary::CreateRandomColors2D(EChroma
 		FChromaSDKColors row = FChromaSDKColors();
 		for (int j = 0; j < maxColumns; ++j)
 		{
-			float red = FMath::RandRange(0.0f, 1.0f);
-			float green = FMath::RandRange(0.0f, 1.0f);
-			float blue = FMath::RandRange(0.0f, 1.0f);
+			float red = FMath::FRandRange(0.0f, 1.0f);
+			float green = FMath::FRandRange(0.0f, 1.0f);
+			float blue = FMath::FRandRange(0.0f, 1.0f);
 			float alpha = 1.0f;
 			FLinearColor color = FLinearColor(red, green, blue, alpha);
 			row.Colors.Add(color);
@@ -369,7 +369,7 @@ TArray<FLinearColor> UChromaSDKPluginBPLibrary::CreateRandomColorsBlackAndWhite1
 	int elements = GetMaxLeds(device);
 	for (int i = 0; i < elements; ++i)
 	{
-		float gray = FMath::RandRange(0.0f, 1.0f);
+		float gray = FMath::FRandRange(0.0f, 1.0f);
 		float alpha = 1.0f;
 		FLinearColor color = FLinearColor(gray, gray, gray, alpha);
 		colors.Add(color);
@@ -389,7 +389,7 @@ TArray<FChromaSDKColors> UChromaSDKPluginBPLibrary::CreateRandomColorsBlackAndWh
 		FChromaSDKColors row = FChromaSDKColors();
 		for (int j = 0; j < maxColumns; ++j)
 		{
-			float gray = FMath::RandRange(0.0f, 1.0f);
+			float gray = FMath::FRandRange(0.0f, 1.0f);
 			float alpha = 1.0f;
 			FLinearColor color = FLinearColor(gray, gray, gray, alpha);
 			row.Colors.Add(color);
