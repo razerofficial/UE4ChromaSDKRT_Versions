@@ -213,6 +213,13 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static void SetKeysColorName(const FString& animationName, const int32 frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
 
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysColorRGB", Keywords = "Set the animation frame to the supplied color for a set of keys"), Category = "ChromaSDK")
+	static void SetKeysColorRGB(int32 animationId, int32 frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysColorRGBName", Keywords = "Set the animation frame to the supplied color for a set of keys"), Category = "ChromaSDK")
+	static void SetKeysColorRGBName(const FString& animationName, const int32 frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, int32 red, int32 green, int32 blue);
+
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetKeysNonZeroColor", Keywords = "Set the animation frame to the supplied color for a set of keys if the key is not already black"), Category = "ChromaSDK")
 	static void SetKeysNonZeroColor(int32 animationId, int32 frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
 
@@ -692,6 +699,15 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MakeBlankFramesRandomBlackAndWhiteName", Keywords = "Make sure animation has the number of random black and white frames"), Category = "ChromaSDK")
 	static void MakeBlankFramesRandomBlackAndWhiteName(const FString& animationName, int32 frameCount, float duration);
+
+
+	// REVERSE ALL FRAMES
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "ReverseAllFrames", Keywords = "Reverse the order of all frames"), Category = "ChromaSDK")
+	static void ReverseAllFrames(int32 animationId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "ReverseAllFramesName", Keywords = "Reverse the order of all frames"), Category = "ChromaSDK")
+	static void ReverseAllFramesName(const FString& animationName);
 
 
 	// DUPLICATE FRAMES

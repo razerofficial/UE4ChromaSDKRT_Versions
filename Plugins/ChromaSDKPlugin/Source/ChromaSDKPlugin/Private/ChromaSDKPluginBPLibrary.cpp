@@ -1365,6 +1365,43 @@ void UChromaSDKPluginBPLibrary::SetKeysColorName(const FString& animationName, c
 }
 
 
+void UChromaSDKPluginBPLibrary::SetKeysColorRGB(int animationId, int frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	int colorArg = IChromaSDKPlugin::GetRGB(red, green, blue);
+	for (int k = 0; k < keys.Num(); ++k)
+	{
+		EChromaSDKKeyboardKey::Type key = keys[k];
+		int rzkey = _sKeyboardEnumMap[key];
+		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
+		{
+			_sIChromaSDKPlugin.SetKeyColor(animationId, frameIndex, rzkey, colorArg);
+		}
+	}
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::SetKeysColorRGBName(const FString& animationName, const int frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, int red, int green, int blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	int colorArg = IChromaSDKPlugin::GetRGB(red, green, blue);
+	for (int k = 0; k < keys.Num(); ++k)
+	{
+		EChromaSDKKeyboardKey::Type key = keys[k];
+		int rzkey = _sKeyboardEnumMap[key];
+		if (rzkey != ChromaSDK::Keyboard::RZKEY::RZKEY_INVALID)
+		{
+			_sIChromaSDKPlugin.SetKeyColorName(pathArg, frameIndex, rzkey, colorArg);
+		}
+	}
+#endif
+}
+
+
 void UChromaSDKPluginBPLibrary::SetKeysNonZeroColor(int animationId, int frameIndex, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam)
 {
 #if PLATFORM_WINDOWS
@@ -2899,6 +2936,28 @@ void UChromaSDKPluginBPLibrary::MakeBlankFramesRandomBlackAndWhiteName(const FSt
 	_sIChromaSDKPlugin.MakeBlankFramesRandomBlackAndWhiteName(pathArg, frameCount, duration);
 #endif
 }
+
+
+// REVERSE ALL FRAMES
+
+void UChromaSDKPluginBPLibrary::ReverseAllFrames(int32 animationId)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.ReverseAllFrames(animationId);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::ReverseAllFramesName(const FString& animationName)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	path += animationName + ".chroma";
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.ReverseAllFramesName(pathArg);
+#endif
+}
+
 
 // DUPLICATE FRAMES
 

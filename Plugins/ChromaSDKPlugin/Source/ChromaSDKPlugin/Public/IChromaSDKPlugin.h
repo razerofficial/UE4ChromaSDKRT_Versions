@@ -298,6 +298,10 @@ public:
 	void MakeBlankFramesRandomBlackAndWhite(int animationId, int frameCount, float duration);
 	void MakeBlankFramesRandomBlackAndWhiteName(const char* path, int frameCount, float duration);
 
+	// REVERSE ALL FRAMES
+	void ReverseAllFrames(int animationId);
+	void ReverseAllFramesName(const char* path);
+
 	// DUPLICATE FRAMES
 	void DuplicateFrames(int animationId);
 	void DuplicateFramesName(const char* path);

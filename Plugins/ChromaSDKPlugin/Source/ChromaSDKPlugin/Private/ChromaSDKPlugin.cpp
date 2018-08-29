@@ -3823,6 +3823,45 @@ void IChromaSDKPlugin::MakeBlankFramesRandomBlackAndWhiteName(const char* path, 
 }
 
 
+// REVERSE ALL FRAMES
+void IChromaSDKPlugin::ReverseAllFrames(int animationId)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	switch (animation->GetDeviceType())
+	{
+	case EChromaSDKDeviceTypeEnum::DE_1D:
+	{
+		Animation1D* animation1D = (Animation1D*)(animation);
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		reverse(frames.begin(), frames.end());
+	}
+	break;
+	case EChromaSDKDeviceTypeEnum::DE_2D:
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		reverse(frames.begin(), frames.end());
+	}
+	break;
+	}
+}
+void IChromaSDKPlugin::ReverseAllFramesName(const char* path)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("ReverseAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	ReverseAllFrames(animationId);
+}
+
+
 // DUPLICATE FRAMES
 void IChromaSDKPlugin::DuplicateFrames(int animationId)
 {
