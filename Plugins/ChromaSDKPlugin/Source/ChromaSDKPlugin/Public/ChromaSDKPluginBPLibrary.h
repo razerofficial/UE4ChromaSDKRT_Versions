@@ -602,6 +602,15 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static void MultiplyIntensityName(const FString& animationName, int32 frameId, float intensity);
 
 
+	// MULTIPLY INTENSITY RGB
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensity", Keywords = "Multiply all the colors in the frame by the intensity value"), Category = "ChromaSDK")
+	static void MultiplyIntensityRGB(int32 animationId, int32 frameId, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityName", Keywords = "Multiply all the colors in the frame by the intensity value"), Category = "ChromaSDK")
+	static void MultiplyIntensityRGBName(const FString& animationName, int32 frameId, int32 red, int32 green, int32 blue);
+
+
 	// MULTIPLY INTENSITY COLOR
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityColor", Keywords = "Multiply all the colors in the frame by the intensity value"), Category = "ChromaSDK")
@@ -683,6 +692,106 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MakeBlankFramesRandomBlackAndWhiteName", Keywords = "Make sure animation has the number of random black and white frames"), Category = "ChromaSDK")
 	static void MakeBlankFramesRandomBlackAndWhiteName(const FString& animationName, int32 frameCount, float duration);
+
+
+	// DUPLICATE FRAMES
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "DuplicateFrames", Keywords = "Double the number of frames"), Category = "ChromaSDK")
+	static void DuplicateFrames(int32 animationId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "DuplicateFramesName", Keywords = "Double the number of frames"), Category = "ChromaSDK")
+	static void DuplicateFramesName(const FString& animationName);
+
+
+	// DUPLICATE FIRST FRAME
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "DuplicateFirstFrame", Keywords = "Duplicate the first frame for total the number of frames"), Category = "ChromaSDK")
+	static void DuplicateFirstFrame(int32 animationId, int32 frameCount);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "DuplicateFirstFrameName", Keywords = "Duplicate the first frame for total the number of frames"), Category = "ChromaSDK")
+	static void DuplicateFirstFrameName(const FString& animationName, int32 frameCount);
+
+
+	// DUPLICATE MIRROR FRAMES
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "DuplicateMirrorFrames", Keywords = "Duplicate and mirror the animation"), Category = "ChromaSDK")
+	static void DuplicateMirrorFrames(int32 animationId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "DuplicateMirrorFramesName", Keywords = "Duplicate and mirror the animation"), Category = "ChromaSDK")
+	static void DuplicateMirrorFramesName(const FString& animationName);
+
+
+	// INSERT FRAME
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "InsertFrame", Keywords = "Insert a copy of the frame at the given target frame index"), Category = "ChromaSDK")
+	static void InsertFrame(int32 animationId, int32 sourceFrame, int32 targetFrame);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "InsertFrameName", Keywords = "Insert a copy of the frame at the given target frame index"), Category = "ChromaSDK")
+	static void InsertFrameName(const FString& animationName, int32 sourceFrame, int32 targetFrame);
+
+
+	// INSERT DELAY
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "InsertDelay", Keywords = "Duplicate frames to create a delay at the frame index"), Category = "ChromaSDK")
+	static void InsertDelay(int32 animationId, int32 frameId, int32 delay);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "InsertDelayName", Keywords = "Duplicate frames to create a delay at the frame index"), Category = "ChromaSDK")
+	static void InsertDelayName(const FString& animationName, int32 frameId, int32 delay);
+
+
+	// REDUCE FRAMES
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "ReduceFrames", Keywords = "Reduce every nth frame"), Category = "ChromaSDK")
+	static void ReduceFrames(int32 animationId, int32 n);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "ReduceFramesName", Keywords = "Reduce every nth frame"), Category = "ChromaSDK")
+	static void ReduceFramesName(const FString& animationName, int32 n);
+
+
+	// TRIM FRAME
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "TrimFrame", Keywords = "Remove the given frame"), Category = "ChromaSDK")
+	static void TrimFrame(int32 animationId, int32 frameId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "TrimFrameName", Keywords = "Remove the given frame"), Category = "ChromaSDK")
+	static void TrimFrameName(const FString& animationName, int32 frameId);
+
+
+	// TRIM START FRAMES
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "TrimStartFrames", Keywords = "Trim the start of the animation"), Category = "ChromaSDK")
+	static void TrimStartFrames(int32 animationId, int32 numberOfFrames);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "TrimStartFramesName", Keywords = "Trim the start of the animation"), Category = "ChromaSDK")
+	static void TrimStartFramesName(const FString& animationName, int32 numberOfFrames);
+
+
+	// TRIM END FRAMES
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "TrimEndFrames", Keywords = "Trim the end of the animation"), Category = "ChromaSDK")
+	static void TrimEndFrames(int32 animationId, int32 lastFrameId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "TrimEndFramesName", Keywords = "Trim the end of the animation"), Category = "ChromaSDK")
+	static void TrimEndFramesName(const FString& animationName, int32 lastFrameId);
+
+
+	// FADE START FRAMES
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FadeStartFrames", Keywords = "Fade the start of the animation"), Category = "ChromaSDK")
+	static void FadeStartFrames(int32 animationId, int32 fade);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FadeStartFramesName", Keywords = "Fade the start of the animation"), Category = "ChromaSDK")
+	static void FadeStartFramesName(const FString& animationName, int32 fade);
+
+
+	// FADE END FRAMES
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FadeEndFrames", Keywords = "Fade the end of the animation"), Category = "ChromaSDK")
+	static void FadeEndFrames(int32 animationId, int32 fade);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FadeEndFramesName", Keywords = "Fade the end of the animation"), Category = "ChromaSDK")
+	static void FadeEndFramesName(const FString& animationName, int32 fade);
+
 
 #if PLATFORM_WINDOWS
 private:

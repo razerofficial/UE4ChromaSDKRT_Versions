@@ -298,6 +298,50 @@ public:
 	void MakeBlankFramesRandomBlackAndWhite(int animationId, int frameCount, float duration);
 	void MakeBlankFramesRandomBlackAndWhiteName(const char* path, int frameCount, float duration);
 
+	// DUPLICATE FRAMES
+	void DuplicateFrames(int animationId);
+	void DuplicateFramesName(const char* path);
+
+	// DUPLICATE FIRST FRAME
+	void DuplicateFirstFrame(int animationId, int frameCount);
+	void DuplicateFirstFrameName(const char* path, int frameCount);
+
+	// DUPLICATE MIRROR FRAMES
+	void DuplicateMirrorFrames(int animationId);
+	void DuplicateMirrorFramesName(const char* path);
+
+	// INSERT FRAME
+	void InsertFrame(int animationId, int sourceFrame, int targetFrame);
+	void InsertFrameName(const char* path, int sourceFrame, int targetFrame);
+
+	// INSERT DELAY
+	void InsertDelay(int animationId, int frameId, int delay);
+	void InsertDelayName(const char* path, int frameId, int delay);
+
+	// REDUCE FRAMES
+	void ReduceFrames(int animationId, int n);
+	void ReduceFramesName(const char* path, int n);
+
+	// TRIM FRAME
+	void TrimFrame(int animationId, int frameId);
+	void TrimFrameName(const char* path, int frameId);
+
+	// TRIM START FRAMES
+	void TrimStartFrames(int animationId, int numberOfFrames);
+	void TrimStartFramesName(const char* path, int numberOfFrames);
+
+	// TRIM END FRAMES
+	void TrimEndFrames(int animationId, int lastFrameId);
+	void TrimEndFramesName(const char* path, int lastFrameId);
+
+	// FADE START FRAMES
+	void FadeStartFrames(int animationId, int fade);
+	void FadeStartFramesName(const char* path, int fade);
+
+	// FADE END FRAMES
+	void FadeEndFrames(int animationId, int fade);
+	void FadeEndFramesName(const char* path, int fade);
+
 protected:
 	static int min(int a, int b);
 	static int max(int a, int b);
