@@ -1,5 +1,5 @@
 ECHO OFF
-SET APP="UnrealEngineVersionChanger\bin\Debug\UnrealEngineVersionChanger.exe"
+SET APP="UnrealEngineVersionChanger\bin\Release\UnrealEngineVersionChanger.exe"
 IF NOT EXIST %APP% ECHO UnrealEngineVersionChanger needs to be compiled!
 IF NOT EXIST %APP% PAUSE
 FOR /l %%i in (5, 1, 20) DO (

@@ -33,7 +33,7 @@
 
 ## Overview
 
-`UE4ChromaSDKRT` provides a runtime module for using the `ChromaSDK` (requires UE 4.5.1 or better). The runtime module provides a blueprint library and C++ methods for playing Chroma animations.
+`UE4ChromaSDKRT` provides a runtime module for using the `ChromaSDK` (requires UE 4.5.1 or better). The runtime module provides a blueprint library and C++ methods for playing Chroma animations. See the [Chroma Guide](http://chroma.razer.com/ChromaGuide/) for details on how to make visually interesting Chroma animations using the plugin API.
 
 ## Tutorials
 
@@ -68,7 +68,7 @@ The following UE4 versions are supported:
 
 4.10 and 4.11 requires `Visual Studio 2015 Update 2` [Update 3 has a problem treating warnings as errors](https://answers.unrealengine.com/questions/445126/compile-failed-when-creating-cpp-project.html)
 
-Use the `Engine_Switch_4_X.cmd` scripts to switch between versions.
+The plugin's [Release Page](https://github.com/razerofficial/UE4ChromaSDKRT/releases/tag/1.0) has source for each UE4 engine version.
 
 ## Dependencies
 
