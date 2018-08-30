@@ -3244,7 +3244,7 @@ void IChromaSDKPlugin::MultiplyIntensityColorName(const char* path, int frameId,
 		UE_LOG(LogTemp, Error, TEXT("MultiplyIntensityColorName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
 		return;
 	}
-	return MultiplyIntensity(animationId, frameId, color);
+	return MultiplyIntensityColor(animationId, frameId, color);
 }
 
 
