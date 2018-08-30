@@ -40,7 +40,7 @@ void USampleBPLibrary::SamplePlayComposite()
 		//Chroma is not available
 		return;
 	}
-	UChromaSDKPluginBPLibrary::PlayAnimationComposite("Random", false);
+	UChromaSDKPluginBPLibrary::PlayAnimationComposite("Animations/Random", false);
 }
 
 void USampleBPLibrary::SamplePlayCompositeLoop()
@@ -50,7 +50,7 @@ void USampleBPLibrary::SamplePlayCompositeLoop()
 		//Chroma is not available
 		return;
 	}
-	UChromaSDKPluginBPLibrary::PlayAnimationComposite("Random", true);
+	UChromaSDKPluginBPLibrary::PlayAnimationComposite("Animations/Random", true);
 }
 
 void USampleBPLibrary::SampleStopComposite()
@@ -60,7 +60,7 @@ void USampleBPLibrary::SampleStopComposite()
 		//Chroma is not available
 		return;
 	}
-	UChromaSDKPluginBPLibrary::StopAnimationComposite("Random");
+	UChromaSDKPluginBPLibrary::StopAnimationComposite("Animations/Random");
 }
 
 void USampleBPLibrary::SampleClearComposite()
@@ -89,10 +89,10 @@ void USampleBPLibrary::SampleShowHotkeysAnimated()
 	keys.Add(EChromaSDKKeyboardKey::KK_LOGO);
 	keys.Add(EChromaSDKKeyboardKey::KK_ESC);
 
-	FString target = "Random_Keyboard";
+	FString target = "Animations/Random_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(target);
 
-	FString source = "Fire_Keyboard";
+	FString source = "Animations/Fire_Keyboard";
 	UChromaSDKPluginBPLibrary::CopyKeysColorAllFramesName(source, target, keys);
 
 	UChromaSDKPluginBPLibrary::PlayAnimation(target, true);
@@ -114,7 +114,7 @@ void USampleBPLibrary::SampleShowHotkeysStaticColor()
 	keys.Add(EChromaSDKKeyboardKey::KK_LOGO);
 	keys.Add(EChromaSDKKeyboardKey::KK_ESC);
 
-	FString target = "Random_Keyboard";
+	FString target = "Animations/Random_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(target);
 
 	FLinearColor color = FLinearColor(1, 0, 0, 0);
@@ -131,7 +131,7 @@ void USampleBPLibrary::SampleHideHotkeys()
 		return;
 	}
 
-	FString animation = "Random_Keyboard";
+	FString animation = "Animations/Random_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(animation);
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
@@ -144,7 +144,7 @@ void USampleBPLibrary::SamplePlayAnimationChromaLink()
 		return;
 	}
 
-	FString animation = "Fire_ChromaLink";
+	FString animation = "Animations/Fire_ChromaLink";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
@@ -156,7 +156,7 @@ void USampleBPLibrary::SamplePlayAnimationHeadset()
 		return;
 	}
 
-	FString animation = "Fire_Headset";
+	FString animation = "Animations/Fire_Headset";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
@@ -168,7 +168,7 @@ void USampleBPLibrary::SamplePlayAnimationKeyboard()
 		return;
 	}
 
-	FString animation = "Fire_Keyboard";
+	FString animation = "Animations/Fire_Keyboard";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
@@ -180,7 +180,7 @@ void USampleBPLibrary::SamplePlayAnimationKeypad()
 		return;
 	}
 
-	FString animation = "Fire_Keypad";
+	FString animation = "Animations/Fire_Keypad";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
@@ -192,7 +192,7 @@ void USampleBPLibrary::SamplePlayAnimationMouse()
 		return;
 	}
 
-	FString animation = "Fire_Mouse";
+	FString animation = "Animations/Fire_Mouse";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
@@ -204,7 +204,7 @@ void USampleBPLibrary::SamplePlayAnimationMousepad()
 		return;
 	}
 
-	FString animation = "Fire_Mousepad";
+	FString animation = "Animations/Fire_Mousepad";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, false);
 }
 
@@ -216,7 +216,7 @@ void USampleBPLibrary::SampleLoopAnimationChromaLink()
 		return;
 	}
 
-	FString animation = "Fire_ChromaLink";
+	FString animation = "Animations/Fire_ChromaLink";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
@@ -228,7 +228,7 @@ void USampleBPLibrary::SampleLoopAnimationHeadset()
 		return;
 	}
 
-	FString animation = "Fire_Headset";
+	FString animation = "Animations/Fire_Headset";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
@@ -240,7 +240,7 @@ void USampleBPLibrary::SampleLoopAnimationKeyboard()
 		return;
 	}
 
-	FString animation = "Fire_Keyboard";
+	FString animation = "Animations/Fire_Keyboard";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
@@ -252,7 +252,7 @@ void USampleBPLibrary::SampleLoopAnimationKeypad()
 		return;
 	}
 
-	FString animation = "Fire_Keypad";
+	FString animation = "Animations/Fire_Keypad";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
@@ -264,7 +264,7 @@ void USampleBPLibrary::SampleLoopAnimationMouse()
 		return;
 	}
 
-	FString animation = "Fire_Mouse";
+	FString animation = "Animations/Fire_Mouse";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
@@ -276,7 +276,7 @@ void USampleBPLibrary::SampleLoopAnimationMousepad()
 		return;
 	}
 
-	FString animation = "Fire_Mousepad";
+	FString animation = "Animations/Fire_Mousepad";
 	UChromaSDKPluginBPLibrary::PlayAnimation(animation, true);
 }
 
@@ -288,7 +288,7 @@ void USampleBPLibrary::SampleStopAnimationChromaLink()
 		return;
 	}
 
-	FString animation = "Fire_ChromaLink";
+	FString animation = "Animations/Fire_ChromaLink";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
@@ -300,7 +300,7 @@ void USampleBPLibrary::SampleStopAnimationHeadset()
 		return;
 	}
 
-	FString animation = "Fire_Headset";
+	FString animation = "Animations/Fire_Headset";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
@@ -312,7 +312,7 @@ void USampleBPLibrary::SampleStopAnimationKeyboard()
 		return;
 	}
 
-	FString animation = "Fire_Keyboard";
+	FString animation = "Animations/Fire_Keyboard";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
@@ -324,7 +324,7 @@ void USampleBPLibrary::SampleStopAnimationKeypad()
 		return;
 	}
 
-	FString animation = "Fire_Keypad";
+	FString animation = "Animations/Fire_Keypad";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
@@ -336,7 +336,7 @@ void USampleBPLibrary::SampleStopAnimationMouse()
 		return;
 	}
 
-	FString animation = "Fire_Mouse";
+	FString animation = "Animations/Fire_Mouse";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
@@ -348,7 +348,7 @@ void USampleBPLibrary::SampleStopAnimationMousepad()
 		return;
 	}
 
-	FString animation = "Fire_Mousepad";
+	FString animation = "Animations/Fire_Mousepad";
 	UChromaSDKPluginBPLibrary::StopAnimation(animation);
 }
 
@@ -524,11 +524,11 @@ void USampleBPLibrary::SampleLayeredHeal()
 	keys.Add(EChromaSDKKeyboardKey::KK_Q);
 	keys.Add(EChromaSDKKeyboardKey::KK_E);
 
-	FString baseLayer = "EnvironmentSnow_Keyboard";
+	FString baseLayer = "Animations/EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
 	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(baseLayer, 1.0f + 64.0f * _sBaseIntensity);
 
-	FString layer2 = "RingGray_Keyboard";
+	FString layer2 = "Animations/RingGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer2);
 	// turn animation green
 	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer2, -127, 127, -127); //animation starts with 127,127,127 so adding -127,127,-127 results in 0,255,0 or green
@@ -536,7 +536,7 @@ void USampleBPLibrary::SampleLayeredHeal()
 	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer2, _sEffectIntensity);
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
-	FString layer3 = "FadeInOutGray_Keyboard";
+	FString layer3 = "Animations/FadeInOutGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
 	// change color
 	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer3, 173-127, 255-127, 47-127);
@@ -572,11 +572,11 @@ void USampleBPLibrary::SampleLayeredDamage()
 	keys.Add(EChromaSDKKeyboardKey::KK_Q);
 	keys.Add(EChromaSDKKeyboardKey::KK_E);
 
-	FString baseLayer = "EnvironmentSnow_Keyboard";
+	FString baseLayer = "Animations/EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
 	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(baseLayer, 1.0f + 64.0f * _sBaseIntensity);
 
-	FString layer2 = "RingGray_Keyboard";
+	FString layer2 = "Animations/RingGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer2);
 	// turn animation red
 	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer2, 127, -127, -127); //animation starts with 127,127,127 so adding 127,-127,-127 results in 255,0,0 or red
@@ -584,7 +584,7 @@ void USampleBPLibrary::SampleLayeredDamage()
 	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer2, _sEffectIntensity);
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
-	FString layer3 = "FadeInOutGray_Keyboard";
+	FString layer3 = "Animations/FadeInOutGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
 	// change color
 	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer3, 220-127, 20-127, 60-127);
@@ -619,11 +619,11 @@ void USampleBPLibrary::SampleLayeredItemPickup()
 	keys.Add(EChromaSDKKeyboardKey::KK_Q);
 	keys.Add(EChromaSDKKeyboardKey::KK_E);
 
-	FString baseLayer = "EnvironmentSnow_Keyboard";
+	FString baseLayer = "Animations/EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
 	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(baseLayer, 1.0f + 64.0f * _sBaseIntensity);
 
-	FString layer2 = "RingGray_Keyboard";
+	FString layer2 = "Animations/RingGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer2);
 	// turn animation blue
 	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer2, -127, -127, 127); //animation starts with 127,127,127 so adding -127,-127,127 results in 0,0,255 or blue
@@ -631,7 +631,7 @@ void USampleBPLibrary::SampleLayeredItemPickup()
 	UChromaSDKPluginBPLibrary::MultiplyIntensityAllFramesName(layer2, _sEffectIntensity);
 	UChromaSDKPluginBPLibrary::CopyNonZeroAllKeysAllFramesName(layer2, baseLayer);
 
-	FString layer3 = "FadeInOutGray_Keyboard";
+	FString layer3 = "Animations/FadeInOutGray_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(layer3);
 	// change color
 	UChromaSDKPluginBPLibrary::OffsetNonZeroColorsAllFramesName(layer3, 64-127, 224-127, 208-127);
@@ -659,7 +659,7 @@ void USampleBPLibrary::SampleLayeredOff()
 		return;
 	}
 
-	FString baseLayer = "EnvironmentSnow_Keyboard";
+	FString baseLayer = "Animations/EnvironmentSnow_Keyboard";
 	UChromaSDKPluginBPLibrary::CloseAnimationName(baseLayer);
 
 	UChromaSDKPluginBPLibrary::ClearAll();
