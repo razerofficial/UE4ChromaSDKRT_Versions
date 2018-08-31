@@ -37,6 +37,10 @@
 
 ## Tutorials
 
+**Chroma Design Guide**
+
+<a target="_blank" href="https://www.youtube.com/watch?v=-demSB_xLTc"><img src="https://img.youtube.com/vi/-demSB_xLTc/0.jpg"/></a>
+
 **UE4ChromaSDKRT Plugin Setup** for your specific version of UE4.
 
 <a target="_blank" href="https://www.youtube.com/watch?v=7buO9YCXjtY"><img src="https://img.youtube.com/vi/7buO9YCXjtY/0.jpg"/></a>
