@@ -3545,6 +3545,81 @@ void IChromaSDKPlugin::SetChromaCustomColorAllFramesName(const char* path)
 	SetChromaCustomColorAllFrames(animationId);
 }
 
+
+int IChromaSDKPlugin::PreviewFrame(int animationId, int frameId)
+{
+	StopAnimation(animationId);
+
+	if (_mAnimations.find(animationId) != _mAnimations.end())
+	{
+		AnimationBase* animation = _mAnimations[animationId];
+		if (animation == nullptr)
+		{
+			return -1;
+		}
+		switch (animation->GetDeviceType())
+		{
+		case EChromaSDKDeviceTypeEnum::DE_1D:
+		{
+			Animation1D* animation1D = (Animation1D*)(animation);
+			vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+			if (frameId >= 0 && frameId < frames.size())
+			{
+				FChromaSDKColorFrame1D& frame = frames[frameId];
+				TArray<FLinearColor>& colors = frame.Colors;
+				FChromaSDKEffectResult result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom1D(animation1D->GetDevice(), colors);
+				if (result.Result == 0)
+				{
+					UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(result.EffectId);
+					UChromaSDKPluginBPLibrary::ChromaSDKDeleteEffect(result.EffectId);
+				}
+			}
+		}
+		break;
+		case EChromaSDKDeviceTypeEnum::DE_2D:
+		{
+			Animation2D* animation2D = (Animation2D*)(animation);
+			vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+			if (frameId >= 0 && frameId < frames.size())
+			{
+				FChromaSDKColorFrame2D& frame = frames[frameId];
+				TArray<FChromaSDKColors>& colors = frame.Colors;
+				FChromaSDKEffectResult result;
+				if (animation2D->UseChromaCustom())
+				{
+					result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectKeyboardCustom2D(colors);
+				}
+				else
+				{
+					result = UChromaSDKPluginBPLibrary::ChromaSDKCreateEffectCustom2D(animation2D->GetDevice(), colors);
+				}
+				if (result.Result == 0)
+				{
+					UChromaSDKPluginBPLibrary::ChromaSDKSetEffect(result.EffectId);
+					UChromaSDKPluginBPLibrary::ChromaSDKDeleteEffect(result.EffectId);
+				}
+			}
+		}
+		break;
+		}
+		return animationId;
+	}
+
+	return -1;
+}
+
+void IChromaSDKPlugin::PreviewFrameName(const char* path, int frameId)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("PreviewFrameName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	PreviewFrame(animationId, frameId);
+}
+
+
 int IChromaSDKPlugin::OverrideFrameDuration(int animationId, float duration)
 {
 	StopAnimation(animationId);

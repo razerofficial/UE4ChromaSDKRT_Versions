@@ -280,6 +280,9 @@ public:
 	void SetChromaCustomColorAllFrames(int animationId);
 	void SetChromaCustomColorAllFramesName(const char* path);
 
+	int PreviewFrame(int animationId, int frameId);
+	void PreviewFrameName(const char* path, int frameId);
+
 	int OverrideFrameDuration(int animationId, float duration);
 	void OverrideFrameDurationName(const char* path, float duration);
 

@@ -667,6 +667,14 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SetChromaCustomColorAllFramesName", Keywords = "Set the custom color mask on all the colors"), Category = "ChromaSDK")
 	static void SetChromaCustomColorAllFramesName(const FString& animationName);
 
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "PreviewFrame", Keywords = "Display a specific animation frame"), Category = "ChromaSDK")
+	static int32 PreviewFrame(int32 animationId, int32 frameId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "PreviewFrameName", Keywords = "Display a specific animation frame"), Category = "ChromaSDK")
+	static void PreviewFrameName(const FString& animationName, int32 frameId);
+
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "OverrideFrameDurationName", Keywords = "Set the Chroma custom flag for keyboard"), Category = "ChromaSDK")
 	static void OverrideFrameDurationName(const FString& animationName, float duration);
 
