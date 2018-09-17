@@ -3576,7 +3576,7 @@ void UChromaSDKPluginBPLibrary::PreviewFrameName(const FString& animationName, i
 {
 #if PLATFORM_WINDOWS
 	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
-	//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
 	if (animationName.EndsWith(".chroma"))
 	{
 		path += animationName;
