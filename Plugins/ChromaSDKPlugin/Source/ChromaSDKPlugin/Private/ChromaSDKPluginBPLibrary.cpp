@@ -16,8 +16,8 @@ using namespace std;
 IChromaSDKPlugin UChromaSDKPluginBPLibrary::_sIChromaSDKPlugin;
 
 // keyboard map
-std::map<EChromaSDKKeyboardKey::Type, int> UChromaSDKPluginBPLibrary::_sKeyboardEnumMap =
-std::map<EChromaSDKKeyboardKey::Type, int>();
+std::map<FKey, EChromaSDKKeyboardKey::Type> UChromaSDKPluginBPLibrary::_sKeyboardFKeyMap = std::map<FKey, EChromaSDKKeyboardKey::Type>();
+std::map<EChromaSDKKeyboardKey::Type, int> UChromaSDKPluginBPLibrary::_sKeyboardEnumMap = std::map<EChromaSDKKeyboardKey::Type, int>();
 
 // mouse map
 std::map<EChromaSDKMouseLed::Type, ChromaSDK::Mouse::RZLED2> UChromaSDKPluginBPLibrary::_sMouseEnumMap =
@@ -31,6 +31,116 @@ UChromaSDKPluginBPLibrary::UChromaSDKPluginBPLibrary(const FPostConstructInitial
 //	: Super(ObjectInitializer) //___HACK_UE4_VERSION_4_9_OR_GREATER
 {
 #if PLATFORM_WINDOWS
+	// fkey mapping
+	_sKeyboardFKeyMap[EKeys::Escape] = EChromaSDKKeyboardKey::KK_ESC;
+	_sKeyboardFKeyMap[EKeys::F1] = EChromaSDKKeyboardKey::KK_F1;
+	_sKeyboardFKeyMap[EKeys::F2] = EChromaSDKKeyboardKey::KK_F2;
+	_sKeyboardFKeyMap[EKeys::F3] = EChromaSDKKeyboardKey::KK_F3;
+	_sKeyboardFKeyMap[EKeys::F4] = EChromaSDKKeyboardKey::KK_F4;
+	_sKeyboardFKeyMap[EKeys::F5] = EChromaSDKKeyboardKey::KK_F5;
+	_sKeyboardFKeyMap[EKeys::F6] = EChromaSDKKeyboardKey::KK_F6;
+	_sKeyboardFKeyMap[EKeys::F7] = EChromaSDKKeyboardKey::KK_F7;
+	_sKeyboardFKeyMap[EKeys::F8] = EChromaSDKKeyboardKey::KK_F8;
+	_sKeyboardFKeyMap[EKeys::F9] = EChromaSDKKeyboardKey::KK_F9;
+	_sKeyboardFKeyMap[EKeys::F10] = EChromaSDKKeyboardKey::KK_F10;
+	_sKeyboardFKeyMap[EKeys::F11] = EChromaSDKKeyboardKey::KK_F11;
+	_sKeyboardFKeyMap[EKeys::F12] = EChromaSDKKeyboardKey::KK_F12;
+	_sKeyboardFKeyMap[EKeys::One] = EChromaSDKKeyboardKey::KK_1;
+	_sKeyboardFKeyMap[EKeys::Two] = EChromaSDKKeyboardKey::KK_2;
+	_sKeyboardFKeyMap[EKeys::Three] = EChromaSDKKeyboardKey::KK_3;
+	_sKeyboardFKeyMap[EKeys::Four] = EChromaSDKKeyboardKey::KK_4;
+	_sKeyboardFKeyMap[EKeys::Five] = EChromaSDKKeyboardKey::KK_5;
+	_sKeyboardFKeyMap[EKeys::Six] = EChromaSDKKeyboardKey::KK_6;
+	_sKeyboardFKeyMap[EKeys::Seven] = EChromaSDKKeyboardKey::KK_7;
+	_sKeyboardFKeyMap[EKeys::Eight] = EChromaSDKKeyboardKey::KK_8;
+	_sKeyboardFKeyMap[EKeys::Nine] = EChromaSDKKeyboardKey::KK_9;
+	_sKeyboardFKeyMap[EKeys::Zero] = EChromaSDKKeyboardKey::KK_0;
+	_sKeyboardFKeyMap[EKeys::A] = EChromaSDKKeyboardKey::KK_A;
+	_sKeyboardFKeyMap[EKeys::B] = EChromaSDKKeyboardKey::KK_B;
+	_sKeyboardFKeyMap[EKeys::C] = EChromaSDKKeyboardKey::KK_C;
+	_sKeyboardFKeyMap[EKeys::D] = EChromaSDKKeyboardKey::KK_D;
+	_sKeyboardFKeyMap[EKeys::E] = EChromaSDKKeyboardKey::KK_E;
+	_sKeyboardFKeyMap[EKeys::F] = EChromaSDKKeyboardKey::KK_F;
+	_sKeyboardFKeyMap[EKeys::G] = EChromaSDKKeyboardKey::KK_G;
+	_sKeyboardFKeyMap[EKeys::H] = EChromaSDKKeyboardKey::KK_H;
+	_sKeyboardFKeyMap[EKeys::I] = EChromaSDKKeyboardKey::KK_I;
+	_sKeyboardFKeyMap[EKeys::J] = EChromaSDKKeyboardKey::KK_J;
+	_sKeyboardFKeyMap[EKeys::K] = EChromaSDKKeyboardKey::KK_K;
+	_sKeyboardFKeyMap[EKeys::L] = EChromaSDKKeyboardKey::KK_L;
+	_sKeyboardFKeyMap[EKeys::M] = EChromaSDKKeyboardKey::KK_M;
+	_sKeyboardFKeyMap[EKeys::N] = EChromaSDKKeyboardKey::KK_N;
+	_sKeyboardFKeyMap[EKeys::O] = EChromaSDKKeyboardKey::KK_O;
+	_sKeyboardFKeyMap[EKeys::P] = EChromaSDKKeyboardKey::KK_P;
+	_sKeyboardFKeyMap[EKeys::Q] = EChromaSDKKeyboardKey::KK_Q;
+	_sKeyboardFKeyMap[EKeys::R] = EChromaSDKKeyboardKey::KK_R;
+	_sKeyboardFKeyMap[EKeys::S] = EChromaSDKKeyboardKey::KK_S;
+	_sKeyboardFKeyMap[EKeys::T] = EChromaSDKKeyboardKey::KK_T;
+	_sKeyboardFKeyMap[EKeys::U] = EChromaSDKKeyboardKey::KK_U;
+	_sKeyboardFKeyMap[EKeys::V] = EChromaSDKKeyboardKey::KK_V;
+	_sKeyboardFKeyMap[EKeys::W] = EChromaSDKKeyboardKey::KK_W;
+	_sKeyboardFKeyMap[EKeys::X] = EChromaSDKKeyboardKey::KK_X;
+	_sKeyboardFKeyMap[EKeys::Y] = EChromaSDKKeyboardKey::KK_Y;
+	_sKeyboardFKeyMap[EKeys::Z] = EChromaSDKKeyboardKey::KK_Z;
+	_sKeyboardFKeyMap[EKeys::NumLock] = EChromaSDKKeyboardKey::KK_NUMLOCK;
+	_sKeyboardFKeyMap[EKeys::NumPadZero] = EChromaSDKKeyboardKey::KK_NUMPAD0;
+	_sKeyboardFKeyMap[EKeys::NumPadOne] = EChromaSDKKeyboardKey::KK_NUMPAD1;
+	_sKeyboardFKeyMap[EKeys::NumPadTwo] = EChromaSDKKeyboardKey::KK_NUMPAD2;
+	_sKeyboardFKeyMap[EKeys::NumPadThree] = EChromaSDKKeyboardKey::KK_NUMPAD3;
+	_sKeyboardFKeyMap[EKeys::NumPadFour] = EChromaSDKKeyboardKey::KK_NUMPAD4;
+	_sKeyboardFKeyMap[EKeys::NumPadFive] = EChromaSDKKeyboardKey::KK_NUMPAD5;
+	_sKeyboardFKeyMap[EKeys::NumPadSix] = EChromaSDKKeyboardKey::KK_NUMPAD6;
+	_sKeyboardFKeyMap[EKeys::NumPadSeven] = EChromaSDKKeyboardKey::KK_NUMPAD7;
+	_sKeyboardFKeyMap[EKeys::NumPadEight] = EChromaSDKKeyboardKey::KK_NUMPAD8;
+	_sKeyboardFKeyMap[EKeys::NumPadNine] = EChromaSDKKeyboardKey::KK_NUMPAD9;
+	//_sKeyboardFKeyMap[EKeys::Divide] = EChromaSDKKeyboardKey::KK_NUMPAD_DIVIDE;
+	//_sKeyboardFKeyMap[EKeys::Multiply] = EChromaSDKKeyboardKey::KK_NUMPAD_MULTIPLY;
+	//_sKeyboardFKeyMap[EKeys::Subtract] = EChromaSDKKeyboardKey::KK_NUMPAD_SUBTRACT;
+	//_sKeyboardFKeyMap[EKeys::Add] = EChromaSDKKeyboardKey::KK_NUMPAD_ADD;
+	//_sKeyboardFKeyMap[EKeys::Enter] = EChromaSDKKeyboardKey::KK_NUMPAD_ENTER;
+	//_sKeyboardFKeyMap[EKeys::Decimal] = EChromaSDKKeyboardKey::KK_NUMPAD_DECIMAL;
+	//_sKeyboardFKeyMap[EKeys::PrintScreen] = EChromaSDKKeyboardKey::KK_PRINTSCREEN;
+	_sKeyboardFKeyMap[EKeys::ScrollLock] = EChromaSDKKeyboardKey::KK_SCROLL;
+	_sKeyboardFKeyMap[EKeys::Pause] = EChromaSDKKeyboardKey::KK_PAUSE;
+	_sKeyboardFKeyMap[EKeys::Insert] = EChromaSDKKeyboardKey::KK_INSERT;
+	_sKeyboardFKeyMap[EKeys::Home] = EChromaSDKKeyboardKey::KK_HOME;
+	_sKeyboardFKeyMap[EKeys::PageUp] = EChromaSDKKeyboardKey::KK_PAGEUP;
+	_sKeyboardFKeyMap[EKeys::Delete] = EChromaSDKKeyboardKey::KK_DELETE;
+	_sKeyboardFKeyMap[EKeys::End] = EChromaSDKKeyboardKey::KK_END;
+	_sKeyboardFKeyMap[EKeys::PageDown] = EChromaSDKKeyboardKey::KK_PAGEDOWN;
+	_sKeyboardFKeyMap[EKeys::Up] = EChromaSDKKeyboardKey::KK_UP;
+	_sKeyboardFKeyMap[EKeys::Left] = EChromaSDKKeyboardKey::KK_LEFT;
+	_sKeyboardFKeyMap[EKeys::Down] = EChromaSDKKeyboardKey::KK_DOWN;
+	_sKeyboardFKeyMap[EKeys::Right] = EChromaSDKKeyboardKey::KK_RIGHT;
+	_sKeyboardFKeyMap[EKeys::Tab] = EChromaSDKKeyboardKey::KK_TAB;
+	_sKeyboardFKeyMap[EKeys::CapsLock] = EChromaSDKKeyboardKey::KK_CAPSLOCK;
+	_sKeyboardFKeyMap[EKeys::BackSpace] = EChromaSDKKeyboardKey::KK_BACKSPACE;
+	_sKeyboardFKeyMap[EKeys::Enter] = EChromaSDKKeyboardKey::KK_ENTER;
+	_sKeyboardFKeyMap[EKeys::LeftControl] = EChromaSDKKeyboardKey::KK_LCTRL;
+	//_sKeyboardFKeyMap[EKeys::LeftCommand] = EChromaSDKKeyboardKey::KK_LWIN;
+	_sKeyboardFKeyMap[EKeys::LeftAlt] = EChromaSDKKeyboardKey::KK_LALT;
+	_sKeyboardFKeyMap[EKeys::SpaceBar] = EChromaSDKKeyboardKey::KK_SPACE;
+	_sKeyboardFKeyMap[EKeys::RightAlt] = EChromaSDKKeyboardKey::KK_RALT;
+	//_sKeyboardFKeyMap[EKeys::Function] = EChromaSDKKeyboardKey::KK_FN;
+	//_sKeyboardFKeyMap[EKeys::RightMenu] = EChromaSDKKeyboardKey::KK_RMENU;
+	_sKeyboardFKeyMap[EKeys::RightControl] = EChromaSDKKeyboardKey::KK_RCTRL;
+	_sKeyboardFKeyMap[EKeys::LeftShift] = EChromaSDKKeyboardKey::KK_LSHIFT;
+	_sKeyboardFKeyMap[EKeys::RightShift] = EChromaSDKKeyboardKey::KK_RSHIFT;
+	//_sKeyboardFKeyMap[EKeys::Macro1] = EChromaSDKKeyboardKey::KK_MACRO1;
+	//_sKeyboardFKeyMap[EKeys::Macro2] = EChromaSDKKeyboardKey::KK_MACRO2;
+	//_sKeyboardFKeyMap[EKeys::Macro3] = EChromaSDKKeyboardKey::KK_MACRO3;
+	//_sKeyboardFKeyMap[EKeys::Macro4] = EChromaSDKKeyboardKey::KK_MACRO4;
+	//_sKeyboardFKeyMap[EKeys::Macro5] = EChromaSDKKeyboardKey::KK_MACRO5;
+	_sKeyboardFKeyMap[EKeys::Tilde] = EChromaSDKKeyboardKey::KK_OEM_1; //~
+	_sKeyboardFKeyMap[EKeys::Subtract] = EChromaSDKKeyboardKey::KK_OEM_2; //-
+	_sKeyboardFKeyMap[EKeys::Add] = EChromaSDKKeyboardKey::KK_OEM_3; //+
+	_sKeyboardFKeyMap[EKeys::LeftBracket] = EChromaSDKKeyboardKey::KK_OEM_4; //[
+	_sKeyboardFKeyMap[EKeys::RightBracket] = EChromaSDKKeyboardKey::KK_OEM_5; //]
+	_sKeyboardFKeyMap[EKeys::Backslash] = EChromaSDKKeyboardKey::KK_OEM_6; /* \ */
+	_sKeyboardFKeyMap[EKeys::Semicolon] = EChromaSDKKeyboardKey::KK_OEM_7; //;
+	_sKeyboardFKeyMap[EKeys::Quote] = EChromaSDKKeyboardKey::KK_OEM_8; //'
+	_sKeyboardFKeyMap[EKeys::Comma] = EChromaSDKKeyboardKey::KK_OEM_9; //,
+	_sKeyboardFKeyMap[EKeys::Period] = EChromaSDKKeyboardKey::KK_OEM_10; //.
+	_sKeyboardFKeyMap[EKeys::Slash] = EChromaSDKKeyboardKey::KK_OEM_11; ///
 	// keyboard mapping
 	_sKeyboardEnumMap[EChromaSDKKeyboardKey::KK_ESC] = Keyboard::RZKEY::RZKEY_ESC;
 	_sKeyboardEnumMap[EChromaSDKKeyboardKey::KK_F1] = Keyboard::RZKEY::RZKEY_F1;
@@ -3910,6 +4020,17 @@ void UChromaSDKPluginBPLibrary::FadeEndFramesName(const FString& animationName, 
 	const char* pathArg = TCHAR_TO_ANSI(*path);
 	_sIChromaSDKPlugin.FadeEndFramesName(pathArg, fade);
 #endif
+}
+
+EChromaSDKKeyboardKey::Type UChromaSDKPluginBPLibrary::GetKeyboardRazerKey(FKey key)
+{
+#if PLATFORM_WINDOWS
+	if (_sKeyboardFKeyMap.find(key) != _sKeyboardFKeyMap.end())
+	{
+		return _sKeyboardFKeyMap[key];
+	}
+#endif
+	return EChromaSDKKeyboardKey::KK_INVALID;
 }
 
 #if PLATFORM_WINDOWS

@@ -38,6 +38,7 @@ namespace UnrealBuildTool.Rules
 				new string[]
 				{
                     "CoreUObject",
+                    "InputCore",
                     "Engine",
 					// ... add private dependencies that you statically link with here ...
 				}

@@ -809,11 +809,17 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static void FadeEndFramesName(const FString& animationName, int32 fade);
 
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetKeyboardRazerKey", Keywords = "Convert FKey to RZKEY"), Category = "ChromaSDK")
+	static EChromaSDKKeyboardKey::Type GetKeyboardRazerKey(FKey key);
+
+
 #if PLATFORM_WINDOWS
 private:
 	static IChromaSDKPlugin _sIChromaSDKPlugin;
 
+	static std::map<FKey, EChromaSDKKeyboardKey::Type> _sKeyboardFKeyMap;
 	static std::map<EChromaSDKKeyboardKey::Type, int32> _sKeyboardEnumMap;
 	static std::map<EChromaSDKMouseLed::Type, ChromaSDK::Mouse::RZLED2> _sMouseEnumMap;
+
 #endif
 };
