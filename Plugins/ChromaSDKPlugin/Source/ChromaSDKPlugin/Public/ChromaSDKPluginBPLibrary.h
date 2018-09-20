@@ -262,6 +262,23 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static void SetKeysNonZeroColorAllFramesName(const FString& animationName, const TArray<TEnumAsByte<EChromaSDKKeyboardKey::Type>>& keys, const FLinearColor& colorParam);
 
 
+	// COPY ANIMATION
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyAnimationName", Keywords = "Copy animation to the named animation"), Category = "ChromaSDK")
+	static void CopyAnimationName(const FString& sourceAnimationName, const FString& targetAnimationName);
+
+
+	// APPEND
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AppendAllFramesName", Keywords = "Append animation frames to another animation"), Category = "ChromaSDK")
+	static void AppendAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName);
+
+
+	// INVERT COLORS
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "InvertColorsAllFramesName", Keywords = "Invert animation colors"), Category = "ChromaSDK")
+	static void InvertColorsAllFramesName(const FString& animationName);
+
+
 	// COPY KEY COLOR
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyKeyColor", Keywords = "Copy color from a source animation to a target animation for a key"), Category = "ChromaSDK")
@@ -332,6 +349,7 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroAllKeysName", Keywords = "Copy nonzero color from a source animation to a target animation for a frame"), Category = "ChromaSDK")
 	static void CopyNonZeroAllKeysName(const FString& sourceAnimationName, const FString& targetAnimationName, int32 frameId);
 
+
 	// NONZERO ADD
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AddNonZeroAllKeys", Keywords = "Copy nonzero color from a source animation to a target animation for a frame"), Category = "ChromaSDK")
@@ -348,6 +366,15 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SubtractNonZeroAllKeysName", Keywords = "Copy nonzero color from a source animation to a target animation for a frame"), Category = "ChromaSDK")
 	static void SubtractNonZeroAllKeysName(const FString& sourceAnimationName, const FString& targetAnimationName, int32 frameId);
+
+
+	// NONZERO TARGET
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroAllKeys", Keywords = "Copy nonzero color from a source animation to a target animation for a frame"), Category = "ChromaSDK")
+	static void CopyNonZeroTargetAllKeys(int32 sourceAnimationId, int32 targetAnimationId, int32 frameId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroAllKeysName", Keywords = "Copy nonzero color from a source animation to a target animation for a frame"), Category = "ChromaSDK")
+	static void CopyNonZeroTargetAllKeysName(const FString& sourceAnimationName, const FString& targetAnimationName, int32 frameId);
 
 
 	// NONZERO OFFSET
@@ -370,13 +397,14 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	// NONZERO
 
-
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroAllKeysAllFrames", Keywords = "Copy nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
 	static void CopyNonZeroAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroAllKeysAllFramesName", Keywords = "Copy nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
 	static void CopyNonZeroAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName);
 
+	
+	// NONZERO ADD
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AddNonZeroAllKeysAllFrames", Keywords = "Add nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
 	static void AddNonZeroAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId);
@@ -384,12 +412,68 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AddNonZeroAllKeysAllFramesName", Keywords = "Add nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
 	static void AddNonZeroAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName);
 
+	
+	// NONZERO SUBTRACT
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SubtractNonZeroAllKeysAllFrames", Keywords = "Subtract nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
 	static void SubtractNonZeroAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SubtractNonZeroAllKeysAllFramesName", Keywords = "Subtract nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
 	static void SubtractNonZeroAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName);
+
+
+	// NONZERO TARGET
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroTargetAllKeysAllFrames", Keywords = "Copy nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void CopyNonZeroTargetAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroTargetAllKeysAllFramesName", Keywords = "Copy nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void CopyNonZeroTargetAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName);
+
+
+	// ADD NONZERO TARGET
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AddNonZeroTargetAllKeysAllFrames", Keywords = "Add nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void AddNonZeroTargetAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AddNonZeroTargetAllKeysAllFramesName", Keywords = "Add nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void AddNonZeroTargetAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName);
+
+
+	// SUBTRACT NONZERO TARGET
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SubtractNonZeroTargetAllKeysAllFrames", Keywords = "Subtract nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void SubtractNonZeroTargetAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SubtractNonZeroTargetAllKeysAllFramesName", Keywords = "Subtract nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void SubtractNonZeroTargetAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName);
+
+
+	// NONZERO TARGET OFFSET
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroTargetAllKeysAllFramesOffset", Keywords = "Copy nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void CopyNonZeroTargetAllKeysAllFramesOffset(int32 sourceAnimationId, int32 targetAnimationId, int32 offset);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyNonZeroTargetAllKeysAllFramesOffsetName", Keywords = "Copy nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void CopyNonZeroTargetAllKeysAllFramesOffsetName(const FString& sourceAnimationName, const FString& targetAnimationName, int32 offset);
+
+
+	// ADD NONZERO TARGET OFFSET
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AddNonZeroTargetAllKeysAllFramesOffset", Keywords = "Add nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void AddNonZeroTargetAllKeysAllFramesOffset(int32 sourceAnimationId, int32 targetAnimationId, int32 offset);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AddNonZeroTargetAllKeysAllFramesOffsetName", Keywords = "Add nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void AddNonZeroTargetAllKeysAllFramesOffsetName(const FString& sourceAnimationName, const FString& targetAnimationName, int32 offset);
+
+
+	// SUBTRACT NONZERO TARGET OFFSET
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SubtractNonZeroTargetAllKeysAllFramesOffset", Keywords = "Subtract nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void SubtractNonZeroTargetAllKeysAllFramesOffset(int32 sourceAnimationId, int32 targetAnimationId, int32 offset);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SubtractNonZeroTargetAllKeysAllFramesOffsetName", Keywords = "Subtract nonzero color from a source animation to a target animation for all frames"), Category = "ChromaSDK")
+	static void SubtractNonZeroTargetAllKeysAllFramesOffsetName(const FString& sourceAnimationName, const FString& targetAnimationName, int32 offset);
 
 
 	// NONZERO OFFSET
@@ -485,6 +569,9 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillThresholdColorsAllFramesRGBName", Keywords = "Set the RGB value for all colors for all frames"), Category = "ChromaSDK")
 	static void FillThresholdColorsAllFramesRGBName(const FString& animationName, int32 threshold, int32 red, int32 green, int32 blue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillThresholdRGBColorsAllFramesRGBName", Keywords = "Set the RGB value for all colors for all frames"), Category = "ChromaSDK")
+	static void FillThresholdRGBColorsAllFramesRGBName(const FString& animationName, int32 redThreshold, int32 greenThreshold, int32 blueThreshold, int32 red, int32 green, int32 blue);
 
 
 	// FILL COLOR ALL FRAMES
@@ -652,6 +739,24 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyIntensityAllFramesRGBName", Keywords = "Multiply all the colors for all frames by the intensity value"), Category = "ChromaSDK")
 	static void MultiplyIntensityAllFramesRGBName(const FString& animationName, float redIntensity, float greenIntensity, float blueIntensity);
+
+
+	// LERP
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyColorLerpAllFramesName", Keywords = "Lerp between colors using the frame ratio as the intensity"), Category = "ChromaSDK")
+	static void MultiplyColorLerpAllFramesName(const FString& animationName, const FLinearColor& colorParam1, const FLinearColor& colorParam2);
+
+
+	// TARGET LERP
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyTargetColorLerpAllFramesName", Keywords = "Lerp between colors using the target colors as the intensity"), Category = "ChromaSDK")
+	static void MultiplyTargetColorLerpAllFramesName(const FString& animationName, const FLinearColor& colorParam1, const FLinearColor& colorParam2);
+
+
+	// NON ZERO
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyNonZeroTargetColorLerpAllFramesName", Keywords = "Lerp between colors using the nonzero target colors as the intensity"), Category = "ChromaSDK")
+	static void MultiplyNonZeroTargetColorLerpAllFramesName(const FString& animationName, const FLinearColor& colorParam1, const FLinearColor& colorParam2);
 
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetFrameCount", Keywords = "Get the .chroma animation frame count"), Category = "ChromaSDK")
