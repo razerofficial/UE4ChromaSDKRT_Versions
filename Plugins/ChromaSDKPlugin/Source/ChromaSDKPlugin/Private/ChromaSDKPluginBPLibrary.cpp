@@ -15,13 +15,16 @@ using namespace std;
 
 IChromaSDKPlugin UChromaSDKPluginBPLibrary::_sIChromaSDKPlugin;
 
+// fkey map
+std::map<FKey, EChromaSDKKeyboardKey::Type> UChromaSDKPluginBPLibrary::_sKeyboardFKeyMap =
+	std::map<FKey, EChromaSDKKeyboardKey::Type>();
 // keyboard map
-std::map<FKey, EChromaSDKKeyboardKey::Type> UChromaSDKPluginBPLibrary::_sKeyboardFKeyMap = std::map<FKey, EChromaSDKKeyboardKey::Type>();
-std::map<EChromaSDKKeyboardKey::Type, int> UChromaSDKPluginBPLibrary::_sKeyboardEnumMap = std::map<EChromaSDKKeyboardKey::Type, int>();
+std::map<EChromaSDKKeyboardKey::Type, int> UChromaSDKPluginBPLibrary::_sKeyboardEnumMap =
+	std::map<EChromaSDKKeyboardKey::Type, int>();
 
 // mouse map
 std::map<EChromaSDKMouseLed::Type, ChromaSDK::Mouse::RZLED2> UChromaSDKPluginBPLibrary::_sMouseEnumMap =
-std::map<EChromaSDKMouseLed::Type, ChromaSDK::Mouse::RZLED2>();
+	std::map<EChromaSDKMouseLed::Type, ChromaSDK::Mouse::RZLED2>();
 
 #endif
 
