@@ -4758,6 +4758,13 @@ int IChromaSDKPlugin::CopyAnimation(int sourceAnimationId, const char* targetAni
 }
 void IChromaSDKPlugin::CopyAnimationName(const char* sourceAnimation, const char* targetAnimation)
 {
+	int sourceAnimationId = GetAnimation(sourceAnimation);
+	if (sourceAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CopyAnimationName: Source Animation not found! %s"), *FString(UTF8_TO_TCHAR(sourceAnimation)));
+		return;
+	}
+	CopyAnimation(sourceAnimationId, targetAnimation);
 }
 
 
@@ -4768,6 +4775,19 @@ void IChromaSDKPlugin::AppendAllFrames(int sourceAnimationId, int targetAnimatio
 }
 void IChromaSDKPlugin::AppendAllFramesName(const char* sourceAnimation, const char* targetAnimation)
 {
+	int sourceAnimationId = GetAnimation(sourceAnimation);
+	if (sourceAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("AppendAllFramesName: Source Animation not found! %s"), *FString(UTF8_TO_TCHAR(sourceAnimation)));
+		return;
+	}
+	int targetAnimationId = GetAnimation(targetAnimation);
+	if (targetAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("AppendAllFramesName: Target Animation not found! %s"), *FString(UTF8_TO_TCHAR(targetAnimation)));
+		return;
+	}
+	AppendAllFrames(sourceAnimationId, targetAnimationId);
 }
 
 
@@ -4778,7 +4798,13 @@ void IChromaSDKPlugin::InvertColors(int animationId, int frameId)
 }
 void IChromaSDKPlugin::InvertColorsName(const char* path, int frameId)
 {
-
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("InvertColorsName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	InvertColors(animationId, frameId);
 }
 
 // ALL FRAMES
@@ -4788,7 +4814,13 @@ void IChromaSDKPlugin::InvertColorsAllFrames(int animationId)
 }
 void IChromaSDKPlugin::InvertColorsAllFramesName(const char* path)
 {
-
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("InvertColorsAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	InvertColorsAllFrames(animationId);
 }
 
 
@@ -4799,7 +4831,19 @@ void IChromaSDKPlugin::CopyNonZeroTargetAllKeys(int sourceAnimationId, int targe
 }
 void IChromaSDKPlugin::CopyNonZeroTargetAllKeysName(const char* sourceAnimation, const char* targetAnimation, int frameId)
 {
-
+	int sourceAnimationId = GetAnimation(sourceAnimation);
+	if (sourceAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CopyNonZeroTargetAllKeysName: Source Animation not found! %s"), *FString(UTF8_TO_TCHAR(sourceAnimation)));
+		return;
+	}
+	int targetAnimationId = GetAnimation(targetAnimation);
+	if (targetAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CopyNonZeroTargetAllKeysName: Target Animation not found! %s"), *FString(UTF8_TO_TCHAR(targetAnimation)));
+		return;
+	}
+	CopyNonZeroTargetAllKeys(sourceAnimationId, targetAnimationId, frameId);
 }
 
 
@@ -4810,7 +4854,19 @@ void IChromaSDKPlugin::CopyNonZeroTargetAllKeysAllFrames(int sourceAnimationId, 
 }
 void IChromaSDKPlugin::CopyNonZeroTargetAllKeysAllFramesName(const char* sourceAnimation, const char* targetAnimation)
 {
-
+	int sourceAnimationId = GetAnimation(sourceAnimation);
+	if (sourceAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CopyNonZeroTargetAllKeysAllFramesName: Source Animation not found! %s"), *FString(UTF8_TO_TCHAR(sourceAnimation)));
+		return;
+	}
+	int targetAnimationId = GetAnimation(targetAnimation);
+	if (targetAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CopyNonZeroTargetAllKeysAllFramesName: Target Animation not found! %s"), *FString(UTF8_TO_TCHAR(targetAnimation)));
+		return;
+	}
+	CopyNonZeroTargetAllKeysAllFrames(sourceAnimationId, targetAnimationId);
 }
 
 
@@ -4821,7 +4877,19 @@ void IChromaSDKPlugin::AddNonZeroTargetAllKeysAllFrames(int sourceAnimationId, i
 }
 void IChromaSDKPlugin::AddNonZeroTargetAllKeysAllFramesName(const char* sourceAnimation, const char* targetAnimation)
 {
-
+	int sourceAnimationId = GetAnimation(sourceAnimation);
+	if (sourceAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("AddNonZeroTargetAllKeysAllFramesName: Source Animation not found! %s"), *FString(UTF8_TO_TCHAR(sourceAnimation)));
+		return;
+	}
+	int targetAnimationId = GetAnimation(targetAnimation);
+	if (targetAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("AddNonZeroTargetAllKeysAllFramesName: Target Animation not found! %s"), *FString(UTF8_TO_TCHAR(targetAnimation)));
+		return;
+	}
+	AddNonZeroTargetAllKeysAllFrames(sourceAnimationId, targetAnimationId);
 }
 
 
@@ -4832,7 +4900,19 @@ void IChromaSDKPlugin::SubtractNonZeroTargetAllKeysAllFrames(int sourceAnimation
 }
 void IChromaSDKPlugin::SubtractNonZeroTargetAllKeysAllFramesName(const char* sourceAnimation, const char* targetAnimation)
 {
-
+	int sourceAnimationId = GetAnimation(sourceAnimation);
+	if (sourceAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("SubtractNonZeroTargetAllKeysAllFramesName: Source Animation not found! %s"), *FString(UTF8_TO_TCHAR(sourceAnimation)));
+		return;
+	}
+	int targetAnimationId = GetAnimation(targetAnimation);
+	if (targetAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("SubtractNonZeroTargetAllKeysAllFramesName: Target Animation not found! %s"), *FString(UTF8_TO_TCHAR(targetAnimation)));
+		return;
+	}
+	SubtractNonZeroTargetAllKeysAllFrames(sourceAnimationId, targetAnimationId);
 }
 
 
@@ -4843,7 +4923,19 @@ void IChromaSDKPlugin::CopyNonZeroTargetAllKeysAllFramesOffset(int sourceAnimati
 }
 void IChromaSDKPlugin::CopyNonZeroTargetAllKeysAllFramesOffsetName(const char* sourceAnimation, const char* targetAnimation, int offset)
 {
-
+	int sourceAnimationId = GetAnimation(sourceAnimation);
+	if (sourceAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CopyNonZeroTargetAllKeysAllFramesOffsetName: Source Animation not found! %s"), *FString(UTF8_TO_TCHAR(sourceAnimation)));
+		return;
+	}
+	int targetAnimationId = GetAnimation(targetAnimation);
+	if (targetAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CopyNonZeroTargetAllKeysAllFramesOffsetName: Target Animation not found! %s"), *FString(UTF8_TO_TCHAR(targetAnimation)));
+		return;
+	}
+	CopyNonZeroTargetAllKeysAllFramesOffset(sourceAnimationId, targetAnimationId, offset);
 }
 
 
@@ -4854,7 +4946,19 @@ void IChromaSDKPlugin::AddNonZeroTargetAllKeysAllFramesOffset(int sourceAnimatio
 }
 void IChromaSDKPlugin::AddNonZeroTargetAllKeysAllFramesOffsetName(const char* sourceAnimation, const char* targetAnimation, int offset)
 {
-
+	int sourceAnimationId = GetAnimation(sourceAnimation);
+	if (sourceAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("AddNonZeroTargetAllKeysAllFramesOffsetName: Source Animation not found! %s"), *FString(UTF8_TO_TCHAR(sourceAnimation)));
+		return;
+	}
+	int targetAnimationId = GetAnimation(targetAnimation);
+	if (targetAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("AddNonZeroTargetAllKeysAllFramesOffsetName: Target Animation not found! %s"), *FString(UTF8_TO_TCHAR(targetAnimation)));
+		return;
+	}
+	AddNonZeroTargetAllKeysAllFramesOffset(sourceAnimationId, targetAnimationId, offset);
 }
 
 
@@ -4865,7 +4969,19 @@ void IChromaSDKPlugin::SubtractNonZeroTargetAllKeysAllFramesOffset(int sourceAni
 }
 void IChromaSDKPlugin::SubtractNonZeroTargetAllKeysAllFramesOffsetName(const char* sourceAnimation, const char* targetAnimation, int offset)
 {
-
+	int sourceAnimationId = GetAnimation(sourceAnimation);
+	if (sourceAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("SubtractNonZeroTargetAllKeysAllFramesOffsetName: Source Animation not found! %s"), *FString(UTF8_TO_TCHAR(sourceAnimation)));
+		return;
+	}
+	int targetAnimationId = GetAnimation(targetAnimation);
+	if (targetAnimationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("SubtractNonZeroTargetAllKeysAllFramesOffsetName: Target Animation not found! %s"), *FString(UTF8_TO_TCHAR(targetAnimation)));
+		return;
+	}
+	SubtractNonZeroTargetAllKeysAllFramesOffset(sourceAnimationId, targetAnimationId, offset);
 }
 
 
@@ -4876,7 +4992,13 @@ void IChromaSDKPlugin::MultiplyColorLerpAllFrames(int animationId, int color1, i
 }
 void IChromaSDKPlugin::MultiplyColorLerpAllFramesName(const char* path, int color1, int color2)
 {
-
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MultiplyColorLerpAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	MultiplyColorLerpAllFrames(animationId, color1, color2);
 }
 
 
@@ -4887,7 +5009,13 @@ void IChromaSDKPlugin::MultiplyTargetColorLerpAllFrames(int animationId, int col
 }
 void IChromaSDKPlugin::MultiplyTargetColorLerpAllFramesName(const char* path, int color1, int color2)
 {
-
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MultiplyTargetColorLerpAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	MultiplyTargetColorLerpAllFrames(animationId, color1, color2);
 }
 
 
@@ -4898,7 +5026,13 @@ void IChromaSDKPlugin::FillThresholdRGBColorsAllFramesRGB(int animationId, int r
 }
 void IChromaSDKPlugin::FillThresholdRGBColorsAllFramesRGBName(const char* path, int redThreshold, int greenThreshold, int blueThreshold, int red, int green, int blue)
 {
-
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("FillThresholdRGBColorsAllFramesRGBName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	FillThresholdRGBColorsAllFramesRGB(animationId, redThreshold, greenThreshold, blueThreshold, red, green, blue);
 }
 
 
@@ -4909,7 +5043,13 @@ void IChromaSDKPlugin::MultiplyNonZeroTargetColorLerpAllFrames(int animationId, 
 }
 void IChromaSDKPlugin::MultiplyNonZeroTargetColorLerpAllFramesName(const char* path, int color1, int color2)
 {
-
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MultiplyNonZeroTargetColorLerpAllFramesName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	MultiplyNonZeroTargetColorLerpAllFrames(animationId, color1, color2);
 }
 
 
