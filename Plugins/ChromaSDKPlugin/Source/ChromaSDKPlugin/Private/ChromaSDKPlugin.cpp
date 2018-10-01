@@ -4751,6 +4751,167 @@ void IChromaSDKPlugin::FadeEndFramesName(const char* path, int fade)
 }
 
 
+// COPY ANIMATION
+int IChromaSDKPlugin::CopyAnimation(int sourceAnimationId, const char* targetAnimation)
+{
+	return 0;
+}
+void IChromaSDKPlugin::CopyAnimationName(const char* sourceAnimation, const char* targetAnimation)
+{
+}
+
+
+// APPEND ALL FRAMES
+void IChromaSDKPlugin::AppendAllFrames(int sourceAnimationId, int targetAnimationId)
+{
+
+}
+void IChromaSDKPlugin::AppendAllFramesName(const char* sourceAnimation, const char* targetAnimation)
+{
+}
+
+
+// INVERT ALL COLORS
+void IChromaSDKPlugin::InvertColors(int animationId, int frameId)
+{
+
+}
+void IChromaSDKPlugin::InvertColorsName(const char* path, int frameId)
+{
+
+}
+
+// ALL FRAMES
+void IChromaSDKPlugin::InvertColorsAllFrames(int animationId)
+{
+
+}
+void IChromaSDKPlugin::InvertColorsAllFramesName(const char* path)
+{
+
+}
+
+
+// COPY NONZERO TARGET
+void IChromaSDKPlugin::CopyNonZeroTargetAllKeys(int sourceAnimationId, int targetAnimationId, int frameId)
+{
+
+}
+void IChromaSDKPlugin::CopyNonZeroTargetAllKeysName(const char* sourceAnimation, const char* targetAnimation, int frameId)
+{
+
+}
+
+
+// ALL FRAMES
+void IChromaSDKPlugin::CopyNonZeroTargetAllKeysAllFrames(int sourceAnimationId, int targetAnimationId)
+{
+
+}
+void IChromaSDKPlugin::CopyNonZeroTargetAllKeysAllFramesName(const char* sourceAnimation, const char* targetAnimation)
+{
+
+}
+
+
+// ADD NONZERO TARGET
+void IChromaSDKPlugin::AddNonZeroTargetAllKeysAllFrames(int sourceAnimationId, int targetAnimationId)
+{
+
+}
+void IChromaSDKPlugin::AddNonZeroTargetAllKeysAllFramesName(const char* sourceAnimation, const char* targetAnimation)
+{
+
+}
+
+
+// SUBTRACT NONZERO TARGET ALL FRAMES
+void IChromaSDKPlugin::SubtractNonZeroTargetAllKeysAllFrames(int sourceAnimationId, int targetAnimationId)
+{
+
+}
+void IChromaSDKPlugin::SubtractNonZeroTargetAllKeysAllFramesName(const char* sourceAnimation, const char* targetAnimation)
+{
+
+}
+
+
+// COPY NONZERO TARGET ALL FRAMES
+void IChromaSDKPlugin::CopyNonZeroTargetAllKeysAllFramesOffset(int sourceAnimationId, int targetAnimationId, int offset)
+{
+
+}
+void IChromaSDKPlugin::CopyNonZeroTargetAllKeysAllFramesOffsetName(const char* sourceAnimation, const char* targetAnimation, int offset)
+{
+
+}
+
+
+// ADD NONZERO TARGET ALL FRAMES OFFSET
+void IChromaSDKPlugin::AddNonZeroTargetAllKeysAllFramesOffset(int sourceAnimationId, int targetAnimationId, int offset)
+{
+
+}
+void IChromaSDKPlugin::AddNonZeroTargetAllKeysAllFramesOffsetName(const char* sourceAnimation, const char* targetAnimation, int offset)
+{
+
+}
+
+
+// SUBTRACT NONZERO TARGET ALL FRAMES OFFSET
+void IChromaSDKPlugin::SubtractNonZeroTargetAllKeysAllFramesOffset(int sourceAnimationId, int targetAnimationId, int offset)
+{
+
+}
+void IChromaSDKPlugin::SubtractNonZeroTargetAllKeysAllFramesOffsetName(const char* sourceAnimation, const char* targetAnimation, int offset)
+{
+
+}
+
+
+// MULTIPLY COLOR LERP ALL FRAMES
+void IChromaSDKPlugin::MultiplyColorLerpAllFrames(int animationId, int color1, int color2)
+{
+
+}
+void IChromaSDKPlugin::MultiplyColorLerpAllFramesName(const char* path, int color1, int color2)
+{
+
+}
+
+
+// MULTIPLY TARGET COLOR LERP ALL FRAMES
+void IChromaSDKPlugin::MultiplyTargetColorLerpAllFrames(int animationId, int color1, int color2)
+{
+
+}
+void IChromaSDKPlugin::MultiplyTargetColorLerpAllFramesName(const char* path, int color1, int color2)
+{
+
+}
+
+
+// FILL THRESHOLD RGB COLORS ALL FRAMES RGB
+void IChromaSDKPlugin::FillThresholdRGBColorsAllFramesRGB(int animationId, int redThreshold, int greenThreshold, int blueThreshold, int red, int green, int blue)
+{
+
+}
+void IChromaSDKPlugin::FillThresholdRGBColorsAllFramesRGBName(const char* path, int redThreshold, int greenThreshold, int blueThreshold, int red, int green, int blue)
+{
+
+}
+
+
+// MULTIPLY NONZERO TARGET COLOR LERP ALL FRAMES
+void IChromaSDKPlugin::MultiplyNonZeroTargetColorLerpAllFrames(int animationId, int color1, int color2)
+{
+
+}
+void IChromaSDKPlugin::MultiplyNonZeroTargetColorLerpAllFramesName(const char* path, int color1, int color2)
+{
+
+}
+
 
 // VALIDATE DLL METHODS
 

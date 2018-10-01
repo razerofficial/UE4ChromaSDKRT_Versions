@@ -108,10 +108,42 @@ public:
 	bool IsAnimationPlayingType(int deviceType, int device);
 	int GetAnimationFrameCount(int animationId);
 	int GetAnimationFrameCountName(const char* path);
+
+
+	// COPY ANIMATION
+
+	int CopyAnimation(int sourceAnimationId, const char* targetAnimation);
+	void CopyAnimationName(const char* sourceAnimation, const char* targetAnimation);
+
+
+	// APPEND ALL FRAMES
+
+	void AppendAllFrames(int sourceAnimationId, int targetAnimationId);
+	void AppendAllFramesName(const char* sourceAnimation, const char* targetAnimation);
+
+
+	// INVERT ALL COLORS
+
+	void InvertColors(int animationId, int frameId);
+	void InvertColorsName(const char* path, int frameId);
+
+	// ALL FRAMES
+
+	void InvertColorsAllFrames(int animationId);
+	void InvertColorsAllFramesName(const char* path);
+
+
+	// SET KEY COLOR
+
 	void SetKeyColor(int animationId, int frameId, int rzkey, COLORREF color);
 	void SetKeyColorName(const char* path, int frameId, int rzkey, COLORREF color);
+
+	// NONZERO
+
 	void SetKeyNonZeroColor(int animationId, int frameId, int rzkey, COLORREF color);
 	void SetKeyNonZeroColorName(const char* path, int frameId, int rzkey, COLORREF color);
+
+	// GET KEY COLOR
 	COLORREF GetKeyColor(int animationId, int frameId, int rzkey);
 	COLORREF GetKeyColorName(const char* path, int frameId, int rzkey);
 
@@ -151,6 +183,42 @@ public:
 	void SubtractNonZeroAllKeysOffset(int sourceAnimationId, int targetAnimationId, int frameId, int offset);
 	void SubtractNonZeroAllKeysOffsetName(const char* sourceAnimation, const char* targetAnimation, int frameId, int offset);
 
+	// COPY NONZERO TARGET
+	void CopyNonZeroTargetAllKeys(int sourceAnimationId, int targetAnimationId, int frameId);
+	void CopyNonZeroTargetAllKeysName(const char* sourceAnimation, const char* targetAnimation, int frameId);
+
+	// ALL FRAMES
+	void CopyNonZeroTargetAllKeysAllFrames(int sourceAnimationId, int targetAnimationId);
+	void CopyNonZeroTargetAllKeysAllFramesName(const char* sourceAnimation, const char* targetAnimation);
+
+	// ADD NONZERO TARGET
+	void AddNonZeroTargetAllKeysAllFrames(int sourceAnimationId, int targetAnimationId);
+	void AddNonZeroTargetAllKeysAllFramesName(const char* sourceAnimation, const char* targetAnimation);
+
+	// SUBTRACT NONZERO TARGET ALL FRAMES
+	void SubtractNonZeroTargetAllKeysAllFrames(int sourceAnimationId, int targetAnimationId);
+	void SubtractNonZeroTargetAllKeysAllFramesName(const char* sourceAnimation, const char* targetAnimation);
+
+	// COPY NONZERO TARGET ALL FRAMES
+	void CopyNonZeroTargetAllKeysAllFramesOffset(int sourceAnimationId, int targetAnimationId, int offset);
+	void CopyNonZeroTargetAllKeysAllFramesOffsetName(const char* sourceAnimation, const char* targetAnimation, int offset);
+
+	// ADD NONZERO TARGET ALL FRAMES OFFSET
+	void AddNonZeroTargetAllKeysAllFramesOffset(int sourceAnimationId, int targetAnimationId, int offset);
+	void AddNonZeroTargetAllKeysAllFramesOffsetName(const char* sourceAnimation, const char* targetAnimation, int offset);
+
+	// SUBTRACT NONZERO TARGET ALL FRAMES OFFSET
+	void SubtractNonZeroTargetAllKeysAllFramesOffset(int sourceAnimationId, int targetAnimationId, int offset);
+	void SubtractNonZeroTargetAllKeysAllFramesOffsetName(const char* sourceAnimation, const char* targetAnimation, int offset);
+
+	// MULTIPLY COLOR LERP ALL FRAMES
+	void MultiplyColorLerpAllFrames(int animationId, int color1, int color2);
+	void MultiplyColorLerpAllFramesName(const char* path, int color1, int color2);
+
+	// MULTIPLY TARGET COLOR LERP ALL FRAMES
+	void MultiplyTargetColorLerpAllFrames(int animationId, int color1, int color2);
+	void MultiplyTargetColorLerpAllFramesName(const char* path, int color1, int color2);
+
 	// FILL COLOR
 	
 	void FillColor(int animationId, int frameId, int color);
@@ -187,12 +255,17 @@ public:
 
 
 	// FILL THRESHOLD COLORS ALL FRAMES
-
 	void FillThresholdColorsAllFrames(int animationId, int threshold, int color);
 	void FillThresholdColorsAllFramesName(const char* path, int threshold, int color);
 
+	// RGB
 	void FillThresholdColorsAllFramesRGB(int animationId, int threshold, int red, int green, int blue);
 	void FillThresholdColorsAllFramesRGBName(const char* path, int threshold, int red, int green, int blue);
+
+
+	// FILL THRESHOLD RGB COLORS ALL FRAMES RGB
+	void FillThresholdRGBColorsAllFramesRGB(int animationId, int redThreshold, int greenThreshold, int blueThreshold, int red, int green, int blue);
+	void FillThresholdRGBColorsAllFramesRGBName(const char* path, int redThreshold, int greenThreshold, int blueThreshold, int red, int green, int blue);
 
 
 	// FILL COLOR ALL FRAMES
@@ -267,6 +340,11 @@ public:
 
 	void MultiplyIntensityAllFramesRGB(int animationId, int red, int green, int blue);
 	void MultiplyIntensityAllFramesRGBName(const char* path, int red, int green, int blue);
+
+
+	// MULTIPLY NONZERO TARGET COLOR LERP ALL FRAMES
+	void MultiplyNonZeroTargetColorLerpAllFrames(int animationId, int color1, int color2);
+	void MultiplyNonZeroTargetColorLerpAllFramesName(const char* path, int color1, int color2);
 
 
 	void LoadAnimation(int animationId);

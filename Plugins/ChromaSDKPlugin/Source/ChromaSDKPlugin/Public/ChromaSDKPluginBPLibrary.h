@@ -264,17 +264,27 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	// COPY ANIMATION
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyAnimation", Keywords = "Copy animation to the named animation"), Category = "ChromaSDK")
+	static void CopyAnimation(int32 sourceAnimationId, const FString& targetAnimationName);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "CopyAnimationName", Keywords = "Copy animation to the named animation"), Category = "ChromaSDK")
 	static void CopyAnimationName(const FString& sourceAnimationName, const FString& targetAnimationName);
 
 
 	// APPEND
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AppendAllFrames", Keywords = "Append animation frames to another animation"), Category = "ChromaSDK")
+	static void AppendAllFrames(int32 sourceAnimationId, int32 targetAnimationId);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AppendAllFramesName", Keywords = "Append animation frames to another animation"), Category = "ChromaSDK")
 	static void AppendAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName);
 
 
 	// INVERT COLORS
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "InvertColorsAllFrames", Keywords = "Invert animation colors"), Category = "ChromaSDK")
+	static void InvertColorsAllFrames(int32 animationId);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "InvertColorsAllFramesName", Keywords = "Invert animation colors"), Category = "ChromaSDK")
 	static void InvertColorsAllFramesName(const FString& animationName);
 
@@ -570,6 +580,10 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillThresholdColorsAllFramesRGBName", Keywords = "Set the RGB value for all colors for all frames"), Category = "ChromaSDK")
 	static void FillThresholdColorsAllFramesRGBName(const FString& animationName, int32 threshold, int32 red, int32 green, int32 blue);
 
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillThresholdRGBColorsAllFramesRGB", Keywords = "Set the RGB value for all colors for all frames"), Category = "ChromaSDK")
+	static void FillThresholdRGBColorsAllFramesRGB(int32 animationId, int32 redThreshold, int32 greenThreshold, int32 blueThreshold, int32 red, int32 green, int32 blue);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillThresholdRGBColorsAllFramesRGBName", Keywords = "Set the RGB value for all colors for all frames"), Category = "ChromaSDK")
 	static void FillThresholdRGBColorsAllFramesRGBName(const FString& animationName, int32 redThreshold, int32 greenThreshold, int32 blueThreshold, int32 red, int32 green, int32 blue);
 
@@ -743,17 +757,26 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 
 	// LERP
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyColorLerpAllFrames", Keywords = "Lerp between colors using the frame ratio as the intensity"), Category = "ChromaSDK")
+	static void MultiplyColorLerpAllFrames(int32 animationId, const FLinearColor& colorParam1, const FLinearColor& colorParam2);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyColorLerpAllFramesName", Keywords = "Lerp between colors using the frame ratio as the intensity"), Category = "ChromaSDK")
 	static void MultiplyColorLerpAllFramesName(const FString& animationName, const FLinearColor& colorParam1, const FLinearColor& colorParam2);
 
 
 	// TARGET LERP
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyTargetColorLerpAllFrames", Keywords = "Lerp between colors using the target colors as the intensity"), Category = "ChromaSDK")
+	static void MultiplyTargetColorLerpAllFrames(int32 animationId, const FLinearColor& colorParam1, const FLinearColor& colorParam2);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyTargetColorLerpAllFramesName", Keywords = "Lerp between colors using the target colors as the intensity"), Category = "ChromaSDK")
 	static void MultiplyTargetColorLerpAllFramesName(const FString& animationName, const FLinearColor& colorParam1, const FLinearColor& colorParam2);
 
 
 	// NON ZERO
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyNonZeroTargetColorLerpAllFrames", Keywords = "Lerp between colors using the nonzero target colors as the intensity"), Category = "ChromaSDK")
+	static void MultiplyNonZeroTargetColorLerpAllFrames(int32 animationId, const FLinearColor& colorParam1, const FLinearColor& colorParam2);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MultiplyNonZeroTargetColorLerpAllFramesName", Keywords = "Lerp between colors using the nonzero target colors as the intensity"), Category = "ChromaSDK")
 	static void MultiplyNonZeroTargetColorLerpAllFramesName(const FString& animationName, const FLinearColor& colorParam1, const FLinearColor& colorParam2);

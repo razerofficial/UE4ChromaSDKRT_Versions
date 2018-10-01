@@ -4067,61 +4067,233 @@ EChromaSDKKeyboardKey::Type UChromaSDKPluginBPLibrary::GetKeyboardRazerKey(FKey 
 
 // COPY ANIMATION
 
+void UChromaSDKPluginBPLibrary::CopyAnimation(int32 sourceAnimationId, const FString& targetAnimationName)
+{
+#if PLATFORM_WINDOWS
+	FString targetPath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (targetAnimationName.EndsWith(".chroma"))
+	{
+		targetPath += targetAnimationName;
+	}
+	else
+	{
+		targetPath += targetAnimationName + ".chroma";
+	}
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	_sIChromaSDKPlugin.CopyAnimation(sourceAnimationId, targetPathArg);
+#endif
+}
+
 void UChromaSDKPluginBPLibrary::CopyAnimationName(const FString& sourceAnimationName, const FString& targetAnimationName)
 {
-
+#if PLATFORM_WINDOWS
+	FString sourcePath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString sourcePath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (sourceAnimationName.EndsWith(".chroma"))
+	{
+		sourcePath += sourceAnimationName;
+	}
+	else
+	{
+		sourcePath += sourceAnimationName + ".chroma";
+	}
+	const char* sourcePathArg = TCHAR_TO_ANSI(*sourcePath);
+	FString targetPath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (targetAnimationName.EndsWith(".chroma"))
+	{
+		targetPath += targetAnimationName;
+	}
+	else
+	{
+		targetPath += targetAnimationName + ".chroma";
+	}
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	_sIChromaSDKPlugin.CopyAnimationName(sourcePathArg, targetPathArg);
+#endif
 }
 
 
 // APPEND
 
+void UChromaSDKPluginBPLibrary::AppendAllFrames(int32 sourceAnimationId, int32 targetAnimationId)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.AppendAllFrames(sourceAnimationId, targetAnimationId);
+#endif
+}
+
 void UChromaSDKPluginBPLibrary::AppendAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName)
 {
-
+#if PLATFORM_WINDOWS
+	FString sourcePath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString sourcePath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (sourceAnimationName.EndsWith(".chroma"))
+	{
+		sourcePath += sourceAnimationName;
+	}
+	else
+	{
+		sourcePath += sourceAnimationName + ".chroma";
+	}
+	const char* sourcePathArg = TCHAR_TO_ANSI(*sourcePath);
+	FString targetPath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (targetAnimationName.EndsWith(".chroma"))
+	{
+		targetPath += targetAnimationName;
+	}
+	else
+	{
+		targetPath += targetAnimationName + ".chroma";
+	}
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	_sIChromaSDKPlugin.AppendAllFramesName(sourcePathArg, targetPathArg);
+#endif
 }
 
 
 // INVERT COLORS
 
+void UChromaSDKPluginBPLibrary::InvertColorsAllFrames(int32 animationId)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.InvertColorsAllFrames(animationId);
+#endif
+}
+
 void UChromaSDKPluginBPLibrary::InvertColorsAllFramesName(const FString& animationName)
 {
-
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (animationName.EndsWith(".chroma"))
+	{
+		path += animationName;
+	}
+	else
+	{
+		path += animationName + ".chroma";
+	}
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.InvertColorsAllFramesName(pathArg);
+#endif
 }
+
 
 // NONZERO TARGET
 
 void UChromaSDKPluginBPLibrary::CopyNonZeroTargetAllKeys(int32 sourceAnimationId, int32 targetAnimationId, int32 frameId)
 {
-
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.CopyNonZeroTargetAllKeys(sourceAnimationId, targetAnimationId, frameId);
+#endif
 }
 
 void UChromaSDKPluginBPLibrary::CopyNonZeroTargetAllKeysName(const FString& sourceAnimationName, const FString& targetAnimationName, int32 frameId)
 {
-
+#if PLATFORM_WINDOWS
+	FString sourcePath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString sourcePath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (sourceAnimationName.EndsWith(".chroma"))
+	{
+		sourcePath += sourceAnimationName;
+	}
+	else
+	{
+		sourcePath += sourceAnimationName + ".chroma";
+	}
+	const char* sourcePathArg = TCHAR_TO_ANSI(*sourcePath);
+	FString targetPath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (targetAnimationName.EndsWith(".chroma"))
+	{
+		targetPath += targetAnimationName;
+	}
+	else
+	{
+		targetPath += targetAnimationName + ".chroma";
+	}
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	_sIChromaSDKPlugin.CopyNonZeroTargetAllKeysName(sourcePathArg, targetPathArg, frameId);
+#endif
 }
 
 // NONZERO TARGET
 
 void UChromaSDKPluginBPLibrary::CopyNonZeroTargetAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId)
 {
-
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.CopyNonZeroTargetAllKeysAllFrames(sourceAnimationId, targetAnimationId);
+#endif
 }
 
 void UChromaSDKPluginBPLibrary::CopyNonZeroTargetAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName)
 {
-
+#if PLATFORM_WINDOWS
+	FString sourcePath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString sourcePath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (sourceAnimationName.EndsWith(".chroma"))
+	{
+		sourcePath += sourceAnimationName;
+	}
+	else
+	{
+		sourcePath += sourceAnimationName + ".chroma";
+	}
+	const char* sourcePathArg = TCHAR_TO_ANSI(*sourcePath);
+	FString targetPath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (targetAnimationName.EndsWith(".chroma"))
+	{
+		targetPath += targetAnimationName;
+	}
+	else
+	{
+		targetPath += targetAnimationName + ".chroma";
+	}
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	_sIChromaSDKPlugin.CopyNonZeroTargetAllKeysAllFramesName(sourcePathArg, targetPathArg);
+#endif
 }
 
 // ADD NONZERO TARGET
 
 void UChromaSDKPluginBPLibrary::AddNonZeroTargetAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId)
 {
-
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.AddNonZeroTargetAllKeysAllFrames(sourceAnimationId, targetAnimationId);
+#endif
 }
 
 void UChromaSDKPluginBPLibrary::AddNonZeroTargetAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName)
 {
-
+#if PLATFORM_WINDOWS
+	FString sourcePath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString sourcePath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (sourceAnimationName.EndsWith(".chroma"))
+	{
+		sourcePath += sourceAnimationName;
+	}
+	else
+	{
+		sourcePath += sourceAnimationName + ".chroma";
+	}
+	const char* sourcePathArg = TCHAR_TO_ANSI(*sourcePath);
+	FString targetPath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (targetAnimationName.EndsWith(".chroma"))
+	{
+		targetPath += targetAnimationName;
+	}
+	else
+	{
+		targetPath += targetAnimationName + ".chroma";
+	}
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	_sIChromaSDKPlugin.AddNonZeroTargetAllKeysAllFramesName(sourcePathArg, targetPathArg);
+#endif
 }
 
 
@@ -4129,24 +4301,76 @@ void UChromaSDKPluginBPLibrary::AddNonZeroTargetAllKeysAllFramesName(const FStri
 
 void UChromaSDKPluginBPLibrary::SubtractNonZeroTargetAllKeysAllFrames(int32 sourceAnimationId, int32 targetAnimationId)
 {
-
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.SubtractNonZeroTargetAllKeysAllFrames(sourceAnimationId, targetAnimationId);
+#endif
 }
 
 void UChromaSDKPluginBPLibrary::SubtractNonZeroTargetAllKeysAllFramesName(const FString& sourceAnimationName, const FString& targetAnimationName)
 {
-
+#if PLATFORM_WINDOWS
+	FString sourcePath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString sourcePath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (sourceAnimationName.EndsWith(".chroma"))
+	{
+		sourcePath += sourceAnimationName;
+	}
+	else
+	{
+		sourcePath += sourceAnimationName + ".chroma";
+	}
+	const char* sourcePathArg = TCHAR_TO_ANSI(*sourcePath);
+	FString targetPath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (targetAnimationName.EndsWith(".chroma"))
+	{
+		targetPath += targetAnimationName;
+	}
+	else
+	{
+		targetPath += targetAnimationName + ".chroma";
+	}
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	_sIChromaSDKPlugin.SubtractNonZeroTargetAllKeysAllFramesName(sourcePathArg, targetPathArg);
+#endif
 }
 
 // NONZERO TARGET OFFSET
 
 void UChromaSDKPluginBPLibrary::CopyNonZeroTargetAllKeysAllFramesOffset(int32 sourceAnimationId, int32 targetAnimationId, int32 offset)
 {
-
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.CopyNonZeroTargetAllKeysAllFramesOffset(sourceAnimationId, targetAnimationId, offset);
+#endif
 }
 
 void UChromaSDKPluginBPLibrary::CopyNonZeroTargetAllKeysAllFramesOffsetName(const FString& sourceAnimationName, const FString& targetAnimationName, int32 offset)
 {
-
+#if PLATFORM_WINDOWS
+	FString sourcePath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString sourcePath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (sourceAnimationName.EndsWith(".chroma"))
+	{
+		sourcePath += sourceAnimationName;
+	}
+	else
+	{
+		sourcePath += sourceAnimationName + ".chroma";
+	}
+	const char* sourcePathArg = TCHAR_TO_ANSI(*sourcePath);
+	FString targetPath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (targetAnimationName.EndsWith(".chroma"))
+	{
+		targetPath += targetAnimationName;
+	}
+	else
+	{
+		targetPath += targetAnimationName + ".chroma";
+	}
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	_sIChromaSDKPlugin.CopyNonZeroTargetAllKeysAllFramesOffsetName(sourcePathArg, targetPathArg, offset);
+#endif
 }
 
 
@@ -4154,12 +4378,38 @@ void UChromaSDKPluginBPLibrary::CopyNonZeroTargetAllKeysAllFramesOffsetName(cons
 
 void UChromaSDKPluginBPLibrary::AddNonZeroTargetAllKeysAllFramesOffset(int32 sourceAnimationId, int32 targetAnimationId, int32 offset)
 {
-
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.AddNonZeroTargetAllKeysAllFramesOffset(sourceAnimationId, targetAnimationId, offset);
+#endif
 }
 
 void UChromaSDKPluginBPLibrary::AddNonZeroTargetAllKeysAllFramesOffsetName(const FString& sourceAnimationName, const FString& targetAnimationName, int32 offset)
 {
-
+#if PLATFORM_WINDOWS
+	FString sourcePath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString sourcePath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (sourceAnimationName.EndsWith(".chroma"))
+	{
+		sourcePath += sourceAnimationName;
+	}
+	else
+	{
+		sourcePath += sourceAnimationName + ".chroma";
+	}
+	const char* sourcePathArg = TCHAR_TO_ANSI(*sourcePath);
+	FString targetPath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (targetAnimationName.EndsWith(".chroma"))
+	{
+		targetPath += targetAnimationName;
+	}
+	else
+	{
+		targetPath += targetAnimationName + ".chroma";
+	}
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	_sIChromaSDKPlugin.AddNonZeroTargetAllKeysAllFramesOffsetName(sourcePathArg, targetPathArg, offset);
+#endif
 }
 
 
@@ -4167,39 +4417,155 @@ void UChromaSDKPluginBPLibrary::AddNonZeroTargetAllKeysAllFramesOffsetName(const
 
 void UChromaSDKPluginBPLibrary::SubtractNonZeroTargetAllKeysAllFramesOffset(int32 sourceAnimationId, int32 targetAnimationId, int32 offset)
 {
-
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.SubtractNonZeroTargetAllKeysAllFramesOffset(sourceAnimationId, targetAnimationId, offset);
+#endif
 }
 
 void UChromaSDKPluginBPLibrary::SubtractNonZeroTargetAllKeysAllFramesOffsetName(const FString& sourceAnimationName, const FString& targetAnimationName, int32 offset)
 {
-
+#if PLATFORM_WINDOWS
+	FString sourcePath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString sourcePath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (sourceAnimationName.EndsWith(".chroma"))
+	{
+		sourcePath += sourceAnimationName;
+	}
+	else
+	{
+		sourcePath += sourceAnimationName + ".chroma";
+	}
+	const char* sourcePathArg = TCHAR_TO_ANSI(*sourcePath);
+	FString targetPath = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString targetPath = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (targetAnimationName.EndsWith(".chroma"))
+	{
+		targetPath += targetAnimationName;
+	}
+	else
+	{
+		targetPath += targetAnimationName + ".chroma";
+	}
+	const char* targetPathArg = TCHAR_TO_ANSI(*targetPath);
+	_sIChromaSDKPlugin.SubtractNonZeroTargetAllKeysAllFramesOffsetName(sourcePathArg, targetPathArg, offset);
+#endif
 }
 
 // LERP
 
+void UChromaSDKPluginBPLibrary::MultiplyColorLerpAllFrames(int32 animationId, const FLinearColor& colorParam1, const FLinearColor& colorParam2)
+{
+#if PLATFORM_WINDOWS
+	int color1 = ToBGR(colorParam1);
+	int color2 = ToBGR(colorParam2);
+	_sIChromaSDKPlugin.MultiplyColorLerpAllFrames(animationId, color1, color2);
+#endif
+}
+
 void UChromaSDKPluginBPLibrary::MultiplyColorLerpAllFramesName(const FString& animationName, const FLinearColor& colorParam1, const FLinearColor& colorParam2)
 {
-
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+											 //	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (animationName.EndsWith(".chroma"))
+	{
+		path += animationName;
+	}
+	else
+	{
+		path += animationName + ".chroma";
+	}
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	int color1 = ToBGR(colorParam1);
+	int color2 = ToBGR(colorParam2);
+	_sIChromaSDKPlugin.MultiplyColorLerpAllFramesName(pathArg, color1, color2);
+#endif
 }
 
 
 // TARGET LERP
 
+void UChromaSDKPluginBPLibrary::MultiplyTargetColorLerpAllFrames(int32 animationId, const FLinearColor& colorParam1, const FLinearColor& colorParam2)
+{
+#if PLATFORM_WINDOWS
+	int color1 = ToBGR(colorParam1);
+	int color2 = ToBGR(colorParam2);
+	_sIChromaSDKPlugin.MultiplyTargetColorLerpAllFrames(animationId, color1, color2);
+#endif
+}
 void UChromaSDKPluginBPLibrary::MultiplyTargetColorLerpAllFramesName(const FString& animationName, const FLinearColor& colorParam1, const FLinearColor& colorParam2)
 {
-
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (animationName.EndsWith(".chroma"))
+	{
+		path += animationName;
+	}
+	else
+	{
+		path += animationName + ".chroma";
+	}
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	int color1 = ToBGR(colorParam1);
+	int color2 = ToBGR(colorParam2);
+	_sIChromaSDKPlugin.MultiplyTargetColorLerpAllFramesName(pathArg, color1, color2);
+#endif
 }
 
+void UChromaSDKPluginBPLibrary::FillThresholdRGBColorsAllFramesRGB(int32 animationId, int32 redThreshold, int32 greenThreshold, int32 blueThreshold, int32 red, int32 green, int32 blue)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillThresholdRGBColorsAllFramesRGB(animationId, redThreshold, greenThreshold, blueThreshold, red, green, blue);
+#endif
+}
 void UChromaSDKPluginBPLibrary::FillThresholdRGBColorsAllFramesRGBName(const FString& animationName, int32 redThreshold, int32 greenThreshold, int32 blueThreshold, int32 red, int32 green, int32 blue)
 {
-
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (animationName.EndsWith(".chroma"))
+	{
+		path += animationName;
+	}
+	else
+	{
+		path += animationName + ".chroma";
+	}
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillThresholdRGBColorsAllFramesRGBName(pathArg, redThreshold, greenThreshold, blueThreshold, red, green, blue);
+#endif
 }
 
 // NON ZERO
 
+void UChromaSDKPluginBPLibrary::MultiplyNonZeroTargetColorLerpAllFrames(int32 animationId, const FLinearColor& colorParam1, const FLinearColor& colorParam2)
+{
+#if PLATFORM_WINDOWS
+	int color1 = ToBGR(colorParam1);
+	int color2 = ToBGR(colorParam2);
+	_sIChromaSDKPlugin.MultiplyNonZeroTargetColorLerpAllFrames(animationId, color1, color2);
+#endif
+}
+
 void UChromaSDKPluginBPLibrary::MultiplyNonZeroTargetColorLerpAllFramesName(const FString& animationName, const FLinearColor& colorParam1, const FLinearColor& colorParam2)
 {
-
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (animationName.EndsWith(".chroma"))
+	{
+		path += animationName;
+	}
+	else
+	{
+		path += animationName + ".chroma";
+	}
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	int color1 = ToBGR(colorParam1);
+	int color2 = ToBGR(colorParam2);
+	_sIChromaSDKPlugin.MultiplyNonZeroTargetColorLerpAllFramesName(pathArg, color1, color2);
+#endif
 }
 
 
