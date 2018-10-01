@@ -109,6 +109,12 @@ public:
 	int GetAnimationFrameCount(int animationId);
 	int GetAnimationFrameCountName(const char* path);
 
+	// LERP
+	float Lerp(float start, float end, float amt);
+
+	// LERP COLOR
+	int LerpColor(int from, int to, float t);
+
 
 	// COPY ANIMATION
 
@@ -342,7 +348,11 @@ public:
 	void MultiplyIntensityAllFramesRGBName(const char* path, int red, int green, int blue);
 
 
-	// MULTIPLY NONZERO TARGET COLOR LERP ALL FRAMES
+	// MULTIPLY NONZERO TARGET COLOR LERP
+	void MultiplyTargetColorLerp(int animationId, int frameId, int color1, int color2);
+	void MultiplyNonZeroTargetColorLerp(int animationId, int frameId, int color1, int color2);
+	
+	// ALL FRAMES
 	void MultiplyNonZeroTargetColorLerpAllFrames(int animationId, int color1, int color2);
 	void MultiplyNonZeroTargetColorLerpAllFramesName(const char* path, int color1, int color2);
 

@@ -4750,6 +4750,22 @@ void IChromaSDKPlugin::FadeEndFramesName(const char* path, int fade)
 	FadeEndFrames(animationId, fade);
 }
 
+// LERP
+float IChromaSDKPlugin::Lerp(float start, float end, float amt)
+{
+	return (1 - amt)*start + amt * end;
+}
+
+// LERP COLOR
+int IChromaSDKPlugin::LerpColor(int from, int to, float t)
+{
+	int red = floor(Lerp((from & 0xFF), (to & 0xFF), t));
+	int green = floor(Lerp((from & 0xFF00) >> 8, (to & 0xFF00) >> 8, t));
+	int blue = floor(Lerp((from & 0xFF0000) >> 16, (to & 0xFF0000) >> 16, t));
+	int color = red | (green << 8) | (blue << 16);
+	return color;
+}
+
 
 // COPY ANIMATION
 int IChromaSDKPlugin::CopyAnimation(int sourceAnimationId, const char* targetAnimation)
@@ -5036,10 +5052,148 @@ void IChromaSDKPlugin::FillThresholdRGBColorsAllFramesRGBName(const char* path, 
 }
 
 
-// MULTIPLY NONZERO TARGET COLOR LERP ALL FRAMES
+// MULTIPLY NONZERO TARGET COLOR LERP
+void IChromaSDKPlugin::MultiplyTargetColorLerp(int animationId, int frameId, int color1, int color2)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	switch (animation->GetDeviceType())
+	{
+	case EChromaSDKDeviceTypeEnum::DE_1D:
+	{
+		Animation1D* animation1D = (Animation1D*)(animation);
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame1D& frame = frames[frameId];
+			int maxLeds = GetMaxLeds(animation1D->GetDevice());
+			TArray<FLinearColor>& colors = frame.Colors;
+			for (int i = 0; i < maxLeds; ++i)
+			{
+				int color = ToBGR(colors[i]);
+				float red = (color & 0xFF) / 255.0f;
+				float green = ((color & 0xFF00) >> 8) / 255.0f;
+				float blue = ((color & 0xFF0000) >> 16) / 255.0f;
+				float t = (red + green + blue) / 3.0f;
+				colors[i] = ToLinearColor(LerpColor(color1, color2, t));
+			}
+		}
+	}
+	break;
+	case EChromaSDKDeviceTypeEnum::DE_2D:
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame2D& frame = frames[frameId];
+			int maxRow = GetMaxRow(animation2D->GetDevice());
+			int maxColumn = GetMaxColumn(animation2D->GetDevice());
+			for (int i = 0; i < maxRow; ++i)
+			{
+				FChromaSDKColors& row = frame.Colors[i];
+				for (int j = 0; j < maxColumn; ++j)
+				{
+					int color = ToBGR(row.Colors[j]);
+					float red = (color & 0xFF) / 255.0f;
+					float green = ((color & 0xFF00) >> 8) / 255.0f;
+					float blue = ((color & 0xFF0000) >> 16) / 255.0f;
+					float t = (red + green + blue) / 3.0f;
+					row.Colors[j] = ToLinearColor(LerpColor(color1, color2, t));
+				}
+			}
+		}
+	}
+	break;
+	}
+}
+void IChromaSDKPlugin::MultiplyNonZeroTargetColorLerp(int animationId, int frameId, int color1, int color2)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	switch (animation->GetDeviceType())
+	{
+	case EChromaSDKDeviceTypeEnum::DE_1D:
+	{
+		Animation1D* animation1D = (Animation1D*)(animation);
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame1D& frame = frames[frameId];
+			int maxLeds = GetMaxLeds(animation1D->GetDevice());
+			TArray<FLinearColor>& colors = frame.Colors;
+			for (int i = 0; i < maxLeds; ++i)
+			{
+				int color = ToBGR(colors[i]);
+				if (color != 0)
+				{
+					float red = (color & 0xFF) / 255.0f;
+					float green = ((color & 0xFF00) >> 8) / 255.0f;
+					float blue = ((color & 0xFF0000) >> 16) / 255.0f;
+					float t = (red + green + blue) / 3.0f;
+					colors[i] = ToLinearColor(LerpColor(color1, color2, t));
+				}
+			}
+		}
+	}
+	break;
+	case EChromaSDKDeviceTypeEnum::DE_2D:
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame2D& frame = frames[frameId];
+			int maxRow = GetMaxRow(animation2D->GetDevice());
+			int maxColumn = GetMaxColumn(animation2D->GetDevice());
+			for (int i = 0; i < maxRow; ++i)
+			{
+				FChromaSDKColors& row = frame.Colors[i];
+				for (int j = 0; j < maxColumn; ++j)
+				{
+					int color = ToBGR(row.Colors[j]);
+					if (color != 0)
+					{
+						float red = (color & 0xFF) / 255.0f;
+						float green = ((color & 0xFF00) >> 8) / 255.0f;
+						float blue = ((color & 0xFF0000) >> 16) / 255.0f;
+						float t = (red + green + blue) / 3.0f;
+						row.Colors[j] = ToLinearColor(LerpColor(color1, color2, t));
+					}
+				}
+			}
+		}
+	}
+	break;
+	}
+}
+
+// ALL FRAMES
 void IChromaSDKPlugin::MultiplyNonZeroTargetColorLerpAllFrames(int animationId, int color1, int color2)
 {
-
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = animation->GetFrameCount();
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		MultiplyNonZeroTargetColorLerp(animationId, frameId, color1, color2);
+	}
 }
 void IChromaSDKPlugin::MultiplyNonZeroTargetColorLerpAllFramesName(const char* path, int color1, int color2)
 {
