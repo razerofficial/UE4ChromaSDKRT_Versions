@@ -3692,34 +3692,47 @@ void IChromaSDKPlugin::MakeBlankFrames(int animationId, int frameCount, float du
 	{
 		return;
 	}
-	if (animation->GetDeviceType() != EChromaSDKDeviceTypeEnum::DE_2D)
-	{
-		return;
-	}
-	if (animation->GetDeviceId() != EChromaSDKDevice2DEnum::DE_Keyboard)
-	{
-		return;
-	}
 	StopAnimation(animationId);
-	Animation2D* animation2D = (Animation2D*)animation;
-	vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
-	frames.clear();
-	for (int frameId = 0; frameId < frameCount; ++frameId)
+	if (animation->GetDeviceType() == EChromaSDKDeviceTypeEnum::DE_1D)
 	{
-		FChromaSDKColorFrame2D frame = FChromaSDKColorFrame2D();
-		frame.Duration = duration;
-		frame.Colors = UChromaSDKPluginBPLibrary::CreateColors2D(animation2D->GetDevice());
-		int maxRow = UChromaSDKPluginBPLibrary::GetMaxRow(animation2D->GetDevice());
-		int maxColumn = UChromaSDKPluginBPLibrary::GetMaxColumn(animation2D->GetDevice());
-		for (int i = 0; i < maxRow; ++i)
+		Animation1D* animation1D = (Animation1D*)animation;
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		frames.clear();
+		for (int frameId = 0; frameId < frameCount; ++frameId)
 		{
-			FChromaSDKColors& row = frame.Colors[i];
-			for (int j = 0; j < maxColumn; ++j)
+			FChromaSDKColorFrame1D frame = FChromaSDKColorFrame1D();
+			frame.Duration = duration;
+			frame.Colors = UChromaSDKPluginBPLibrary::CreateColors1D(animation1D->GetDevice());
+			int maxLeds = UChromaSDKPluginBPLibrary::GetMaxLeds(animation1D->GetDevice());
+			for (int i = 0; i < maxLeds; ++i)
 			{
-				row.Colors[j] = ToLinearColor(color);
+				frame.Colors[i] = ToLinearColor(color);
 			}
+			frames.push_back(frame);
 		}
-		frames.push_back(frame);
+	}
+	else if (animation->GetDeviceType() == EChromaSDKDeviceTypeEnum::DE_2D)
+	{
+		Animation2D* animation2D = (Animation2D*)animation;
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		frames.clear();
+		for (int frameId = 0; frameId < frameCount; ++frameId)
+		{
+			FChromaSDKColorFrame2D frame = FChromaSDKColorFrame2D();
+			frame.Duration = duration;
+			frame.Colors = UChromaSDKPluginBPLibrary::CreateColors2D(animation2D->GetDevice());
+			int maxRow = UChromaSDKPluginBPLibrary::GetMaxRow(animation2D->GetDevice());
+			int maxColumn = UChromaSDKPluginBPLibrary::GetMaxColumn(animation2D->GetDevice());
+			for (int i = 0; i < maxRow; ++i)
+			{
+				FChromaSDKColors& row = frame.Colors[i];
+				for (int j = 0; j < maxColumn; ++j)
+				{
+					row.Colors[j] = ToLinearColor(color);
+				}
+			}
+			frames.push_back(frame);
+		}
 	}
 }
 
@@ -3742,35 +3755,48 @@ void IChromaSDKPlugin::MakeBlankFramesRGB(int animationId, int frameCount, float
 	{
 		return;
 	}
-	if (animation->GetDeviceType() != EChromaSDKDeviceTypeEnum::DE_2D)
-	{
-		return;
-	}
-	if (animation->GetDeviceId() != EChromaSDKDevice2DEnum::DE_Keyboard)
-	{
-		return;
-	}
 	StopAnimation(animationId);
 	int color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
-	Animation2D* animation2D = (Animation2D*)(animation);
-	vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
-	frames.clear();
-	for (int frameId = 0; frameId < frameCount; ++frameId)
+	if (animation->GetDeviceType() == EChromaSDKDeviceTypeEnum::DE_1D)
 	{
-		FChromaSDKColorFrame2D frame = FChromaSDKColorFrame2D();
-		frame.Duration = duration;
-		frame.Colors = UChromaSDKPluginBPLibrary::CreateColors2D(animation2D->GetDevice());
-		int maxRow = UChromaSDKPluginBPLibrary::GetMaxRow(animation2D->GetDevice());
-		int maxColumn = UChromaSDKPluginBPLibrary::GetMaxColumn(animation2D->GetDevice());
-		for (int i = 0; i < maxRow; ++i)
+		Animation1D* animation1D = (Animation1D*)(animation);
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		frames.clear();
+		for (int frameId = 0; frameId < frameCount; ++frameId)
 		{
-			FChromaSDKColors& row = frame.Colors[i];
-			for (int j = 0; j < maxColumn; ++j)
+			FChromaSDKColorFrame1D frame = FChromaSDKColorFrame1D();
+			frame.Duration = duration;
+			frame.Colors = UChromaSDKPluginBPLibrary::CreateColors1D(animation1D->GetDevice());
+			int maxLeds = UChromaSDKPluginBPLibrary::GetMaxLeds(animation1D->GetDevice());
+			for (int i = 0; i < maxLeds; ++i)
 			{
-				row.Colors[j] = ToLinearColor(color);
+				frame.Colors[i] = ToLinearColor(color);
 			}
+			frames.push_back(frame);
 		}
-		frames.push_back(frame);
+	}
+	else if (animation->GetDeviceType() == EChromaSDKDeviceTypeEnum::DE_2D)
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		frames.clear();
+		for (int frameId = 0; frameId < frameCount; ++frameId)
+		{
+			FChromaSDKColorFrame2D frame = FChromaSDKColorFrame2D();
+			frame.Duration = duration;
+			frame.Colors = UChromaSDKPluginBPLibrary::CreateColors2D(animation2D->GetDevice());
+			int maxRow = UChromaSDKPluginBPLibrary::GetMaxRow(animation2D->GetDevice());
+			int maxColumn = UChromaSDKPluginBPLibrary::GetMaxColumn(animation2D->GetDevice());
+			for (int i = 0; i < maxRow; ++i)
+			{
+				FChromaSDKColors& row = frame.Colors[i];
+				for (int j = 0; j < maxColumn; ++j)
+				{
+					row.Colors[j] = ToLinearColor(color);
+				}
+			}
+			frames.push_back(frame);
+		}
 	}
 }
 
@@ -4578,70 +4604,15 @@ void IChromaSDKPlugin::FadeStartFrames(int animationId, int fade)
 			UE_LOG(LogTemp, Error, TEXT("FadeStartFrames: Animation is null! id=%d"), animationId);
 			return;
 		}
-		int frameCount = animation->GetFrameCount();
-		if (fade <= 0 ||
-			fade >= frameCount)
+		if (fade <= 0)
 		{
 			return;
 		}
-		switch (animation->GetDeviceType())
+		int frameCount = animation->GetFrameCount();
+		for (int frameId = 0; frameId < fade; ++frameId)
 		{
-		case EChromaSDKDeviceTypeEnum::DE_1D:
-		{
-			Animation1D* animation1D = (Animation1D*)(animation);
-			vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
-			int maxLeds = GetMaxLeds(animation1D->GetDevice());
-			for (int frameId = 0; frameId < fade; ++frameId)
-			{
-				float intensity = (frameId + 1) / (float)fade;
-				FChromaSDKColorFrame1D& frame = frames[frameId];
-				TArray<FLinearColor>& colors = frame.Colors;
-				for (int i = 0; i < maxLeds; ++i)
-				{
-					FLinearColor& linearColor = colors[i];
-					int color = ToBGR(linearColor);
-					int red = (color & 0xFF);
-					int green = (color & 0xFF00) >> 8;
-					int blue = (color & 0xFF0000) >> 16;
-					red = max(0, min(255, red * intensity));
-					green = max(0, min(255, green * intensity));
-					blue = max(0, min(255, blue * intensity));
-					color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
-					colors[i] = ToLinearColor(color);
-				}
-			}
-		}
-		break;
-		case EChromaSDKDeviceTypeEnum::DE_2D:
-		{
-			Animation2D* animation2D = (Animation2D*)(animation);
-			vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
-			int maxRow = GetMaxRow(animation2D->GetDevice());
-			int maxColumn = GetMaxColumn(animation2D->GetDevice());
-			for (int frameId = 0; frameId < fade; ++frameId)
-			{
-				float intensity = (frameId + 1) / (float)fade;
-				FChromaSDKColorFrame2D& frame = frames[frameId];
-				for (int i = 0; i < maxRow; ++i)
-				{
-					FChromaSDKColors& row = frame.Colors[i];
-					for (int j = 0; j < maxColumn; ++j)
-					{
-						FLinearColor& linearColor = row.Colors[j];
-						int color = ToBGR(linearColor);
-						int red = (color & 0xFF);
-						int green = (color & 0xFF00) >> 8;
-						int blue = (color & 0xFF0000) >> 16;
-						red = max(0, min(255, red * intensity));
-						green = max(0, min(255, green * intensity));
-						blue = max(0, min(255, blue * intensity));
-						color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
-						row.Colors[j] = ToLinearColor(color);
-					}
-				}
-			}
-		}
-		break;
+			float t = (frameId + 1) / (float)fade;
+			MultiplyIntensity(animationId, frameId, t);
 		}
 	}
 }
@@ -4669,73 +4640,16 @@ void IChromaSDKPlugin::FadeEndFrames(int animationId, int fade)
 			UE_LOG(LogTemp, Error, TEXT("FadeEndFrames: Animation is null! id=%d"), animationId);
 			return;
 		}
-		int frameCount = animation->GetFrameCount();
-		if (fade <= 0 ||
-			fade >= frameCount)
+		if (fade <= 0)
 		{
 			return;
 		}
-		switch (animation->GetDeviceType())
+		int frameCount = animation->GetFrameCount();
+		for (int offset = 0; offset < fade; ++offset)
 		{
-		case EChromaSDKDeviceTypeEnum::DE_1D:
-		{
-			Animation1D* animation1D = (Animation1D*)(animation);
-			vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
-			int maxLeds = GetMaxLeds(animation1D->GetDevice());
-			for (int offset = 0; offset < fade; ++offset)
-			{
-				int frameId = frameCount - 1 - offset;
-				float intensity = (frameId + 1) / (float)fade;
-				FChromaSDKColorFrame1D& frame = frames[frameId];
-				TArray<FLinearColor>& colors = frame.Colors;
-				for (int i = 0; i < maxLeds; ++i)
-				{
-					FLinearColor& linearColor = colors[i];
-					int color = ToBGR(linearColor);
-					int red = (color & 0xFF);
-					int green = (color & 0xFF00) >> 8;
-					int blue = (color & 0xFF0000) >> 16;
-					red = max(0, min(255, red * intensity));
-					green = max(0, min(255, green * intensity));
-					blue = max(0, min(255, blue * intensity));
-					color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
-					colors[i] = ToLinearColor(color);
-				}
-			}
-		}
-		break;
-		case EChromaSDKDeviceTypeEnum::DE_2D:
-		{
-			Animation2D* animation2D = (Animation2D*)(animation);
-			vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
-			int maxRow = GetMaxRow(animation2D->GetDevice());
-			int maxColumn = GetMaxColumn(animation2D->GetDevice());
-			for (int frameId = 0; frameId < fade; ++frameId)
-			{
-				float intensity = (frameId + 1) / (float)fade;
-				FChromaSDKColorFrame2D& frame = frames[frameId];
-				int maxRow = GetMaxRow(animation2D->GetDevice());
-				int maxColumn = GetMaxColumn(animation2D->GetDevice());
-				for (int i = 0; i < maxRow; ++i)
-				{
-					FChromaSDKColors& row = frame.Colors[i];
-					for (int j = 0; j < maxColumn; ++j)
-					{
-						FLinearColor& linearColor = row.Colors[j];
-						int color = ToBGR(linearColor);
-						int red = (color & 0xFF);
-						int green = (color & 0xFF00) >> 8;
-						int blue = (color & 0xFF0000) >> 16;
-						red = max(0, min(255, red * intensity));
-						green = max(0, min(255, green * intensity));
-						blue = max(0, min(255, blue * intensity));
-						color = (red & 0xFF) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
-						row.Colors[j] = ToLinearColor(color);
-					}
-				}
-			}
-		}
-		break;
+			int frameId = frameCount - 1 - offset;
+			float t = (offset + 1) / (float)fade;
+			MultiplyIntensity(animationId, frameId, t);
 		}
 	}
 }
