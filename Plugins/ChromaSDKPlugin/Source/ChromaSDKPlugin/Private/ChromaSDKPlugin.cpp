@@ -410,7 +410,7 @@ int IChromaSDKPlugin::OpenAnimation(const char* path)
 	if (0 != fopen_s(&stream, path, "rb") ||
 		stream == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("OpenAnimation: Failed to open animation! %s"), *FString(UTF8_TO_TCHAR(path)));
+		//UE_LOG(LogTemp, Error, TEXT("OpenAnimation: Failed to open animation! %s"), *FString(UTF8_TO_TCHAR(path)));
 		return -1;
 	}
 
@@ -720,7 +720,7 @@ int IChromaSDKPlugin::CloseAnimationName(const char* path)
 	int animationId = GetAnimation(path);
 	if (animationId < 0)
 	{
-		UE_LOG(LogTemp, Error, TEXT("CloseAnimationName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		//UE_LOG(LogTemp, Error, TEXT("CloseAnimationName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
 		return -1;
 	}
 	return CloseAnimation(animationId);
