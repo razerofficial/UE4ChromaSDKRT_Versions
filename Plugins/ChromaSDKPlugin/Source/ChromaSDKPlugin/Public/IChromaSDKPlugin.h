@@ -109,6 +109,9 @@ public:
 	int GetAnimationFrameCount(int animationId);
 	int GetAnimationFrameCountName(const char* path);
 
+	// CREATE ANIMATION IN MEMORY
+	int CreateAnimationInMemory(int deviceType, int device);
+
 	// LERP
 	float Lerp(float start, float end, float amt);
 
@@ -267,6 +270,11 @@ public:
 	// RGB
 	void FillThresholdColorsAllFramesRGB(int animationId, int threshold, int red, int green, int blue);
 	void FillThresholdColorsAllFramesRGBName(const char* path, int threshold, int red, int green, int blue);
+
+
+	// FILL THRESHOLD RGB COLORS RGB
+	void FillThresholdRGBColorsRGB(int animationId, int frameId, int redThreshold, int greenThreshold, int blueThreshold, int red, int green, int blue);
+	void FillThresholdRGBColorsRGBName(const char* path, int frameId, int redThreshold, int greenThreshold, int blueThreshold, int red, int green, int blue);
 
 
 	// FILL THRESHOLD RGB COLORS ALL FRAMES RGB
