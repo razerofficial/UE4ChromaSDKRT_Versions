@@ -1,9 +1,10 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 
-//#include "SampleBPLibrary.h" //___HACK_UE4_VERSION_4_16_OR_GREATER
+//#include "ChromaSDKPluginBPLibrary.h" //___HACK_UE4_VERSION_4_16_OR_GREATER
 #include "UE4ChromaSDKRT.h"
-#include "SampleBPLibrary.h" //___HACK_UE4_VERSION_4_15_OR_LESS
-#include "ChromaSDKPluginBPLibrary.h"
+#include "ChromaSDKPluginBPLibrary.h" //___HACK_UE4_VERSION_4_15_OR_LESS
+#include "SampleBPButton.h"
+#include "SampleBPLibrary.h"
 
 float USampleBPLibrary::_sBaseIntensity = 1.0f;
 float USampleBPLibrary::_sEffectIntensity = 1.0f;
@@ -16,6 +17,22 @@ USampleBPLibrary::USampleBPLibrary(const FPostConstructInitializeProperties& PCI
 //	: Super(ObjectInitializer) //___HACK_UE4_VERSION_4_9_OR_GREATER
 {
 }
+
+void USampleBPLibrary::SampleSetupButtonsEffects(const TArray<UButton*>& buttons)
+{
+	for (int i = 0; i < buttons.Num(); ++i)
+	{
+		UButton* button = buttons[i];
+		if (button)
+		{
+			USampleBPButton* dynamicButton = NewObject<USampleBPButton>();
+			dynamicButton->AddToRoot(); //avoid GC collection
+			dynamicButton->Name = button->GetName();
+			button->OnClicked.AddDynamic(dynamicButton, &USampleBPButton::HandleClick);
+		}
+	}
+}
+
 
 void USampleBPLibrary::SampleStart()
 {

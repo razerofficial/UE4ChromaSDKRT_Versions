@@ -3,12 +3,16 @@
 #pragma once
 
 #include "Engine.h"
+#include "UMG.h"
 #include "SampleBPLibrary.generated.h"
 
 UCLASS()
 class USampleBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_UCLASS_BODY()
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleSetupButtonsEffects", Keywords = "Setup an array of button widgets"), Category = "Sample")
+	static void SampleSetupButtonsEffects(const TArray<UButton*>& buttons);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SampleStart", Keywords = "Init at the start of the application"), Category = "Sample")
 	static void SampleStart();

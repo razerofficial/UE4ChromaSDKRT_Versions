@@ -49,6 +49,10 @@
 
 <a target="_blank" href="https://www.youtube.com/watch?v=-Q6Dn15m1Jg"><img src="https://img.youtube.com/vi/-Q6Dn15m1Jg/0.jpg"/></a>
 
+**Simplify UI Blueprints**
+
+<a target="_blank" href="https://www.youtube.com/watch?v=Rz-mOXvd2a0"><img src="https://img.youtube.com/vi/Rz-mOXvd2a0/0.jpg"/></a>
+
 ## Supported versions
 
 The following UE4 versions are supported:
