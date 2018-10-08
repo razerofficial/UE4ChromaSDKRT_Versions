@@ -1,8 +1,7 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
-//#include "ChromaSDKPluginBPLibrary.h" //___HACK_UE4_VERSION_4_16_OR_GREATER
+//#include "SampleBPButton.h" //___HACK_UE4_VERSION_4_16_OR_GREATER
 #include "UE4ChromaSDKRT.h"
-#include "ChromaSDKPluginBPLibrary.h" //___HACK_UE4_VERSION_4_15_OR_LESS
-#include "SampleBPButton.h"
+#include "SampleBPButton.h" //___HACK_UE4_VERSION_4_15_OR_LESS
 #include "SampleBPLibrary.h"
 
 USampleBPButton::USampleBPButton(const class FPostConstructInitializeProperties& PCIP) //___HACK_UE4_VERSION_4_8_OR_LESS

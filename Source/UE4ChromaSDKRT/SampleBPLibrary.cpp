@@ -1,10 +1,10 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 
-//#include "ChromaSDKPluginBPLibrary.h" //___HACK_UE4_VERSION_4_16_OR_GREATER
+//#include "SampleBPLibrary.h" //___HACK_UE4_VERSION_4_16_OR_GREATER
 #include "UE4ChromaSDKRT.h"
-#include "ChromaSDKPluginBPLibrary.h" //___HACK_UE4_VERSION_4_15_OR_LESS
+#include "SampleBPLibrary.h" //___HACK_UE4_VERSION_4_15_OR_LESS
+#include "ChromaSDKPluginBPLibrary.h"
 #include "SampleBPButton.h"
-#include "SampleBPLibrary.h"
 
 float USampleBPLibrary::_sBaseIntensity = 1.0f;
 float USampleBPLibrary::_sEffectIntensity = 1.0f;
