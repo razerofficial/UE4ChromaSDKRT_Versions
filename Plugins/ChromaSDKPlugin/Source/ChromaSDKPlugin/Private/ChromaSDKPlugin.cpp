@@ -2528,6 +2528,134 @@ void IChromaSDKPlugin::FillThresholdColorsAllFramesRGBName(const char* path, int
 }
 
 
+// MIN MAX
+void IChromaSDKPlugin::FillThresholdColorsMinMaxRGB(int animationId, int frameId, int minThreshold, int minRed, int minGreen, int minBlue, int maxThreshold, int maxRed, int maxGreen, int maxBlue)
+{
+	StopAnimation(animationId);
+	int minColor = GetRGB(minRed, minGreen, minBlue);
+	int maxColor = GetRGB(maxRed, maxGreen, maxBlue);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	switch (animation->GetDeviceType())
+	{
+	case EChromaSDKDeviceTypeEnum::DE_1D:
+	{
+		Animation1D* animation1D = (Animation1D*)(animation);
+		vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame1D& frame = frames[frameId];
+			int maxLeds = IChromaSDKPlugin::Get().GetMaxLeds(animation1D->GetDevice());
+			TArray<FLinearColor>& colors = frame.Colors;
+			for (int i = 0; i < maxLeds; ++i)
+			{
+				int oldColor = ToBGR(colors[i]);
+				int red = oldColor & 0xFF;
+				int green = (oldColor & 0xFF00) >> 8;
+				int blue = (oldColor & 0xFF0000) >> 16;
+				if (red != 0 &&
+					green != 0 &&
+					blue != 0)
+				{
+					if (red <= minThreshold &&
+						green <= minThreshold &&
+						blue <= minThreshold) {
+						colors[i] = ToLinearColor(minColor);
+					}
+					else if (red >= maxThreshold &&
+						green >= maxThreshold &&
+						blue >= maxThreshold) {
+						colors[i] = ToLinearColor(maxColor);
+					}
+				}
+			}
+		}
+	}
+	break;
+	case EChromaSDKDeviceTypeEnum::DE_2D:
+	{
+		Animation2D* animation2D = (Animation2D*)(animation);
+		vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
+		if (frameId >= 0 &&
+			frameId < frames.size())
+		{
+			FChromaSDKColorFrame2D& frame = frames[frameId];
+			int maxRow = IChromaSDKPlugin::Get().GetMaxRow(animation2D->GetDevice());
+			int maxColumn = IChromaSDKPlugin::Get().GetMaxColumn(animation2D->GetDevice());
+			for (int i = 0; i < maxRow; ++i)
+			{
+				FChromaSDKColors& row = frame.Colors[i];
+				for (int j = 0; j < maxColumn; ++j)
+				{
+					int oldColor = ToBGR(row.Colors[j]);
+					int red = oldColor & 0xFF;
+					int green = (oldColor & 0xFF00) >> 8;
+					int blue = (oldColor & 0xFF0000) >> 16;
+					if (red != 0 &&
+						green != 0 &&
+						blue != 0)
+					{
+						if (red <= minThreshold &&
+							green <= minThreshold &&
+							blue <= minThreshold) {
+							row.Colors[j] = ToLinearColor(minColor);
+						}
+						else if (red >= maxThreshold &&
+							green >= maxThreshold &&
+							blue >= maxThreshold) {
+							row.Colors[j] = ToLinearColor(minColor);
+						}
+					}
+				}
+			}
+		}
+	}
+	break;
+	}
+}
+
+void IChromaSDKPlugin::FillThresholdColorsMinMaxRGBName(const char* path, int frameId, int minThreshold, int minRed, int minGreen, int minBlue, int maxThreshold, int maxRed, int maxGreen, int maxBlue)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("FillThresholdColorsMinMaxRGBName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	FillThresholdColorsMinMaxRGB(animationId, frameId, minThreshold, minRed, minGreen, minBlue, maxThreshold, maxRed, maxGreen, maxBlue);
+}
+
+// ALL FRAMES
+void IChromaSDKPlugin::FillThresholdColorsMinMaxAllFramesRGB(int animationId, int minThreshold, int minRed, int minGreen, int minBlue, int maxThreshold, int maxRed, int maxGreen, int maxBlue)
+{
+	StopAnimation(animationId);
+	AnimationBase* animation = GetAnimationInstance(animationId);
+	if (nullptr == animation)
+	{
+		return;
+	}
+	int frameCount = animation->GetFrameCount();
+	for (int frameId = 0; frameId < frameCount; ++frameId)
+	{
+		FillThresholdColorsMinMaxRGB(animationId, frameId, minThreshold, minRed, minGreen, minBlue, maxThreshold, maxRed, maxGreen, maxBlue);
+	}
+}
+void IChromaSDKPlugin::FillThresholdColorsMinMaxAllFramesRGBName(const char* path, int minThreshold, int minRed, int minGreen, int minBlue, int maxThreshold, int maxRed, int maxGreen, int maxBlue)
+{
+	int animationId = GetAnimation(path);
+	if (animationId < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("FillThresholdColorsMinMaxAllFramesRGBName: Animation not found! %s"), *FString(UTF8_TO_TCHAR(path)));
+		return;
+	}
+	return FillThresholdColorsMinMaxAllFramesRGB(animationId, minThreshold, minRed, minGreen, minBlue, maxThreshold, maxRed, maxGreen, maxBlue);
+}
+
+
 // FILL COLOR ALL FRAMES
 
 

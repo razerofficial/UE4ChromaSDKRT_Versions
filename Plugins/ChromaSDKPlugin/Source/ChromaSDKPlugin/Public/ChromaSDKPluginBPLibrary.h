@@ -588,6 +588,13 @@ class CHROMASDKPLUGIN_API UChromaSDKPluginBPLibrary : public UBlueprintFunctionL
 	static void FillThresholdRGBColorsAllFramesRGBName(const FString& animationName, int32 redThreshold, int32 greenThreshold, int32 blueThreshold, int32 red, int32 green, int32 blue);
 
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillThresholdColorsMinMaxAllFramesRGB", Keywords = "Set the RGB value for all colors for all frames"), Category = "ChromaSDK")
+	static void FillThresholdColorsMinMaxAllFramesRGB(int32 animationId, int32 minThreshold, int32 minRed, int32 minGreen, int32 minBlue, int32 maxThreshold, int32 maxRed, int32 maxGreen, int32 maxBlue);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "FillThresholdColorsMinMaxAllFramesRGBName", Keywords = "Set the RGB value for all colors for all frames"), Category = "ChromaSDK")
+	static void FillThresholdColorsMinMaxAllFramesRGBName(const FString& animationName, int32 minThreshold, int32 minRed, int32 minGreen, int32 minBlue, int32 maxThreshold, int32 maxRed, int32 maxGreen, int32 maxBlue);
+
+
 	// FILL COLOR ALL FRAMES
 
 
