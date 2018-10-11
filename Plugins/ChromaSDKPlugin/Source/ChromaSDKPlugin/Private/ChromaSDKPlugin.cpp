@@ -4689,7 +4689,7 @@ void IChromaSDKPlugin::TrimEndFrames(int animationId, int lastFrameId)
 		{
 			Animation1D* animation1D = (Animation1D*)(animation);
 			vector<FChromaSDKColorFrame1D>& frames = animation1D->GetFrames();
-			while (lastFrameId > frames.size())
+			while (lastFrameId < frames.size())
 			{
 				frames.pop_back();
 			}
@@ -4699,7 +4699,7 @@ void IChromaSDKPlugin::TrimEndFrames(int animationId, int lastFrameId)
 		{
 			Animation2D* animation2D = (Animation2D*)(animation);
 			vector<FChromaSDKColorFrame2D>& frames = animation2D->GetFrames();
-			while (lastFrameId > frames.size())
+			while (lastFrameId < frames.size())
 			{
 				frames.pop_back();
 			}
