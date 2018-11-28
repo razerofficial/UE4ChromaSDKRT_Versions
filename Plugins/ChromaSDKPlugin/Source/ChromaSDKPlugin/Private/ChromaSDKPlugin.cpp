@@ -2607,7 +2607,7 @@ void IChromaSDKPlugin::FillThresholdColorsMinMaxRGB(int animationId, int frameId
 						else if (red >= maxThreshold &&
 							green >= maxThreshold &&
 							blue >= maxThreshold) {
-							row.Colors[j] = ToLinearColor(minColor);
+							row.Colors[j] = ToLinearColor(maxColor);
 						}
 					}
 				}

@@ -2774,6 +2774,33 @@ void UChromaSDKPluginBPLibrary::FillColorRGBName(const FString& animationName, i
 #endif
 }
 
+
+void UChromaSDKPluginBPLibrary::FillThresholdColorsRGB(int32 animationId, int32 frameId, int32 threshold, int32 red, int32 green, int32 blue)
+{
+#if PLATFORM_WINDOWS
+	_sIChromaSDKPlugin.FillThresholdColorsRGB(animationId, frameId, threshold, red, green, blue);
+#endif
+}
+
+void UChromaSDKPluginBPLibrary::FillThresholdColorsRGBName(const FString& animationName, int32 frameId, int32 threshold, int32 red, int32 green, int32 blue)
+{
+#if PLATFORM_WINDOWS
+	FString path = FPaths::GameContentDir(); //___HACK_UE4_VERSION_4_17_OR_LESS
+//	FString path = FPaths::ProjectContentDir(); //___HACK_UE4_VERSION_4_18_OR_GREATER
+	if (animationName.EndsWith(".chroma"))
+	{
+		path += animationName;
+	}
+	else
+	{
+		path += animationName + ".chroma";
+	}
+	const char* pathArg = TCHAR_TO_ANSI(*path);
+	_sIChromaSDKPlugin.FillThresholdColorsRGBName(pathArg, frameId, threshold, red, green, blue);
+#endif
+}
+
+
 // NONZERO COLOR
 
 void UChromaSDKPluginBPLibrary::FillNonZeroColor(int animationId, int frameId, const FLinearColor& colorParam)
