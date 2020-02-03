@@ -87,6 +87,9 @@ namespace UnrealEngineVersionChanger
                 }
                 bool hasChange = false;
 
+                // switch line endings
+                contents = contents.Replace("\r\n", "\n").Replace("\n", "\r\n");
+
                 int lastNewline = 0;
                 for (int i = 0; i < contents.Length; ++i)
                 {
