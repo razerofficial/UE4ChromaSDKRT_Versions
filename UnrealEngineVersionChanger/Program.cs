@@ -24,6 +24,10 @@ namespace UnrealEngineVersionChanger
             UE4_18 = 18,
             UE4_19 = 19,
             UE4_20 = 20,
+            UE4_21 = 21,
+            UE4_22 = 22,
+            UE4_23 = 23,
+            UE4_24 = 24,
         };
 
         private static Versions _sVersion = Versions.UNKNOWN;
@@ -258,6 +262,18 @@ namespace UnrealEngineVersionChanger
                     break;
                 case "4.20":
                     _sVersion = Versions.UE4_20;
+                    break;
+                case "4.21":
+                    _sVersion = Versions.UE4_21;
+                    break;
+                case "4.22":
+                    _sVersion = Versions.UE4_22;
+                    break;
+                case "4.23":
+                    _sVersion = Versions.UE4_23;
+                    break;
+                case "4.24":
+                    _sVersion = Versions.UE4_24;
                     break;
                 default:
                     Console.Error.WriteLine("Unsupported version!");
